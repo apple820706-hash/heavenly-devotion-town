@@ -66,11 +66,41 @@ path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
 brightCloud(70,655,.66,.44)+brightCloud(440,687,.57,.37)+brightCloud(915,658,.68,.44)+'</g>'+
 '<g opacity=".83">'+twinkle(54,285,.78)+twinkle(916,315,.65)+twinkle(589,271,.58)+twinkle(670,598,.74)+twinkle(355,80,.52)+twinkle(947,520,.6)+twinkle(90,540,.47)+'</g>'+
 '';
-// Painterly map only: the old vector bridges, scatter decorations and scenery
-// are intentionally not rendered. Each island is the original detailed WebP.
-svg.innerHTML=defs+base+'<g id="atlasIslandNodes">'+
- nodes.filter(function(n){return n.id!==2}).map(tile).join('')+
- tile(nodes[2])+'</g>';
+// Seven slim floating-gold cloud bridges. All are drawn UNDER the original
+// painterly WebP islands; no old vector scenery, cartoon roads or bases are used.
+var cloudRoutes=[
+ {from:0,to:2,bend:-10,kind:'main'},
+ {from:1,to:2,bend:7,kind:'main'},
+ {from:3,to:2,bend:12,kind:'main'},
+ {from:5,to:2,bend:11,kind:'main'},
+ {from:4,to:2,bend:-11,kind:'main'},
+ {from:0,to:1,bend:-13,kind:'link'},
+ {from:1,to:3,bend:14,kind:'link'}
+];
+function makeCloudBridge(route){
+ var from=nodes[route.from],to=nodes[route.to];
+ var dx=to.x-from.x,dy=to.y-from.y,length=Math.hypot(dx,dy);
+ if(!length)return '';
+ var vx=dx/length,vy=dy/length;
+ // Start/end hidden below the floating islands. Only the bridge span is visible.
+ var inset=route.kind==='link'?78:88;
+ var x1=from.x+vx*inset,y1=from.y+vy*inset+13;
+ var x2=to.x-vx*inset,y2=to.y-vy*inset+13;
+ var cx=(x1+x2)/2-vy*route.bend;
+ var cy=(y1+y2)/2+vx*route.bend-7;
+ var curve='M '+x1.toFixed(1)+' '+y1.toFixed(1)+' Q '+cx.toFixed(1)+' '+cy.toFixed(1)+' '+x2.toFixed(1)+' '+y2.toFixed(1);
+ var klass=route.kind==='link'?' cloud-bridge-minor':'';
+ return '<g class="cloud-bridge'+klass+'" pointer-events="none" aria-hidden="true">'+
+ path(curve,'none',{class:'cloud-bridge-shadow'})+
+ path(curve,'none',{class:'cloud-bridge-gold-edge'})+
+ path(curve,'none',{class:'cloud-bridge-deck'})+
+ path(curve,'none',{class:'cloud-bridge-trim'})+
+ path(curve,'none',{class:'cloud-bridge-center'})+
+ '</g>';
+}
+svg.innerHTML=defs+base+
+ '<g id="atlasCloudBridges" aria-hidden="true" pointer-events="none">'+cloudRoutes.map(makeCloudBridge).join('')+'</g>'+
+ '<g id="atlasIslandNodes">'+nodes.filter(function(n){return n.id!==2}).map(tile).join('')+tile(nodes[2])+'</g>';
 
 var residentPlans=[
  {type:'reader',at:[{x:175,y:262},{x:203,y:281},{x:240,y:265},{x:214,y:251}],start:1.3,speed:23},
