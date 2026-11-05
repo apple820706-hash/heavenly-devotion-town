@@ -629,7 +629,7 @@ try{
 }
 const firebaseConfig={apiKey:"AIzaSyDPfdrruK6SOSgk3qktAuEaz4PAS2DGfPQ",authDomain:"devotion-island.firebaseapp.com",projectId:"devotion-island",storageBucket:"devotion-island.firebasestorage.app",messagingSenderId:"714034029985",appId:"1:714034029985:web:737dccc9e1e77c9726d7e0"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
-const el=id=>document.getElementById(id);const gate=el('loginGate');const gateButton=el('gateSignIn');const gateMessage=el('loginMessage');function showGate(message){gate.hidden=false;gateButton.disabled=false;gateButton.textContent='使用 Google 帳號登入';gateMessage.textContent=message||''}function hideGate(){gate.hidden=true;gateMessage.textContent=''};
+const el=id=>document.getElementById(id);const gate=el('loginGate');const gateButton=el('gateSignIn');const gateMessage=el('loginMessage');function showGate(message){if(__boot)__boot.resolved=true;gate.hidden=false;gateButton.disabled=false;gateButton.textContent='使用 Google 帳號登入';gateMessage.textContent=message||''}function hideGate(){if(__boot)__boot.resolved=true;gate.hidden=true;gateMessage.textContent=''};
 let user=null,unsub=null,epoch=0,ready=false,pending=new Map(),timers=new Map(),cloudCache={};
 const setInfo=(msg,warn=false)=>{el('authText').textContent=msg;el('authText').classList.toggle('warn',warn)};
 function errMsg(e){console.error('[天堂靈修小鎮登入診斷]',e);const code=e?.code||'unknown';let hint='';if(code.includes('unauthorized-domain'))hint='Firebase 尚未授權 apple820706-hash.github.io，請在 Authentication → Settings → Authorized domains 新增這個網域（不用 https://）';else if(code.includes('permission-denied'))hint='Firestore 權限遭拒，請檢查安全規則';else if(code.includes('popup-blocked')||code.includes('popup-closed-by-user'))hint='Google 登入視窗未完成；請允許彈出視窗並重試';else if(code.includes('operation-not-allowed'))hint='Firebase Authentication 尚未啟用 Google 登入提供者';else if(code.includes('network-request-failed'))hint='網路連線失敗，請確認連線狀況';else if(code.includes('auth/'))hint='Google 登入未完成，請記下錯誤代碼';else hint='同步未完成，請記下錯誤代碼';return hint+'（錯誤：'+code+'）'}
@@ -663,7 +663,7 @@ if(!confirm('將此裝置的 '+n+' 篇舊紀錄匯入目前的 Google 帳號？�
 for(const [k,v] of Object.entries(entries)){if(!/^(?:[1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k))continue;queueWrite(k,v)}
 setInfo('正在上傳舊紀錄，請保持網頁開啟直到同步完成');};
 getRedirectResult(auth).catch(e=>setInfo(errMsg(e),true));
-onAuthStateChanged(auth,async u=>{if(__boot)__boot.resolved=true;
+onAuthStateChanged(auth,async u=>{
 epoch++;const seq=epoch;ready=false;pending.clear();for(const t of timers.values())clearTimeout(t);timers.clear();if(unsub){unsub();unsub=null}user=u;
 el('signIn').hidden=!!u;el('signOut').hidden=!u;el('importLocalCloud').hidden=!u;
 if(!u){cloudCache={};window.DevotionIsland.switchAccount(null,{});setInfo('請先登入 Google 帳號');el('authHelp').textContent='登入後才能開始靈修，每個帳號的紀錄獨立保存。';showGate('');return}
