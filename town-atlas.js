@@ -37,25 +37,13 @@ function valley(){return path('M -65 22 L -42 -32 L -14 1 L 5 -36 L 49 22 Z','#a
 function journey(){return path('M -55 32 L -37 15 L -20 23 L -5 -4 L 13 3 L 37 -24 L 58 -5','none',{stroke:'#f7ead1','stroke-width':17,'stroke-linecap':'round','stroke-linejoin':'round'})+rect(19,-55,30,52,'#fff4d9',5)+path('M 13 -55 L 34 -83 L 55 -55 Z','#d8b98e')+circle(34,-48,8,'#fbdd9d')+rect(31,-99,5,20,'#c8a570',2)+text(34,-109,'✦',{'text-anchor':'middle','font-size':17,fill:'#fff0c2'})+tree(-52,-8,'#86c7a1')}
 function scenery(id){if(id===0)return library();if(id===1)return forest();if(id===2)return temple();if(id===3)return garden();if(id===4)return valley();return journey()}
 function tile(n){
- var x=n.x,y=n.y,scale=n.id===2?1.16:1;
- var top='M 0 -74 L 107 -37 L 107 26 L 0 72 L -107 26 L -107 -37 Z';
- var bottom='M -107 -15 L 0 32 L 107 -15 L 107 45 L 0 92 L -107 45 Z';
- var decorations=tree(-81,-7,'#9cd19c')+tree(85,-14,'#8dc69c')+flower(-71,28,'#f7bbcf')+flower(67,37,'#f3df98')+flower(30,43,'#d4b1ee')+npc(-65,31,'#d19abc','#f8d7b9',n.id/2)+npc(73,23,'#a3c7d0','#f3d8bc',n.id/3);
- if(n.id===2)decorations+=npc(-5,37,'#dfb995','#f4d2b6',.7);
- var progress='<g class="atlas-status status-pending" data-status="'+n.id+'" transform="translate(100 -54)" aria-label="今日任務待完成">'+
-circle(0,0,24,'#fff6c2',{class:'atlas-status-halo'})+
-circle(0,0,15,'#ffd05c',{class:'atlas-status-lamp',stroke:'#fffdf0','stroke-width':3})+
-text(0,5,'!',{class:'atlas-status-symbol','text-anchor':'middle',fill:'#6c4c14','font-size':17,'font-weight':950})+'</g>';
+ var scale=n.id===2?1.16:1;
  var artNames=['scripture','forest','chapel','garden','valley','journey'];
- var artPath='./'+artNames[n.id]+'.webp';
- var artW=n.id===2?270:251, artX=-artW/2,artY=-140;
- var artwork='<image class="atlas-art" href="'+artPath+'" x="'+artX+'" y="'+artY+'" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" mask="url(#islandArtworkFade)" pointer-events="none"/>';
- return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
- '<g class="atlas-vector-fallback">'+ellipse(0,55,128,39,'#507a7050')+path(bottom,n.soil,{stroke:'#fff6df','stroke-width':2})+path('M -107 21 L 0 65 L 107 21 L 107 44 L 0 88 L -107 44 Z',n.edge,{opacity:.88})+path(top,n.top,{stroke:'#edf6db','stroke-width':4,'stroke-linejoin':'round',class:'atlas-plate'})+'</g>'+
- artwork+
- // Labels are drawn in a dedicated topmost layer: central island artwork used to hide 默想森林.
- progress+
- '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/></g>'
+ var artW=n.id===2?270:251;
+ var art='<image class="atlas-art" href="./'+artNames[n.id]+'.webp" x="'+(-artW/2)+'" y="-140" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>';
+ return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+n.x+' '+n.y+') scale('+scale+')">'+
+ art+
+ '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/></g>';
 }
 function bridge(a,b,index){
  var x1=a.x,y1=a.y,x2=b.x,y2=b.y;
@@ -243,7 +231,13 @@ svg.querySelectorAll('.atlas-art').forEach(function(img){
  var url=img.getAttribute('href');
  var probe=new Image();
  probe.onload=function(){img.closest('.town-island').classList.add('art-loaded')};
- probe.onerror=function(){img.remove()};
+ probe.onerror=function(){
+  // No substitute low-quality vector island: report a missing picture and keep the
+  // island hotspot accessible. The original premium art must be present.
+  img.closest('.town-island').classList.add('art-missing');
+  var label=svg.querySelector('[data-label-island="'+img.closest('.town-island').dataset.mapIsland+'"]');
+  if(label)label.setAttribute('aria-label','此島插畫尚未載入');
+ };
  probe.src=url;
 });
 // The entire sky, bridges, islands and residents are one responsive SVG scene.
