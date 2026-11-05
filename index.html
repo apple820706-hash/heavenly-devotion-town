@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#123b3b">
+<title>天堂靈修小鎮｜Devotion Island</title>
+<style>
+:root{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#173e3a;background:#f4f7ef}*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #ce9a55;outline-offset:2px}.shell{max-width:1260px;margin:auto;padding:20px 24px 40px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-weight:800;font-size:1.14rem;letter-spacing:.03em}.tag{font-size:.75rem;letter-spacing:.1em;color:#7c9489}.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.btn{background:#fff;border:1px solid #cbdcd1;border-radius:999px;padding:10px 15px;color:#19423a;font-weight:650}.btn.primary{background:#2f7665;color:#fff;border-color:#2f7665}.btn:disabled{opacity:.4;cursor:not-allowed}.hero{margin:25px 0 18px;display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.intro,.stats,.scene,.panel{border:1px solid #d9e5d8;border-radius:24px;box-shadow:0 10px 35px #1f57420b}.intro{background:linear-gradient(125deg,#133f40,#24766a);padding:30px;color:#fff}.intro h1{font-size:clamp(1.7rem,3.5vw,2.7rem);line-height:1.25;margin:12px 0}.intro p{max-width:540px;line-height:1.9;color:#e0f2e7}.eyebrow{color:#cbdcad;font-size:.81rem;letter-spacing:.15em}.stats{background:#fff;padding:26px;display:flex;flex-direction:column;justify-content:center;gap:18px}.progress{height:11px;border-radius:99px;background:#e4ebe2;overflow:hidden}.progress>div{height:100%;background:#77ad8d;width:0;transition:width .4s}.numbers{display:flex;justify-content:space-between;gap:12px}.numbers strong{font-size:1.9rem;display:block;color:#265b50}.numbers span{font-size:.8rem;color:#6c8279}.main{display:grid;grid-template-columns:minmax(0,1.23fr) minmax(0,.77fr);gap:18px}.scene{min-height:610px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#b6e4d0,#74bfb7 65%,#3b8a89);padding:20px}.scene:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-radial-gradient(ellipse at 55% 55%,transparent 0 42px,#ddffff16 43px 45px)}.scene-header{position:relative;z-index:2;color:#fff;text-shadow:0 2px 8px #185f5e}.scene-header h2{margin:0 0 5px}.scene-header p{margin:0;font-size:.88rem}.island{position:absolute;z-index:2;border:0;background:transparent;color:#13403e;display:flex;flex-direction:column;align-items:center;gap:4px;transform:translate(-50%,-50%);width:142px;filter:drop-shadow(0 15px 12px #14596d55);transition:transform .18s,filter .18s}.island:hover,.island.selected{transform:translate(-50%,-54%) scale(1.09);filter:drop-shadow(0 20px 12px #14596d77)}.land{display:grid;place-items:center;width:112px;height:79px;border-radius:45% 55% 48% 52%;border:5px solid #e9d9a4;background:linear-gradient(155deg,#e4dfa2 0 18%,#7fba7a 19% 76%,#3d8877 77%);box-shadow:0 12px 0 #397e68,0 19px 0 #286778, inset 5px 7px 10px #d6e0a05e;transform:rotate(-9deg)}.island:nth-of-type(odd) .land{transform:rotate(10deg)}.land span{font-size:2.55rem;filter:drop-shadow(2px 4px 2px #254c4350)}.island b{background:#fffffff0;border-radius:99px;padding:5px 11px;white-space:nowrap;font-size:.88rem;box-shadow:0 4px 10px #14494326}.island small{color:white;background:#215f5d99;border-radius:99px;padding:2px 9px}.i0{top:30%;left:25%}.i1{top:25%;left:70%}.i2{top:54%;left:49%}.i3{top:73%;left:22%}.i4{top:76%;left:79%}.i5{top:45%;left:85%}.scene-foot{position:absolute;bottom:18px;left:20px;right:20px;color:white;font-size:.8rem;z-index:2;text-align:center}.panel{background:white;padding:23px;min-height:610px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.panel h2{margin:8px 0 6px;font-size:1.5rem}.hint{font-size:.82rem;color:#6a8178;line-height:1.7}.verse{border-left:4px solid #c89c55;background:#f7f4e9;border-radius:0 13px 13px 0;padding:13px 15px;margin:18px 0;color:#5d553e;line-height:1.8}.bodycopy{font-size:.96rem;line-height:1.95}.question{color:#215849;font-weight:700}.input{display:block;width:100%;border:1px solid #cada91;border-color:#d4e1d7;border-radius:14px;padding:13px;margin:10px 0 13px;line-height:1.65;color:#16423a;background:#fbfdf8}.input:focus{border-color:#389475}textarea{resize:vertical;min-height:125px}.actions{display:flex;gap:8px;flex-wrap:wrap}.pill{padding:5px 9px;border-radius:99px;background:#e7f2e9;color:#397260;font-size:.76rem;font-weight:800}.days{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.days select{border:1px solid #cbdbd1;border-radius:20px;padding:10px;background:white;color:#184e45}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#154940;color:white;padding:12px 20px;border-radius:15px;z-index:20;display:none;box-shadow:0 8px 25px #13433c45}.footer{font-size:.78rem;color:#6f8b7e;margin-top:17px;line-height:1.8}.logitem{padding:10px 0;border-bottom:1px solid #e2ebe5}.logitem strong{color:#2c6959}.logitem p{margin:5px 0;line-height:1.6}.tiny{font-size:.75rem;color:#789086}.blank{color:#66857b;font-style:italic}@media(max-width:850px){.hero,.main{grid-template-columns:1fr}.scene{min-height:490px}.panel{min-height:440px}.shell{padding:14px 13px 35px}.intro{padding:23px}.stats{padding:22px}.top{align-items:flex-start}.scene-foot{font-size:.72rem}}@media(max-width:490px){.scene{min-height:460px}.land{width:84px;height:64px}.land span{font-size:2rem}.island{width:116px}.island b{font-size:.76rem}.i0{left:24%;top:29%}.i1{left:72%;top:27%}.i2{left:47%;top:51%}.i3{left:23%;top:74%}.i4{left:75%;top:75%}.i5{left:85%;top:49%}.scene-header p{max-width:255px}.nav .btn{font-size:.8rem;padding:7px 10px}.numbers strong{font-size:1.5rem}}
+
+/* V2 interactive 3D archipelago */
+.scene{min-height:660px;background:radial-gradient(ellipse at 50% 30%,#bce7e0,#3f9d9b 67%,#195e72);isolation:isolate}
+.scene:after{display:none}
+#world3d{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;z-index:1}
+.scene-header{pointer-events:none}
+.scene-header,.scene-foot{z-index:5}
+.scene-header p{max-width:290px}
+.scene-foot{background:#164a50a6;border-radius:50px;padding:8px}
+.island{z-index:4;width:112px;transform:translate(-50%,-50%);filter:none;pointer-events:auto}
+.island .land,.island small{display:none}
+.island b{font-size:.83rem;background:#fffef4ed;color:#145346;border:1px solid #d9eee1;box-shadow:0 4px 16px #0636384f}
+.island:hover,.island.selected{transform:translate(-50%,-55%) scale(1.1);filter:none}
+.island.selected b{background:#ffe3a9;color:#344b40;border-color:#ffe3a9}
+.scene:not(.three-ready) .island .land,.scene:not(.three-ready) .island small{display:grid}
+.scene:not(.three-ready) .island{width:142px;filter:drop-shadow(0 15px 12px #14596d55)}
+.map-controls{z-index:7;position:absolute;top:82px;right:14px;display:flex;gap:6px}
+.map-controls button{border:1px solid #d3f3e1;background:#fffdf4e8;color:#1c544a;font-weight:700;border-radius:12px;padding:9px 11px;cursor:pointer}
+.today-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.today-note{color:#e8f7ec;font-size:.78rem}
+@media(max-width:850px){.scene{min-height:520px}}
+@media(max-width:490px){.scene{min-height:490px}.map-controls{top:85px;right:8px}.map-controls button{padding:7px 9px}.island{width:97px}.island b{font-size:.71rem;padding:5px 7px}.scene-foot{left:10px;right:10px}}
+
+
+.authbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.authstatus{font-size:.78rem;color:#52796c}.authstatus.warn{color:#a04530}.authbox{background:#f0f6ed;border:1px solid #d5e7d9;border-radius:15px;padding:10px 14px;margin-top:12px;font-size:.8rem;line-height:1.5;color:#426456}.authbox strong{color:#1f5d4e}.authbox button{margin-left:5px}.sync-block{opacity:.65;pointer-events:none}.auth-pill{background:#ecf5ef;border-radius:20px;padding:7px 10px;font-size:.8rem}.authbar .btn{white-space:nowrap}@media(max-width:680px){.top{flex-direction:column;align-items:stretch}.authbar{justify-content:flex-start}}
+
+/* Mobile text entry: preserve focus and prevent iOS Safari zooming input */@media(max-width:850px){.panel textarea,.panel input,.days select{font-size:16px}.panel{scroll-margin-top:12px}.scene{touch-action:pan-y}}
+/* Require authentication before accessing devotional app */
+#loginGate{position:fixed;inset:0;z-index:9999;background:linear-gradient(145deg,#0e3438,#1b6d66 65%,#85b9a1);display:flex;align-items:center;justify-content:center;padding:22px;color:#fff}
+#loginGate[hidden]{display:none!important}.login-card{max-width:440px;width:100%;padding:38px 28px;background:#ffffff12;border:1px solid #ffffff48;border-radius:28px;text-align:center;box-shadow:0 20px 80px #002d3155;backdrop-filter:blur(15px)}.login-card h1{font-size:2rem;margin:12px 0}.login-card p{line-height:1.9;color:#e5f3ed}.login-card button{background:#fff;color:#174e43;border:0;border-radius:999px;padding:14px 24px;font-weight:800;margin-top:18px;width:100%;cursor:pointer}.login-card button:disabled{opacity:.55}.login-card .login-msg{font-size:.85rem;min-height:1.5em;margin-top:14px;color:#ffe9bd}.login-card small{display:block;margin-top:20px;color:#d3e8dd}
+
+/* Cozy pastel storybook style */ :root{color:#4c614d;background:#f9f5e8}body{background:#faf7ea}.brand{color:#527b5c}.intro,.stats,.scene,.panel{border:3px solid #e4ead1;border-radius:30px;box-shadow:0 10px 24px #46694c14}.intro{background:linear-gradient(135deg,#9acdb9,#e2e9ba);color:#315a4f}.intro h1,.intro p{color:#315a4f}.intro .eyebrow{color:#4f816b}.stats,.panel{background:#fffcf2}.btn{border:2px solid #d8e2bf;background:#fffefa;border-radius:19px;color:#52705b}.btn.primary{background:#79b9a1;border-color:#65a891;color:#fff}.scene{background:linear-gradient(180deg,#94c9f0 0%,#d5eaff 50%,#fff1dc 100%);border:5px solid #e2ecd4}.scene-header{color:#39756c;text-shadow:0 2px 4px #ffffffad}.scene-foot{background:#fff9e5dc;color:#49796a;text-shadow:none}.island b{background:#fff9e5;color:#56846a;border:2px solid #fff;border-radius:20px;box-shadow:0 5px 12px #557a6b35}.island.selected b{background:#ffe5ad;color:#775e36}.map-controls button{background:#fff9e6;color:#507b62;border-radius:17px}.verse{background:#fff1cf;border-radius:18px}.input{background:#fffef8;border:2px solid #deebd5;border-radius:18px}@media(max-width:850px){.scene{min-height:540px}}
+.sky-controls{position:absolute;z-index:7;bottom:62px;left:16px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}.sky-controls select,.sky-controls span{border:2px solid #ffffffad;background:#fff9e8e8;color:#446c63;border-radius:16px;padding:8px 10px;font-weight:700;font-size:.79rem}.sky-controls span{font-variant-numeric:tabular-nums}@media(max-width:490px){.sky-controls{bottom:68px;left:9px}.sky-controls select,.sky-controls span{font-size:.68rem;padding:6px}}
+
+/* richer toy-town viewport */.scene{min-height:740px}.scene-header{background:#fff9e5c4;padding:12px 15px;border-radius:20px;display:inline-block;text-shadow:none}.scene-header h2{color:#436d5f}.scene-header p{color:#587f74}.scene-foot{max-width:460px;margin:auto}.island b{font-weight:800;letter-spacing:.04em}@media(max-width:850px){.scene{min-height:560px}}@media(max-width:490px){.scene{min-height:500px}}
+
+/* Daily six-island mission tracker */.mission-board{margin:18px 0;padding:19px 22px;border:2px solid #d8e6c7;background:#fffdf4;border-radius:25px;box-shadow:0 5px 19px #506d4a16}.mission-board h2{margin:0;font-size:1.14rem;color:#486f5a}.mission-items{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:13px 0}.mission-step{border:1px solid #d6e5d0;background:#f8faed;border-radius:14px;padding:11px 5px;text-align:center;cursor:pointer;color:#547263;min-height:82px}.mission-step b{display:block;font-size:.78rem;margin-top:4px}.mission-step small{display:block;font-size:.7rem}.mission-step.done{background:#d9efdd;border-color:#a9d5b3}.mission-step.next{outline:2px solid #d6ab69;background:#fff0d0}.mission-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.mission-current{color:#66816d;font-size:.83rem}.mission-track{height:9px;background:#e7eddf;border-radius:20px;overflow:hidden}.mission-fill{height:100%;background:#88c69c;transition:width .25s}.mission-next{font-size:.82rem;color:#597760;margin-top:10px}@media(max-width:850px){.mission-items{grid-template-columns:repeat(3,minmax(0,1fr))}.mission-board{padding:14px}}@media(max-width:420px){.mission-step b{font-size:.71rem}}
+.scripture-box{background:#fffdf4;border:2px solid #e7dfc7;border-radius:20px;padding:16px;margin:18px 0}.scripture-box h3{margin:0 0 12px;font-size:1.1rem;color:#4e775f}.scripture-scroll{max-height:480px;overflow-y:auto;padding:5px 7px;overscroll-behavior:contain}.scripture-verse{margin:0 0 12px;line-height:2.05;font-size:1.02rem;color:#3d5648}.scripture-verse sup{color:#9c7d49;font-size:.75rem;font-weight:800;margin-right:6px}.scripture-source{font-size:.72rem;color:#809084;border-top:1px solid #eee6d6;padding-top:10px;line-height:1.6}
+.town-board{margin:16px 0;padding:19px 22px;background:linear-gradient(120deg,#fbf8e9,#e5f2e9);border:1px solid #c9dfce;border-radius:24px;box-shadow:0 5px 18px #49664a17}.town-heading{display:flex;align-items:center;justify-content:space-between;gap:15px}.town-kicker{font-size:.7rem;color:#638a70;letter-spacing:.1em}.town-heading h2{margin:4px 0;color:#386755}.town-heading span{font-size:.82rem;color:#698276}.town-seeds{display:flex;flex-direction:column;text-align:right}.town-seeds strong{font-size:1.65rem;color:#96713b}.town-next{color:#64836e;font-size:.84rem}.town-board summary{cursor:pointer;font-weight:700;color:#446e56;padding:12px 0}.town-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.town-item{background:#fff;border:1px solid #dbe9d7;border-radius:15px;padding:10px;display:flex;align-items:center;gap:9px}.town-item-icon{font-size:1.45rem}.town-item div{flex:1;min-width:0}.town-item strong,.town-item small{display:block}.town-item small{font-size:.71rem;color:#75877a}.town-item button{padding:7px 10px;font-size:.76rem}@media(max-width:650px){.town-items{grid-template-columns:1fr}.town-board{padding:15px}}
+.sanctuary-version{position:absolute;left:18px;bottom:92px;z-index:4;background:#fff9e6e8;color:#5b5a79;border:1px solid #dacb9c;border-radius:13px;padding:6px 10px;font-weight:750;font-size:.76rem;pointer-events:none}
+
+/* Village Atlas · illustrated SVG experience inspired by the uploaded 2D reference */
+.scene{min-height:745px;background:linear-gradient(160deg,#b4def3 0%,#e1f3f0 52%,#fff2de 100%)}
+.scene.mode-2d{border:1px solid #c2dad1;box-shadow:0 18px 48px #47635e22;overflow:hidden}
+.scene.mode-2d:after{display:none}
+.scene.mode-2d #world3d,.scene.mode-2d .island,.scene.mode-2d .map-controls,.scene.mode-2d .sanctuary-version{display:none!important}
+.scene.mode-2d .scene-header{position:absolute;top:20px;left:22px;right:22px;color:#315a58;text-shadow:none;z-index:9;pointer-events:none}
+.scene.mode-2d .scene-header h2{font-size:1.25rem;letter-spacing:.025em}
+.scene.mode-2d .scene-header p{color:#557e80;max-width:none}
+.scene.mode-2d .scene-foot{background:#ffffffc9;color:#537b7d;z-index:8;box-shadow:0 2px 12px #385c4f1a}
+.scene.mode-2d .sky-controls{z-index:9;right:20px;top:72px;background:#fff9}
+.scene.mode-3d #illustratedMap{display:none}
+.atlas-toolbar{position:absolute;top:90px;left:20px;z-index:12;display:flex;align-items:center;gap:6px;background:#fffffff2;border:1px solid #d6e6e2;border-radius:14px;box-shadow:0 6px 18px #3a676226;padding:5px}
+.atlas-toolbar button{border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:.76rem;color:#51716b;font-weight:800}
+.atlas-toolbar button[aria-pressed=true]{background:#2d7769;color:white}
+.scene.mode-3d .atlas-toolbar{top:90px}
+.atlas-hint{position:absolute;bottom:60px;left:19px;z-index:8;background:#fffdf4eb;color:#567c73;padding:8px 12px;border-radius:14px;font-size:.71rem;font-weight:700}
+.scene.mode-3d .atlas-hint{display:none}
+.atlas-zooms{position:absolute;right:18px;bottom:62px;z-index:10;display:flex;gap:5px;flex-direction:column}
+.atlas-zooms button{background:#fffdf4ed;border:1px solid #d6e5da;border-radius:11px;padding:7px 11px;font-weight:900;color:#446c62;box-shadow:0 4px 15px #43615d1c}
+.scene.mode-3d .atlas-zooms{display:none}
+#illustratedMap{position:absolute;inset:0;z-index:3;touch-action:none;overflow:hidden;cursor:grab}
+#illustratedMap.dragging{cursor:grabbing}
+#townAtlas{width:100%;height:100%;display:block;transform-origin:50% 50%;transition:transform .35s cubic-bezier(.2,.85,.2,1);will-change:transform}
+#illustratedMap.dragging #townAtlas{transition:none}
+.town-island{cursor:pointer;outline:none;transition:filter .15s}
+.town-island:hover,.town-island:focus-visible{filter:brightness(1.06) drop-shadow(0 0 12px #fff6d7)}
+.town-island.selected .atlas-plate{stroke:#f5c665;stroke-width:5}
+.town-island .atlas-hit{fill:transparent;pointer-events:all}
+.atlas-progress-pill{fill:#fffef7;stroke:#b7d8c8;stroke-width:2}
+.atlas-island-label{font-size:17px;font-weight:900;fill:#31594e;text-anchor:middle;paint-order:stroke;stroke:#fffcf3;stroke-width:4px}
+.atlas-island-sub{font-size:11px;font-weight:650;fill:#638474;text-anchor:middle}
+.atlas-npc{animation:atlasWalk 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom}
+.atlas-cloud{animation:atlasFloat 8s ease-in-out infinite}
+.atlas-bubble{opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .4s}
+.atlas-bubble.show{opacity:1}
+@keyframes atlasWalk{0%,100%{transform:translateX(-7px)}50%{transform:translateX(9px)}}
+@keyframes atlasFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(max-width:800px){.scene{min-height:560px}.atlas-toolbar{top:85px;left:12px}.scene.mode-2d .scene-header{top:13px;left:14px}.scene.mode-2d .sky-controls{top:75px;right:12px}.atlas-hint{bottom:51px;font-size:.65rem}.atlas-zooms{bottom:51px;right:8px}}
+@media(prefers-reduced-motion:reduce){.atlas-npc,.atlas-cloud{animation:none!important}#townAtlas{transition:none!important}}
+
+</style>
+</head><body><div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle"><div class="login-card"><div style="font-size:3rem">🌿</div><div style="letter-spacing:.18em;font-size:.78rem;color:#d4e7ca">HEAVENLY DEVOTION TOWN</div><h1 id="loginTitle">天堂靈修小鎮</h1><p>與神同行，每一天。<br>請先登入 Google 帳號，開啟專屬於你的詩篇旅程。</p><button id="gateSignIn" disabled>正在確認登入狀態…</button><div id="loginMessage" class="login-msg" aria-live="polite"></div><small>每位使用者都有獨立的靈修進度、禱告與日記。</small></div></div><div class="shell"><header class="top"><div><div class="brand">🌿 天堂靈修小鎮 <span class="tag">HEAVENLY DEVOTION TOWN</span></div><div class="tag">與神同行 · 每一天</div></div><nav class="nav"><span id="authText" class="authstatus">登入狀態載入中…</span><button class="btn" id="signIn" hidden>使用 Google 登入</button><button class="btn" id="signOut" hidden>登出</button><button class="btn" id="importLocalCloud" hidden>匯入此裝置舊紀錄</button><button class="btn" id="export">備份資料</button><button class="btn" id="import">匯入備份</button><input id="file" type="file" accept="application/json" hidden></nav></header><div class="authbox" id="authHelp">請登入自己的 Google 帳號以在手機與電腦同步。未登入時仍可在本裝置記錄，資料不會自動上傳。</div><section class="hero"><div class="intro"><div class="eyebrow">150 DAYS IN PSALMS</div><h1>讓神的話語，<br>成為生命中的風景。</h1><p>探索六座靈修島嶼，閱讀詩篇、安靜默想、寫下禱告。每天前進一小步，留下與神同行的足跡。</p><div class="days"><button class="btn" id="prev">← 前一篇</button><select id="day" aria-label="選擇靈修篇章"></select><button class="btn" id="next">下一篇 →</button></div><div class="today-row"><button class="btn" id="today">☀ 回到今日詩篇</button><span class="today-note" id="todayNote"></span></div></div><aside class="stats"><div><div class="eyebrow" style="color:#688d7c">YOUR JOURNEY</div><h2 style="margin:6px 0">我的詩篇旅程</h2></div><div class="numbers"><div><strong id="done">0</strong><span>完成篇數</span></div><div><strong id="percent">0%</strong><span>旅程進度</span></div><div><strong id="remaining">150</strong><span>剩餘篇數</span></div></div><div class="progress"><div id="progress"></div></div><div class="hint" id="status">今天，讓我們從神的話語開始。</div></aside></section><section class="town-board" id="townBoard"><div class="town-heading"><div><span class="town-kicker">🌱 MY GROWING TOWN</span><h2 id="townLevel">萌芽小鎮</h2><span id="townChapters">0 / 150 篇</span></div><div class="town-seeds"><span>✨ 恩典種子</span><strong id="townSeeds">0</strong></div></div><p id="townNext" class="town-next">完成靈修，培育你的天空小鎮</p><details><summary>🏡 打開小鎮建設手冊</summary><div id="townItems" class="town-items"></div></details></section><section class="mission-board" id="missionBoard"><div class="mission-top"><h2>🌿 今日六島任務</h2><span class="mission-current" id="missionCount">0 / 6</span></div><div class="mission-items" id="missionItems"></div><div class="mission-track"><div class="mission-fill" id="missionFill" style="width:0%"></div></div><div class="mission-next" id="missionNext"></div></section><main class="main"><section class="scene" id="scene"><canvas id="world3d" aria-label="可拖曳旋轉與縮放的立體靈修島嶼地圖"></canvas><div id="illustratedMap" role="region" aria-label="精緻靈修小鎮地圖，六座島嶼可點選"><svg id="townAtlas" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" aria-label="禱告聖殿位於中央的六島天空地圖"></svg></div><div class="atlas-toolbar"><button id="atlas2d" aria-pressed="true" title="精緻 2D 地圖">🗺️ 精緻地圖</button><button id="atlas3d" aria-pressed="false" title="原本的可旋轉 3D 世界">🌤️ 3D 世界</button></div><div class="atlas-hint">✦ 點選島嶼探索 · 拖曳地圖 · 滾輪縮放</div><div class="atlas-zooms"><button id="atlasZoomIn" aria-label="放大">＋</button><button id="atlasZoomOut" aria-label="縮小">－</button><button id="atlasZoomReset" aria-label="重設縮放">⌂</button></div><div class="sanctuary-version" title="本次聖殿模型更新">⛪ 聖殿模型 v2</div><div class="sky-controls"><span id="skyClock" aria-label="台灣目前時間"></span></div><div class="map-controls"><button id="zoomIn" title="放大地圖">＋</button><button id="zoomOut" title="縮小地圖">－</button><button id="resetView" title="重設視角">重設</button></div><div class="scene-header"><h2>探索天空靈修群島</h2><p>從禱告聖殿出發 · 第一站：真理之島</p></div><button class="island i0 selected" data-island="0"><span class="land"><span>📖</span></span><b>真理之島</b><small>每日經文</small></button><button class="island i1" data-island="1"><span class="land"><span>🌳</span></span><b>默想森林</b><small>經文反省</small></button><button class="island i2" data-island="2"><span class="land"><span>🕊️</span></span><b>禱告聖殿</b><small>與神對話</small></button><button class="island i3" data-island="3"><span class="land"><span>🌱</span></span><b>生命花園</b><small>生活實踐</small></button><button class="island i4" data-island="4"><span class="land"><span>🌄</span></span><b>恩典山谷</b><small>感恩日記</small></button><button class="island i5" data-island="5"><span class="land"><span>🗺️</span></span><b>信仰旅程</b><small>靈修足跡</small></button><div class="scene-foot">✦ 點選立體島嶼 · 旋轉探索 · 紀錄保留在此裝置 ✦</div></section><section class="panel" id="panel" aria-live="polite"></section></main><footer class="footer">天堂靈修小鎮 · 精緻地圖／3D 世界雙模式 · 每日六島任務 · Google 登入及個人雲端紀錄。</footer></div><div class="toast" id="toast" role="status"></div>
+<script src="./town-atlas.js"></script>
+<script>
+(()=>{'use strict';const KEY='devotion-island-v1';let storageKey=KEY;let cloudActive=false;let cloudBusy=false;let currentUid=null;const psalms={1:{title:'兩條道路',reference:'詩篇 1:1–6',theme:'喜愛神的話，生命有根',summary:'詩篇第一篇以兩種人生道路作對比：一種扎根於神的教導，另一種隨波逐流。它邀請我們思考，真正影響每天選擇的是什麼。',question:'最近有哪些聲音或習慣正在影響我的判斷？我可以如何讓神的話語成為生活的根基？',action:'今天安排十分鐘安靜閱讀詩篇第一篇，寫下最觸動你的一句話。',prayer:'主啊，求祢使我喜愛祢的話，像栽在溪水旁的樹，生命扎根於祢。阿們。'},2:{title:'投靠神的君王',reference:'詩篇 2:1–12',theme:'動盪中仍可投靠神',summary:'詩人描寫列國的紛擾，宣告神的主權，並呼喚人以敬畏的心尋求祂。',question:'面對我無法掌控的事，我通常用什麼方式尋求安全感？',action:'把一項正在擔心的事情寫下來，放在禱告中交託。',prayer:'主啊，當世界使我不安，幫助我記得祢仍掌權。阿們。'},3:{title:'患難中的倚靠',reference:'詩篇 3:1–8',theme:'在不安中尋得安息',summary:'大衛在壓力與敵意中向神呼求，並重新宣認神的保護。',question:'今天什麼讓我感到焦慮？我願意如何誠實地向神述說？',action:'睡前放下手機，安靜禱告三分鐘。',prayer:'主啊，願祢作我的盾牌，使我在困難中安然入睡。阿們。'},4:{title:'安然居住',reference:'詩篇 4:1–8',theme:'以禱告代替煩躁',summary:'詩人邀請人省察自己的心，並把平安的來源放在神身上。',question:'我今天的情緒在提醒我什麼？',action:'睡前記下一件感恩的事。',prayer:'主啊，在忙碌中賜我安靜與真實的平安。阿們。'},5:{title:'清晨的呼求',reference:'詩篇 5:1–12',theme:'從早晨開始對準神',summary:'詩人清晨向神禱告，求神引導自己走義路。',question:'我的一天通常由什麼開始？',action:'明天起床後，先用兩分鐘禱告再看訊息。',prayer:'主啊，求祢引導我今天的腳步。阿們。'}};
+const names=['真理之島','默想森林','禱告聖殿','生命花園','恩典山谷','信仰旅程'];let store;try{store=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(e){store={}}if(!store.entries||typeof store.entries!=='object')store.entries={};const START='2026-11-02';function taipeiDate(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}function todayPsalm(){const ds=taipeiDate();const d=Math.round((Date.parse(ds+'T00:00:00Z')-Date.parse(START+'T00:00:00Z'))/86400000)+1;return Math.max(1,Math.min(150,d))}let todayDate=taipeiDate();let day=store.lastAutoDate===todayDate?Math.max(1,Math.min(150,Number(store.currentDay)||todayPsalm())):todayPsalm();store.lastAutoDate=todayDate;let active=2;const $=id=>document.getElementById(id), safe=t=>String(t||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function save(){const todayEntry=store.entries[day];if(todayEntry){const m=tasks(todayEntry);todayEntry.done=m.every(Boolean);if(todayEntry.done)todayEntry.lastEdited=new Date().toISOString()}store.currentDay=day;store.lastAutoDate=todayDate;try{localStorage.setItem(storageKey,JSON.stringify(store))}catch(e){toast('此瀏覽器無法保存資料，請使用備份功能')}if(cloudActive&&!cloudBusy&&currentUid){window.DevotionSync?.saveDay(day,store.entries[day]||{})}}function entry(){return store.entries[day]||(store.entries[day]={})}function meta(){return psalms[day]||{title:'與詩人同行',reference:`詩篇 ${day} 篇`,theme:'聆聽、默想與回應',summary:'請先開啟本篇完整經文，留意詩人的處境、對神的稱呼、情緒的轉變，以及對今天生活的提醒。',question:'這一篇讓我對神多認識了什麼？哪一句話最觸動我？',action:'選出一句經文，今天用自己的話向神回應。',prayer:'主啊，求祢透過今天的詩篇向我說話，帶領我的思想與腳步。阿們。'}}function toast(m){$('toast').textContent=m;$('toast').style.display='block';clearTimeout(window._t);window._t=setTimeout(()=>$('toast').style.display='none',2600)}function field(key,label,placeholder,rows=5){return `<label for="field-${key}" class="question">${label}</label><textarea class="input" id="field-${key}" data-field="${key}" rows="${rows}" placeholder="${placeholder}">${safe(entry()[key])}</textarea>`}const bibleCache=new Map();let bibleRequest=0;
+async function loadBible(chapter){const target=document.getElementById('bibleChapter');if(!target)return;const request=++bibleRequest;
+try{
+let payload=bibleCache.get(chapter);
+if(!payload){const response=await fetch('https://api.midvash.com/v1/cuv/psalms/'+chapter,{headers:{Accept:'application/json'}});if(!response.ok)throw Error('HTTP '+response.status);payload=await response.json();if(!payload?.data)throw Error('invalid payload');bibleCache.set(chapter,payload)}
+if(request!==bibleRequest||day!==chapter||active!==0||!document.getElementById('bibleChapter'))return;
+const data=payload.data,raw=data.verses;let verses='';
+if(Array.isArray(raw)&&raw.length){verses=raw.map((v,i)=>{const n=typeof v==='object'?v.verse??v.number??i+1:i+1;const t=typeof v==='string'?v:v.text??v.content??'';return '<p class="scripture-verse"><sup>'+safe(n)+'</sup> '+safe(t)+'</p>'}).join('')}
+else if(typeof data.text==='string'&&data.text.trim())verses='<p class="scripture-verse">'+safe(data.text)+'</p>';
+if(!verses)throw Error('empty chapter');
+target.innerHTML='<div class="scripture-scroll">'+verses+'</div><p class="scripture-source">中文和合本（1919 年原版）｜資料來源：Midvash Bible API'+(payload.meta?.copyright?' · '+safe(payload.meta.copyright):'')+'</p>';
+}catch(err){if(request!==bibleRequest||day!==chapter||active!==0)return;console.warn('Bible chapter unavailable',err);const panel=document.getElementById('bibleChapter');if(panel)panel.innerHTML='<p class="hint">經文暫時無法載入，請確認網路連線後重試。</p><button class="btn" id="retryBible">重新載入本篇經文</button>';document.getElementById('retryBible')?.addEventListener('click',()=>loadBible(chapter))}
+}const ROUTE=[0,1,3,4,5,2];const ROUTE_ICON=['📖','🌳','🌱','🌄','🗺️','🕊️'];const ROUTE_TITLE=['閱讀經文','寫下默想','生活實踐','感恩日記','回顧旅程','禱告回應'];
+function tasks(e){return [!!e.readDone,!!String(e.reflection||'').trim(),!!e.actionDone,!!String(e.gratitude||'').trim(),!!e.journeyDone,!!String(e.prayer||'').trim()]}
+function nextTask(e){const i=tasks(e).indexOf(false);return i<0?-1:ROUTE[i]}
+function updateMissions(){const e=entry(),completed=tasks(e),n=completed.filter(Boolean).length;document.getElementById('missionCount').textContent=n+' / 6';document.getElementById('missionFill').style.width=(n/6*100)+'%';document.getElementById('missionItems').innerHTML=ROUTE.map((island,i)=>'<button class="mission-step '+(completed[i]?'done':i===completed.indexOf(false)?'next':'')+'" data-mission="'+island+'" aria-label="'+ROUTE_TITLE[i]+'">'+ROUTE_ICON[i]+'<b>'+ROUTE_TITLE[i]+'</b><small>'+(completed[i]?'✓ 已完成':i===completed.indexOf(false)?'下一站':'待完成')+'</small></button>').join('');document.getElementById('missionNext').textContent=n===6?'✨ 今日六座島嶼任務全部完成！': '下一站：'+names[nextTask(e)]+' · 第 '+(n+1)+' 項任務';document.querySelectorAll('[data-mission]').forEach(b=>b.onclick=()=>{active=Number(b.dataset.mission);render();if(innerWidth<850)document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'})})}
+function markMission(key,value=true){entry()[key]=value;save();updateMissions()}
+const TOWN_ITEMS=[{id:'flowers',name:'彩虹花圃',icon:'🌷',cost:120,desc:'生命花園綻放更多花朵'},{id:'bench',name:'默想長椅',icon:'🪑',cost:180,desc:'默想森林新增休息長椅'},{id:'lantern',name:'金色燈飾',icon:'🏮',cost:220,desc:'禱告聖殿多一盞溫暖的燈'},{id:'tree',name:'希望之樹',icon:'🌳',cost:300,desc:'真理之島種下新樹木'}];
+const TOWN_LEVELS=[{min:0,name:'萌芽小鎮'},{min:7,name:'花開小鎮'},{min:21,name:'希望村莊'},{min:51,name:'恩典小鎮'},{min:101,name:'榮耀之城'}];
+function townRecord(){return store.entries.town||(store.entries.town={purchases:{}})}
+function townMetrics(){let completed=0,earned=0;for(const [k,v] of Object.entries(store.entries)){if(!/^([1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k)||!v)continue;if(v.done)completed++;const flags=tasks(v);earned+=flags.reduce((s,f,i)=>s+(f?[10,15,15,10,5,15][i]:0),0)}const purchased=townRecord().purchases||{};const spent=TOWN_ITEMS.reduce((s,item)=>s+(purchased[item.id]?item.cost:0),0);const level=TOWN_LEVELS.reduce((a,l)=>completed>=l.min?l:a,TOWN_LEVELS[0]);return {completed,earned,spent,balance:Math.max(0,earned-spent),level,purchased}}
+function townUi(){const m=townMetrics(),next=TOWN_LEVELS.find(x=>x.min>m.completed);$('townLevel').textContent=m.level.name;$('townChapters').textContent=m.completed+' / 150 篇';$('townSeeds').textContent=m.balance.toLocaleString('zh-TW');$('townNext').textContent=next?'再完成 '+(next.min-m.completed)+' 篇解鎖「'+next.name+'」':'已達最高成長階段';$('townItems').innerHTML=TOWN_ITEMS.map(item=>'<div class="town-item"><span class="town-item-icon">'+item.icon+'</span><div><strong>'+item.name+'</strong><small>'+item.desc+'</small></div><button class="btn" data-buy="'+item.id+'" '+(m.purchased[item.id]||m.balance<item.cost?'disabled':'')+'>'+(m.purchased[item.id]?'✓ 已建設':item.cost+' 🌱')+'</button></div>').join('');document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const item=TOWN_ITEMS.find(i=>i.id===b.dataset.buy),now=townMetrics();if(!item||now.purchased[item.id]||now.balance<item.cost)return;townRecord().purchases={...now.purchased,[item.id]:true};saveTown();townUi();toast('成功建造「'+item.name+'」！');window.dispatchEvent(new CustomEvent('town-growth',{detail:townMetrics()}))});window.dispatchEvent(new CustomEvent('town-growth',{detail:m}))}
+function saveTown(){try{localStorage.setItem(storageKey,JSON.stringify(store))}catch(_){}if(cloudActive&&!cloudBusy&&currentUid)window.DevotionSync?.saveDay('town',townRecord())}
+function render(){const m=meta(),e=entry();townUi();updateMissions();window.dispatchEvent(new CustomEvent('town-map-refresh',{detail:{active,completed:tasks(e),town:townMetrics()}}));window.dispatchEvent(new CustomEvent('devotion-progress',{detail:{completed:Object.values(store.entries).filter(x=>x&&x.done).length}}));$('todayNote').textContent=`台灣時間 ${todayDate} · 今日第 ${todayPsalm()} 篇`; document.querySelectorAll('.island').forEach((b,i)=>{b.classList.toggle('selected',i===active);b.setAttribute('aria-pressed',String(i===active))});$('day').value=String(day);$('prev').disabled=day===1;$('next').disabled=day===150;const count=Object.values(store.entries).filter(x=>x&&x.done).length;$('done').textContent=count;$('remaining').textContent=150-count;$('percent').textContent=Math.round(count/150*100)+'%';$('progress').style.width=(count/150*100)+'%';$('status').textContent=e.done?`第 ${day} 篇已完成。願今天的話語繼續陪伴你。`:`目前在詩篇第 ${day} 篇。你可以依自己的步調前進。`;let html=`<div class="panel-head"><span class="pill">第 ${day} / 150 天</span><span class="hint">${names[active]}</span></div><h2>${['📖','🌳','🕊️','🌱','🌄','🗺️'][active]} ${names[active]}</h2>`;
+switch(active){case 0:html+=`<div class="verse"><strong>${safe(m.reference)}｜${safe(m.title)}</strong><br>${safe(m.theme)}</div><p class="bodycopy">${safe(m.summary)}</p><div class="scripture-box"><h3>📖 詩篇第 ${day} 篇｜完整經文</h3><div id="bibleChapter" aria-live="polite"><p class="hint">正在載入中文和合本經文…</p></div></div><p class="hint">完整經文使用 1919 年中文和合本；第 6–150 篇的專屬背景解釋仍將逐篇補充。</p><div class="actions"><button class="btn primary" id="readDone">✓ 我已閱讀今天的經文</button><button class="btn" data-go="1">前往默想森林 →</button></div>`;break;case 1:html+=`<p class="bodycopy">${safe(m.question)}</p>${field('reflection','我的默想與反省','今天這段經文給我的提醒是……')}<button class="btn primary" data-save="1">儲存默想</button><button class="btn" data-go="3">前往生命花園 →</button>`;break;case 2:html+=`<p class="bodycopy"><strong>歡迎來到天堂靈修小鎮的中心——禱告聖殿。</strong></p><div class="verse">🌿 今日靈修路線：先到「真理之島」閱讀詩篇第 ${day} 篇，依序前往默想森林、生命花園、恩典山谷、信仰旅程，最後回到聖殿禱告。</div><div class="actions"><button class="btn primary" data-go="0">📖 第一步：前往真理之島 →</button><button class="btn" data-go="1">🌳 前往默想森林</button></div><hr style="border:0;border-top:1px solid #e5eee5;margin:21px 0"><div class="verse">禱告引導：${safe(m.prayer)}</div>${field('prayer','我的禱告','親愛的天父……')}<button class="btn primary" data-save="1">儲存禱告</button>`;break;case 3:html+=`<p class="bodycopy">今日行動建議：<strong>${safe(m.action)}</strong></p>${field('action','我決定採取的行動','今天我要……',3)}<label style="display:flex;gap:8px;align-items:center;margin:13px 0"><input type="checkbox" id="actionDone" ${e.actionDone?'checked':''}> <span>今天已實踐這項行動</span></label><button class="btn primary" data-save="1">儲存實踐</button><button class="btn" data-go="4">前往恩典山谷 →</button>`;break;case 4:html+=`<p class="bodycopy">回想今天，無論大事小事，有什麼恩典值得記下？</p>${field('gratitude','今日感恩記錄','今天，我感謝神……')}<button class="btn primary" data-save="1">儲存感恩</button><button class="btn" data-go="5">前往信仰旅程 →</button>`;break;case 5:const logs=Object.keys(store.entries).filter(k=>store.entries[k].done).sort((a,b)=>Number(b)-Number(a));html+=`<p class="bodycopy">你已完成 <strong>${count}</strong> / 150 篇。沒有追趕進度的壓力，每一次回來都值得紀念。</p><div class="progress"><div style="width:${count/150*100}%"></div></div><button class="btn primary" id="journeyDone">✓ 今天已回顧信仰旅程</button><button class="btn" data-go="2">回到禱告聖殿 →</button><h3>已完成的篇章</h3>${logs.length?logs.slice(0,14).map(k=>`<div class="logitem"><strong>詩篇 ${k} 篇</strong><p>${safe(store.entries[k].reflection||store.entries[k].gratitude||'已完成今日靈修')}</p><button class="btn" data-jump="${k}">回顧這篇</button></div>`).join(''):'<p class="blank">尚未完成任何篇章，從第一篇開始吧。</p>'}`;break}
+html+=`<hr style="border:0;border-top:1px solid #e5eee5;margin:21px 0"><p class="hint">🌿 六座島嶼完成後，當日靈修才會標記完成。每一站都可以自由返回。</p><div class="actions"><button class="btn primary" id="nextMission">前往下一項未完成任務 →</button></div>`;$('panel').innerHTML=html;if(active===0)loadBible(day);else bibleRequest++;document.querySelectorAll('[data-field]').forEach(el=>{el.addEventListener('focus',()=>{window._devotionEditing=true;window._lastDevotionEdit=Date.now()});el.addEventListener('compositionstart',()=>{window._devotionEditing=true});el.addEventListener('compositionend',()=>{window._lastDevotionEdit=Date.now();entry()[el.dataset.field]=el.value;save();updateMissions()});el.addEventListener('input',()=>{window._lastDevotionEdit=Date.now();entry()[el.dataset.field]=el.value;save()});el.addEventListener('blur',()=>{window._devotionEditing=false;window._lastDevotionEdit=Date.now()})});$('actionDone')?.addEventListener('change',ev=>{entry().actionDone=ev.target.checked;save();updateMissions();toast('行動紀錄已更新')});document.querySelectorAll('[data-save]').forEach(el=>el.onclick=()=>{save();updateMissions();toast('紀錄已儲存')});document.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>{active=Number(el.dataset.go);render()});document.querySelectorAll('[data-jump]').forEach(el=>el.onclick=()=>{day=Number(el.dataset.jump);active=0;save();render()});$('readDone')?.addEventListener('click',()=>{markMission('readDone');render();toast('今日經文已閱讀 📖')});$('journeyDone')?.addEventListener('click',()=>{markMission('journeyDone');render();toast('信仰旅程已回顧 🗺️')});$('nextMission')?.addEventListener('click',()=>{const n=nextTask(entry());if(n<0){toast('六座島嶼任務都完成了！');return}active=n;render()})}
+
+function switchAccount(uid,cloudEntries){cloudBusy=true;currentUid=uid||null;cloudActive=!!uid;storageKey=uid?'devotion-island-user-'+uid:KEY;let cached={};try{cached=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(_){}store={...cached,entries:uid?{...cloudEntries}:cached.entries||{}};day=todayPsalm();todayDate=taipeiDate();store.lastAutoDate=todayDate;cloudBusy=false;save();render()}
+function receiveCloud(entries){if(!currentUid)return;const editing=window._devotionEditing===true||document.activeElement?.matches?.('#panel textarea, #panel input');const recentlyEdited=Date.now()-(window._lastDevotionEdit||0)<6000;const localDay=store.entries[day];cloudBusy=true;const localTown=store.entries.town;store.entries={...entries};if(localTown&&!entries.town)store.entries.town=localTown;if((editing||recentlyEdited)&&localDay)store.entries[day]=localDay;try{localStorage.setItem(storageKey,JSON.stringify(store))}catch(_){}cloudBusy=false;if(!editing&&!recentlyEdited)render()}
+window.DevotionIsland={switchAccount,receiveCloud,localBackup:()=>{let s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){}return s.entries||{}},getActiveUid:()=>currentUid,getTownMetrics:()=>townMetrics(),navigateIsland:(i)=>{active=i;render();if(innerWidth<850)$('panel').scrollIntoView({behavior:'smooth',block:'start'})},notify:toast};
+for(let i=1;i<=150;i++){$('day').insertAdjacentHTML('beforeend',`<option value="${i}">第 ${i} 天 · 詩篇 ${i} 篇</option>`)}$('day').addEventListener('change',e=>{day=Number(e.target.value);save();render()});$('today').onclick=()=>{day=todayPsalm();save();render();toast('已切換到今日詩篇')};setInterval(()=>{const d=taipeiDate();if(d!==todayDate){todayDate=d;day=todayPsalm();store.lastAutoDate=d;save();render();toast('新的一天，詩篇已更新 ☀')}},60000);$('prev').onclick=()=>{if(day>1){day--;save();render()}};$('next').onclick=()=>{if(day<150){day++;save();render()}};document.querySelectorAll('.island').forEach(b=>b.onclick=()=>{active=Number(b.dataset.island);render();if(innerWidth<850)$('panel').scrollIntoView({behavior:'smooth',block:'start'})});$('export').onclick=()=>{save();const blob=new Blob([JSON.stringify({app:'devotion-island',version:1,exportedAt:new Date().toISOString(),data:store},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='天堂靈修小鎮-備份.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);toast('備份檔案已下載')};$('import').onclick=()=>$('file').click();$('file').onchange=async ev=>{const file=ev.target.files?.[0];if(!file)return;try{const obj=JSON.parse(await file.text());if(obj.app!=='devotion-island'||obj.version!==1||!obj.data?.entries||typeof obj.data.entries!=='object')throw Error();if(!confirm('匯入備份將覆蓋目前瀏覽器的靈修紀錄。確定繼續？'))return;store=obj.data;day=Math.max(1,Math.min(150,Number(store.currentDay)||1));save();if(currentUid)window.DevotionSync?.uploadEntries(store.entries);render();toast('備份已還原')}catch(e){toast('備份格式不正確，無法匯入')}finally{ev.target.value=''}};render()})();
+</script>
+<script type="module">
+(async()=>{
+const canvas=document.getElementById('world3d'),sceneEl=document.getElementById('scene');
+if(sceneEl.classList.contains('mode-2d'))return;
+let THREE;try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js')}catch(err){console.warn('3D module unavailable, displaying island fallback',err);canvas.style.display='none';return}
+try{
+const scene=new THREE.Scene();scene.background=new THREE.Color('#a9d9f5');scene.fog=new THREE.Fog('#cde5f6',35,76);
+const camera=new THREE.PerspectiveCamera(40,1,.1,120);
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputColorSpace=THREE.SRGBColorSpace;
+const ambient=new THREE.HemisphereLight(0xe7fff5,0x2e6979,2.8);scene.add(ambient);const sun=new THREE.DirectionalLight(0xffe3aa,3.1);sun.position.set(-7,16,9);scene.add(sun);
+// Warm heavenly sky: soft gradient dome, sunrise halo and layered cloud sea.
+const skyCanvas=document.createElement('canvas');skyCanvas.width=16;skyCanvas.height=512;
+const skyCtx=skyCanvas.getContext('2d');const grad=skyCtx.createLinearGradient(0,0,0,512);
+grad.addColorStop(0,'#85c4f2');grad.addColorStop(.42,'#b7dff8');grad.addColorStop(.72,'#fff0dc');grad.addColorStop(1,'#f9e6da');
+skyCtx.fillStyle=grad;skyCtx.fillRect(0,0,16,512);
+const skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;
+const skyDome=new THREE.Mesh(new THREE.SphereGeometry(88,32,24),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
+skyDome.rotation.x=Math.PI;scene.add(skyDome);
+const cloudWhite=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.94,depthWrite:false});
+const cloudCream=new THREE.MeshBasicMaterial({color:0xfff4e4,transparent:true,opacity:.84,depthWrite:false});
+function cloud(x,y,z,s=1,cream=false){const g=new THREE.Group();g.position.set(x,y,z);const m=cream?cloudCream:cloudWhite;for(const [dx,dy,dz,rx,ry,rz] of [[0,0,0,1.5,.48,.85],[-1.05,-.12,.1,.9,.34,.7],[1.08,-.15,0,1,.4,.65],[-.42,.28,0,.82,.51,.68],[.5,.2,.05,1,.5,.7]]){const p=new THREE.Mesh(new THREE.SphereGeometry(1,12,8),m);p.position.set(dx,dy,dz);p.scale.set(rx,ry,rz);g.add(p)}g.scale.setScalar(s);scene.add(g);return g}
+const clouds=[];
+for(let j=0;j<44;j++){const a=j*2.399963,r=7+Math.sqrt(j/44)*34;const x=Math.cos(a)*r,z=Math.sin(a)*r;clouds.push(cloud(x,-2.6-(j%5)*.18,z,1.35+(j%4)*.38,j%4===0))}
+for(let j=0;j<13;j++){const a=j*2.31;clouds.push(cloud(Math.sin(a)*24,-.9+(j%3)*.2,Math.cos(a)*24,1.1+(j%3)*.24,j%5===0))}
+const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:(()=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),rad=g.createRadialGradient(64,64,3,64,64,64);rad.addColorStop(0,'rgba(255,252,223,0.98)');rad.addColorStop(.18,'rgba(255,235,176,.65)');rad.addColorStop(1,'rgba(255,225,167,0)');g.fillStyle=rad;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)})(),transparent:true,depthWrite:false,fog:false}));
+glow.position.set(-22,12,-31);glow.scale.set(21,21,1);scene.add(glow);
+
+const skyClock=document.getElementById('skyClock');
+const nightStars=new THREE.Group();scene.add(nightStars);
+const starMat=new THREE.MeshBasicMaterial({color:0xfff6df,transparent:true,opacity:.88,depthWrite:false,fog:false});
+for(let j=0;j<110;j++){const a=j*2.399963,h=11+(j%13)*2.3,d=36+(j%6)*3;const st=new THREE.Mesh(new THREE.SphereGeometry(.06+(j%4)*.027,6,5),starMat);st.position.set(Math.sin(a)*d,h,Math.cos(a)*d);nightStars.add(st)}
+const palettes={
+morning:{sky:['#f4bfae','#fbd9c1','#ffefdc','#f7f7df'],fog:'#f8ded0',ambient:2.4,sun:2.65,light:0xffd8a3,cloud:0xffe8dc,cream:0xffe3cf,glow:.9,stars:false},
+day:{sky:['#80c6f4','#acdff9','#e5f5ff','#f4fbef'],fog:'#d4edf9',ambient:2.9,sun:3.2,light:0xfff0c8,cloud:0xffffff,cream:0xfff7e9,glow:.47,stars:false},
+sunset:{sky:['#a3a0d6','#e8b1b9','#f8cba1','#fff0c5'],fog:'#edc9c7',ambient:2.05,sun:2.45,light:0xffc58a,cloud:0xffd7c4,cream:0xffcba8,glow:1,stars:false},
+night:{sky:['#1d315f','#3f5683','#687ca6','#a0a5b7'],fog:'#627a9e',ambient:1.25,sun:.65,light:0xacc9ff,cloud:0xa8bedc,cream:0xb5bdda,glow:.22,stars:true}
+};
+let lastSky='',lastClockMinute='';
+function taipeiTime(){return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date())}
+function autoSky(){const hour=Number(taipeiTime().slice(0,2));return hour>=5&&hour<9?'morning':hour>=9&&hour<17?'day':hour>=17&&hour<19?'sunset':'night'}
+function refreshSky(){const clock=taipeiTime();if(lastClockMinute!==clock){skyClock.textContent='台灣 '+clock;lastClockMinute=clock}
+const key=autoSky();if(key===lastSky)return;lastSky=key;const p=palettes[key];
+const gradient=skyCtx.createLinearGradient(0,0,0,512);p.sky.forEach((c,i)=>gradient.addColorStop(i/3,c));skyCtx.fillStyle=gradient;skyCtx.fillRect(0,0,16,512);skyTexture.needsUpdate=true;
+scene.fog.color.set(p.fog);scene.background.set(p.fog);ambient.intensity=p.ambient;sun.intensity=p.sun;sun.color.setHex(p.light);
+cloudWhite.color.set(p.cloud);cloudCream.color.set(p.cream);glow.material.opacity=p.glow;nightStars.visible=p.stars;
+}
+refreshSky();setInterval(refreshSky,30000);
+const cloudBases=clouds.map(c=>c.position.clone());
+const motionClock=new THREE.Clock();
+let gardenCount=0;
+function setGardenCount(count){gardenCount=Math.max(0,Math.min(150,Number(count)||0));gardenFlowers.forEach((f,i)=>{const stage=Math.min(1,Math.max(.03,(gardenCount-i*5)/12));f.scale.setScalar(stage);f.visible=gardenCount>i*5})}
+window.addEventListener('devotion-progress',e=>setGardenCount(e.detail.completed));
+
+
+const positions=[[-6,-2.5],[-1.5,-5],[0,0],[-6,5],[4.5,4],[6.7,-2.7]];
+const colors=[0xa9db9b,0x90cba3,0xb7dd98,0xb9d997,0xd7dba7,0x9cd1ba];
+const islandGroups=[],targets=[];
+const townDecor=[];function updateTownDecor(detail){townDecor.forEach(o=>o.node.visible=!!detail.purchased[o.id]);islandGroups.forEach((g,i)=>{if(g.userData.growthTrees)g.userData.growthTrees.forEach((t,j)=>t.visible=detail.completed>=[7,21,51,101][j])})}window.addEventListener('town-growth',e=>updateTownDecor(e.detail));
+function mat(color,roughness=1){return new THREE.MeshStandardMaterial({color,roughness,flatShading:true})}
+function mesh(g,m,par,x=0,y=0,z=0){const o=new THREE.Mesh(g,m);o.position.set(x,y,z);par.add(o);return o}
+
+function ball(g,c,x,y,z,r){return mesh(new THREE.SphereGeometry(r,12,9),mat(c),g,x,y,z)}
+function tree(g,x,z,s=1){mesh(new THREE.CylinderGeometry(.11*s,.16*s,.65*s,9),mat(0xaa825d),g,x,.4*s,z);ball(g,0x81be88,x,.99*s,z,.53*s);ball(g,0x9bd49b,x-.24*s,1.15*s,z,.31*s);ball(g,0xa4d9ab,x+.25*s,1.13*s,z,.32*s)}
+function flower(g,x,z,c){mesh(new THREE.CylinderGeometry(.025,.035,.25,6),mat(0x70ae72),g,x,.25,z);for(let k=0;k<5;k++){const a=k*Math.PI*2/5;ball(g,c,x+Math.cos(a)*.12,.39,z+Math.sin(a)*.12,.105)}ball(g,0xffe69a,x,.40,z,.075)}
+function cottage(g,c){mesh(new THREE.BoxGeometry(1.2,.92,1.05),mat(0xffefd7),g,0,.64,0);const roof=mesh(new THREE.ConeGeometry(1.04,.89,4),mat(c),g,0,1.48,0);roof.rotation.y=Math.PI/4;mesh(new THREE.BoxGeometry(.32,.5,.08),mat(0xaa826a),g,.05,.43,.57);for(let x of [-.4,.41])mesh(new THREE.BoxGeometry(.21,.24,.08),mat(0x9edbd4),g,x,.88,.57)}
+function detail(g,c,x,y,z,sx,sy,sz){const o=mesh(new THREE.SphereGeometry(1,12,8),mat(c),g,x,y,z);o.scale.set(sx,sy,sz);return o}
+function lantern(g,x,z){mesh(new THREE.CylinderGeometry(.035,.045,.68,8),mat(0x937b66),g,x,.55,z);detail(g,0xffe4a1,x,.95,z,.15,.19,.15);mesh(new THREE.ConeGeometry(.2,.17,6),mat(0xd69182),g,x,1.16,z)}
+function shrub(g,x,z){for(let k=0;k<3;k++)detail(g,k%2?0x75b87b:0x9cce83,x+(k-1)*.18,.34,z+(k%2)*.1,.25,.24,.24)}
+function stepping(g){for(let k=0;k<8;k++){const z=.42+k*.18,x=Math.sin(k*.6)*.3;detail(g,k%2?0xe8d3b4:0xffebcb,x,.235,z,.25,.055,.18)}}
+function cottageDetails(g){for(let x of [-.54,.54]){detail(g,0xffffff,x,.95,.56,.09,.3,.04);detail(g,0xf4d59e,x,.76,.56,.14,.045,.09)}mesh(new THREE.CylinderGeometry(.09,.1,.48,8),mat(0xe5c4aa),g,.42,1.75,-.2);detail(g,0xfff4d7,.4,2.02,-.2,.22,.11,.22)}
+function islandDetails(g,i){stepping(g);for(let k=0;k<7;k++){const a=k*2.4+i,rad=1.37+(k%2)*.15;shrub(g,Math.cos(a)*rad,Math.sin(a)*rad)}
+lantern(g,-1.36,.25);lantern(g,1.32,-.1);
+for(let k=0;k<13;k++){const a=k*2.399+i*.7,rr=.72+(k%4)*.25;flower(g,Math.cos(a)*rr,Math.sin(a)*rr,[0xffc5d5,0xffe3aa,0xcab9ef,0xfdf6d7][k%4])}
+if(i===0)cottageDetails(g);
+if(i===1){for(let k=0;k<3;k++)detail(g,0xb5ddd4,-.85+k*.38,.26,-.52,.25,.06,.23)}
+if(i===3){detail(g,0xf4e7cb,0,.31,0,.62,.1,.62);detail(g,0x9cd5d7,0,.39,0,.43,.06,.43)}
+if(i===4){for(let k=0;k<3;k++)detail(g,0xfff0c0,-.5+k*.37,.29,.8,.23,.09,.18)}
+if(i===5){mesh(new THREE.BoxGeometry(.65,.1,.1),mat(0xc99c79),g,.7,.62,.12)}}
+
+// Step 1: lightweight, custom sanctuary building; keep existing island and interactions unchanged.
+function buildSanctuary(g){
+ const white=mat(0xfffaf1),ivory=mat(0xece8db),purple=mat(0x9784bd),gold=mat(0xf9d67e),blue=mat(0x72c4d3),wood=mat(0x91664c);
+ const root=new THREE.Group();g.add(root);
+ // A broad white terrace makes the sanctuary distinct from the nearby cottages.
+ mesh(new THREE.CylinderGeometry(1.26,1.31,.14,24),ivory,root,0,.29,0);
+ for(let s=0;s<3;s++)mesh(new THREE.BoxGeometry(.82,.065,.24),ivory,root,0,.27+s*.052,1.01+s*.16);
+ mesh(new THREE.BoxGeometry(1.16,1.14,1.03),white,root,0,.95,0);
+ mesh(new THREE.BoxGeometry(1.25,.13,1.13),gold,root,0,1.58,0);
+ const mainRoof=mesh(new THREE.ConeGeometry(.93,.48,4),purple,root,0,1.87,0);mainRoof.rotation.y=Math.PI/4;
+ // Tall front tower with clearly visible blue windows, golden spire and cross.
+ mesh(new THREE.BoxGeometry(.49,1.12,.47),white,root,0,1.82,.37);
+ mesh(new THREE.BoxGeometry(.53,.09,.52),gold,root,0,2.41,.37);
+ for(const x of [-.12,.12])mesh(new THREE.BoxGeometry(.1,.29,.035),blue,root,x,2.12,.623);
+ const spire=mesh(new THREE.ConeGeometry(.36,.50,4),purple,root,0,2.71,.37);spire.rotation.y=Math.PI/4;
+ mesh(new THREE.BoxGeometry(.075,.52,.075),gold,root,0,3.18,.37);
+ mesh(new THREE.BoxGeometry(.38,.075,.075),gold,root,0,3.23,.37);
+ mesh(new THREE.BoxGeometry(.36,.64,.08),wood,root,0,.68,.56);
+ for(const x of [-.41,.41]){
+  mesh(new THREE.BoxGeometry(.2,.45,.09),blue,root,x,1.03,.57);
+  mesh(new THREE.BoxGeometry(.04,.47,.1),gold,root,x,1.03,.63);
+  mesh(new THREE.BoxGeometry(.22,.04,.1),gold,root,x,1.03,.63);
+ }
+ for(const x of [-.64,.64])mesh(new THREE.BoxGeometry(.06,.43,.28),blue,root,x,.99,-.1);
+}
+function symbol(g,i){if(i===0){cottage(g,0xbab3dc);mesh(new THREE.BoxGeometry(.85,.11,.53),mat(0xfce6ae),g,.25,.28,.94)}
+else if(i===1){tree(g,0,0,1.7);mesh(new THREE.BoxGeometry(.8,.13,.31),mat(0xb38b6a),g,.85,.35,.48)}
+else if(i===2){buildSanctuary(g)}
+else if(i===3){for(let j=0;j<11;j++){const a=j*6.28/11;flower(g,Math.cos(a)*.9,Math.sin(a)*.9,j%2?0xffbdd2:0xffe49c)}ball(g,0xa8d6cf,0,.42,0,.46)}
+else if(i===4){tree(g,-.45,-.35,1.2);ball(g,0xffd28b,.62,1.06,-.5,.35);for(let j=0;j<6;j++)flower(g,Math.cos(j)*.85,Math.sin(j)*.85,0xffe4b5)}
+else{for(let j=0;j<6;j++)ball(g,0xf3e1bb,-.9+j*.34,.28,Math.sin(j*.6)*.3,.22);mesh(new THREE.CylinderGeometry(.045,.06,.9,7),mat(0xa68562),g,.9,.63,0);mesh(new THREE.BoxGeometry(.7,.24,.08),mat(0xf3cf94),g,.65,.94,0)}}
+
+function bunny(g,color=0xffead9){const a=new THREE.Group();g.add(a);ball(a,color,0,.37,0,.26);ball(a,color,0,.7,0,.23);for(let x of [-.12,.12]){const ear=mesh(new THREE.SphereGeometry(1,10,8),mat(color),a,x,.99,0);ear.scale.set(.105,.3,.115)}for(let x of [-.09,.09])ball(a,0x493c43,x,.72,.207,.028);ball(a,0xf8a6ac,0,.63,.22,.036);return a}
+function bear(g,color=0xd5a279){const a=new THREE.Group();g.add(a);ball(a,color,0,.4,0,.27);ball(a,color,0,.73,0,.27);for(let x of [-.21,.21])ball(a,color,x,.94,0,.115);ball(a,0xf1d6ad,0,.66,.245,.12);for(let x of [-.1,.1])ball(a,0x392e34,x,.77,.23,.03);return a}
+function bird(g,color=0x9fd4e5){const a=new THREE.Group();g.add(a);ball(a,color,0,.42,0,.23);ball(a,color,0,.65,.07,.19);ball(a,0xf8c778,0,.59,.25,.065);for(let x of [-.08,.08])ball(a,0x303b45,x,.69,.22,.025);return a}
+const residents=[],gardenFlowers=[];
+
+const walkers=[];
+function villager(g,shirt,hair,seed){
+ const p=new THREE.Group();g.add(p);
+ const skin=mat(0xf5d4b7),cloth=mat(shirt),hairMat=mat(hair),shoe=mat(0x735f58);
+ mesh(new THREE.CylinderGeometry(.145,.185,.37,9),cloth,p,0,.51,0);
+ ball(p,0xf6d2b5,0,.89,0,.19);
+ const cap=mesh(new THREE.SphereGeometry(.195,12,8,0,Math.PI*2,0,Math.PI*.53),hairMat,p,0,.945,0);
+ for(const x of [-.078,.078])ball(p,0x3b3f42,x,.90,.169,.016);
+ const arms=[],legs=[];
+ for(const side of [-1,1]){
+ const a=mesh(new THREE.CapsuleGeometry(.057,.22,3,6),skin,p,side*.225,.55,0);arms.push(a);
+ const leg=mesh(new THREE.CapsuleGeometry(.07,.21,3,6),cloth,p,side*.09,.18,0);legs.push(leg);
+ ball(p,0x71584f,side*.09,.09,.045,.09)
+ }
+ p.scale.setScalar(.77);
+ const radius=1.1+(seed%3)*.16,phase=(seed*2.399963)%6.28,speed=.085+(seed%5)*.012;
+ walkers.push({p,radius,phase,speed,arms,legs,seed});
+ return p;
+}
+function villageDetails(g,i){
+ const pinks=[0xf3bdc1,0xf6dba8,0xb7c5e7,0xe5bde3,0xace0ce,0xf2c7a9];
+ // Scenic circular footpath, with a dedicated walking lane.
+ const pathMat=mat(0xf5e3c3),edgeMat=mat(0xe9cfab);
+ for(let k=0;k<24;k++){
+  const a=k*Math.PI*2/24,rad=1.22;
+  const p=mesh(new THREE.BoxGeometry(.34,.055,.23),pathMat,g,Math.cos(a)*rad,.27,Math.sin(a)*rad);
+  p.rotation.y=-a;
+ }
+ // Little neighborhood houses around each themed landmark.
+ for(let k=0;k<2;k++){
+  const a=(k*2.55)+i*.34+2.3,x=Math.cos(a)*.92,z=Math.sin(a)*.92;
+  const tiny=new THREE.Group();tiny.position.set(x,.23,z);tiny.scale.setScalar(.42);tiny.rotation.y=-a;g.add(tiny);cottage(tiny,pinks[(i+k)%pinks.length]);
+ }
+ for(let k=0;k<3;k++){
+  const a=k*2.1+.5+i*.4,x=Math.cos(a)*1.7,z=Math.sin(a)*1.7;
+  shrub(g,x,z);
+ }
+ for(let k=0;k<3;k++){
+  const a=k*1.9+.2+i*.45,x=Math.cos(a)*1.52,z=Math.sin(a)*1.52;
+  flower(g,x,z,k%2?0xffe0a8:0xffbdd7)
+ }
+ for(let k=0;k<3;k++)villager(g,pinks[(i+k)%pinks.length],[0x735a46,0x654f48,0xb88d54][k],i*3+k+1);
+}
+
+function path(g){for(let k=0;k<7;k++){const z=.5+k*.18,x=Math.sin(k*.55)*.22;const p=mesh(new THREE.CylinderGeometry(.19,.19,.065,9),mat(k%2?0xf9e8ce:0xece0bb),g,x,.26,z);p.rotation.y=k*.3}}
+function populate(g,i){path(g);const animal=i%3===0?bunny(g,i===3?0xffdfed:0xfff0df):i%3===1?bear(g,i===1?0xd6a57b:0xf4c7a0):bird(g,i===2?0xb0d8ef:0xf9d79c);
+animal.position.set(i%2?-.83:.85,.12,i%2?.5:-.65);animal.userData.baseY=animal.position.y;residents.push(animal);
+if(i===3){for(let k=0;k<18;k++){const a=k*2.4,rad=.37+(k%5)*.25;const bloom=new THREE.Group();bloom.position.set(Math.cos(a)*rad,0,Math.sin(a)*rad);flower(bloom,0,0,k%3===0?0xffb2c9:k%3===1?0xffdfa1:0xc5b6f3);g.add(bloom);gardenFlowers.push(bloom)}}}
+positions.forEach(([x,z],i)=>{const g=new THREE.Group();g.position.set(x,0,z);g.userData.index=i;if(i===2)g.scale.setScalar(1.22);scene.add(g);islandGroups.push(g);
+mesh(new THREE.CylinderGeometry(2.04,1.65,.73,24),mat(0xc1a27e),g,0,-.35,0);
+mesh(new THREE.CylinderGeometry(2.1,1.95,.28,24),mat(colors[i]),g,0,.09,0);
+mesh(new THREE.CylinderGeometry(1.59,.67,.86,16),mat(0xb6a18c),g,0,-.9,0);
+symbol(g,i);populate(g,i);islandDetails(g,i);villageDetails(g,i);
+for(let j=0;j<4;j++){const a=j*Math.PI/2+i;tree(g,Math.cos(a)*1.12,Math.sin(a)*1.12,.4+(j%2)*.14);flower(g,Math.cos(a+.5)*1.45,Math.sin(a+.5)*1.45,j%2?0xffbdd2:0xffe4a6)}
+const growthTrees=[];for(let j=0;j<4;j++){const a=j*1.45+i, t=new THREE.Group();t.position.set(Math.cos(a)*1.75,.24,Math.sin(a)*1.75);t.scale.setScalar(.33+(j%2)*.08);tree(t,0,0,1);t.visible=false;g.add(t);growthTrees.push(t)}g.userData.growthTrees=growthTrees;
+if(i===3){const deco=new THREE.Group();deco.position.set(.95,.3,-.5);for(let j=0;j<7;j++)flower(deco,Math.cos(j*2.4)*.35,Math.sin(j*2.4)*.35,j%2?0xffafd8:0xffe393);g.add(deco);townDecor.push({id:'flowers',node:deco})}
+if(i===1){const deco=new THREE.Group();deco.position.set(.1,.5,-1.0);mesh(new THREE.BoxGeometry(.8,.12,.23),mat(0xc79670),deco);for(const x of [-.32,.32])mesh(new THREE.BoxGeometry(.09,.36,.1),mat(0x9c755a),deco,x,-.17,0);g.add(deco);townDecor.push({id:'bench',node:deco})}
+if(i===2){const deco=new THREE.Group();deco.position.set(1.3,.15,-.6);lantern(deco,0,0);g.add(deco);townDecor.push({id:'lantern',node:deco})}
+if(i===0){const deco=new THREE.Group();deco.position.set(-1.45,.22,.25);tree(deco,0,0,.9);g.add(deco);townDecor.push({id:'tree',node:deco})}
+targets.push(new THREE.Vector3(x,1,z));
+});
+setGardenCount(Number(document.getElementById('done').textContent)||0);
+updateTownDecor(window.DevotionIsland?.getTownMetrics?.()||{completed:0,purchased:{}});
+// Tiny distant cloudlets replace the old sea rocks.
+
+// Floating cloud bridges connect the six islands in devotional task order.
+const routeEdges=[[2,0],[0,1],[1,3],[3,4],[4,5],[5,2]];
+const bridgeWood=mat(0xf2d9a4),bridgeRail=mat(0xffffff),bridgeGold=mat(0xeed49a);
+function connectIslands(from,to){
+ const a=new THREE.Vector3(positions[from][0],-.03,positions[from][1]),b=new THREE.Vector3(positions[to][0],-.03,positions[to][1]);
+ const dir=b.clone().sub(a),len=dir.length(),axis=dir.clone().normalize(),center=a.clone().add(b).multiplyScalar(.5);
+ const start=1.95,end=len-1.95;if(end<=start)return;
+ const count=Math.max(4,Math.floor((end-start)/.40));
+ for(let j=0;j<=count;j++){const d=start+(end-start)*j/count,p=a.clone().addScaledVector(axis,d);p.y=.12+.15*Math.sin(Math.PI*(d-start)/(end-start));
+ const board=mesh(new THREE.BoxGeometry(.69,.11,.37),bridgeWood,scene,p.x,p.y,p.z);board.rotation.y=-Math.atan2(dir.z,dir.x);
+ if(j%4===0){const side=new THREE.Vector3(-axis.z,0,axis.x);for(const sign of [-1,1]){const q=p.clone().addScaledVector(side,.43*sign);mesh(new THREE.CylinderGeometry(.045,.06,.32,8),bridgeRail,scene,q.x,p.y+.18,q.z);const light=mesh(new THREE.SphereGeometry(.085,8,6),bridgeGold,scene,q.x,p.y+.37,q.z)}}}
+}
+routeEdges.forEach(([a,b])=>connectIslands(a,b));
+const bubbleOptions=[['📖','💡','😊'],['💡','🌿','✨'],['🙏','❤️','✨'],['🌸','😊','🌱'],['❤️','☀️','✨'],['🗺️','⭐','😊']];
+const bubbleCanvas=document.createElement('canvas');bubbleCanvas.width=128;bubbleCanvas.height=128;
+function bubbleTexture(symbol){const c=document.createElement('canvas');c.width=128;c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#fffdf5';ctx.beginPath();ctx.roundRect(7,8,114,92,34);ctx.fill();ctx.fillStyle='#fffdf5';ctx.beginPath();ctx.moveTo(46,95);ctx.lineTo(61,117);ctx.lineTo(74,95);ctx.fill();ctx.font='62px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(symbol,64,52);return new THREE.CanvasTexture(c)}
+const bubbleTextures=[...new Set(bubbleOptions.flat())].reduce((m,x)=>(m[x]=bubbleTexture(x),m),{});
+walkers.forEach((w,i)=>{const island=Math.floor(i/3);const material=new THREE.SpriteMaterial({map:bubbleTextures[bubbleOptions[island][i%3]],transparent:true,depthWrite:false});const sprite=new THREE.Sprite(material);sprite.position.set(0,1.45,0);sprite.scale.set(.64,.64,1);sprite.visible=false;w.p.add(sprite);w.bubble=sprite;w.bubbleIsland=island;w.nextBubble=3+(i*3.31)%22;w.bubbleEnd=0});
+
+let azimuth=.25,elevation=.91,radius=24,drag=false,px=0,py=0,moved=false;
+function setCam(){camera.position.set(Math.sin(azimuth)*Math.cos(elevation)*radius,Math.sin(elevation)*radius,Math.cos(azimuth)*Math.cos(elevation)*radius);camera.lookAt(0,0,0)}
+function resize(){const w=sceneEl.clientWidth,h=sceneEl.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+const buttons=[...document.querySelectorAll('.island')];
+function labels(){const rect=sceneEl.getBoundingClientRect();targets.forEach((target,i)=>{const v=target.clone().project(camera),visible=v.z<1;const b=buttons[i];if(!sceneEl.classList.contains('three-ready'))return;b.style.left=((v.x+1)/2*rect.width)+'px';b.style.top=((-v.y+1)/2*rect.height+27)+'px';b.style.display=visible?'flex':'none'})}
+function frame(){const t=motionClock.getElapsedTime();clouds.forEach((c,i)=>{const b=cloudBases[i];c.position.x=b.x+Math.sin(t*.075+i*1.5)*.45;c.position.z=b.z+Math.cos(t*.065+i*.8)*.28;c.position.y=b.y+Math.sin(t*.22+i)*.06});nightStars.rotation.y=t*.0015;residents.forEach((a,i)=>{a.position.y=a.userData.baseY+Math.sin(t*1.5+i)*.035;a.rotation.y=Math.sin(t*.4+i)*.2});walkers.forEach(w=>{const a=w.phase+t*w.speed;w.p.position.set(Math.cos(a)*w.radius,.28+Math.abs(Math.sin(t*5+w.seed))*.025,Math.sin(a)*w.radius);w.p.rotation.y=-a-Math.PI/2;w.legs.forEach((l,j)=>l.rotation.x=Math.sin(t*5+w.seed+j*Math.PI)*.35);w.arms.forEach((arm,j)=>arm.rotation.x=Math.sin(t*5+w.seed+j*Math.PI+Math.PI)*.25);if(t>=w.nextBubble){w.bubble.visible=true;w.bubbleEnd=t+2.4+(w.seed%3)*.6;w.nextBubble=t+12+(w.seed*7%19);const emojis=bubbleOptions[w.bubbleIsland];w.bubble.material.map=bubbleTextures[emojis[Math.floor(t+w.seed)%emojis.length]];w.bubble.material.needsUpdate=true}if(w.bubble.visible){w.bubble.position.y=1.45+Math.sin(t*3+w.seed)*.06;if(t>=w.bubbleEnd)w.bubble.visible=false}});setCam();labels();renderer.render(scene,camera);requestAnimationFrame(frame)}
+function hit(ev){const rect=canvas.getBoundingClientRect();const mouse=new THREE.Vector2((ev.clientX-rect.left)/rect.width*2-1,-(ev.clientY-rect.top)/rect.height*2+1);const ray=new THREE.Raycaster();ray.setFromCamera(mouse,camera);const hits=ray.intersectObjects(islandGroups,true);if(hits.length){let obj=hits[0].object;while(obj&&!Number.isInteger(obj.userData.index))obj=obj.parent;if(obj)buttons[obj.userData.index].click()}}
+canvas.addEventListener('pointerdown',e=>{drag=true;moved=false;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-px,dy=e.clientY-py;if(Math.abs(dx)+Math.abs(dy)>2)moved=true;azimuth-=dx*.008;elevation=Math.max(.36,Math.min(1.35,elevation+dy*.005));px=e.clientX;py=e.clientY});
+canvas.addEventListener('pointerup',e=>{drag=false;if(!moved)hit(e)});canvas.addEventListener('pointercancel',()=>drag=false);
+canvas.addEventListener('wheel',e=>{e.preventDefault();radius=Math.max(14,Math.min(38,radius+Math.sign(e.deltaY)*1.3))},{passive:false});
+document.getElementById('zoomIn').onclick=()=>radius=Math.max(14,radius-2);
+document.getElementById('zoomOut').onclick=()=>radius=Math.min(38,radius+2);
+document.getElementById('resetView').onclick=()=>{azimuth=.25;elevation=.91;radius=24};
+new ResizeObserver(resize).observe(sceneEl);resize();sceneEl.classList.add('three-ready');frame()
+}catch(err){console.error('3D failed; retaining fallback map',err);canvas.style.display='none'}
+})();
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+import {getFirestore,collection,doc,getDocs,setDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyDPfdrruK6SOSgk3qktAuEaz4PAS2DGfPQ",authDomain:"devotion-island.firebaseapp.com",projectId:"devotion-island",storageBucket:"devotion-island.firebasestorage.app",messagingSenderId:"714034029985",appId:"1:714034029985:web:737dccc9e1e77c9726d7e0"};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
+const el=id=>document.getElementById(id);const gate=el('loginGate');const gateButton=el('gateSignIn');const gateMessage=el('loginMessage');function showGate(message){gate.hidden=false;gateButton.disabled=false;gateButton.textContent='使用 Google 帳號登入';gateMessage.textContent=message||''}function hideGate(){gate.hidden=true;gateMessage.textContent=''};
+let user=null,unsub=null,epoch=0,ready=false,pending=new Map(),timers=new Map(),cloudCache={};
+const setInfo=(msg,warn=false)=>{el('authText').textContent=msg;el('authText').classList.toggle('warn',warn)};
+function errMsg(e){console.error(e);const code=e?.code||'';if(code.includes('unauthorized-domain'))return '請先在 Firebase Authentication 加入 Netlify 授權網域';if(code.includes('permission-denied'))return 'Firestore 權限遭拒，請確認已發布安全規則';if(code.includes('popup-blocked'))return '瀏覽器阻擋登入視窗，請允許彈出視窗';return '同步暫時失敗：'+(code||e?.message||'網路異常')}
+const path=uid=>collection(db,'users',uid,'entries');
+function flushPending(){for(const [d,v] of pending){pending.delete(d);queueWrite(d,v)}}
+function queueWrite(d,value){if(!user||!ready)return;const uid=user.uid,seq=epoch,k=String(d);pending.set(k,{...value});clearTimeout(timers.get(k));timers.set(k,setTimeout(async()=>{const v=pending.get(k);pending.delete(k);if(!v||!user||user.uid!==uid||seq!==epoch)return;try{await setDoc(doc(db,'users',uid,'entries',k),v)}catch(e){setInfo(errMsg(e),true);pending.set(k,v)}},450))}
+window.DevotionSync={saveDay:(d,v)=>queueWrite(d,v),uploadEntries:async entries=>{if(!user||!ready)return;for(const [k,v] of Object.entries(entries)){if(/^([1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k)){queueWrite(k,v)}}}};
+gateButton.onclick=()=>el('signIn').click();el('signIn').onclick=async()=>{try{await signInWithPopup(auth,provider)}catch(e){if(e.code==='auth/popup-blocked'){await signInWithRedirect(auth,provider)}else {setInfo(errMsg(e),true);gateMessage.textContent=errMsg(e)}}};
+el('signOut').onclick=async()=>{try{await signOut(auth)}catch(e){setInfo(errMsg(e),true)}};
+el('importLocalCloud').onclick=async()=>{
+if(!user||!ready)return;const entries=window.DevotionIsland.localBackup();const n=Object.keys(entries).length;
+if(!n){setInfo('此裝置沒有舊版靈修紀錄');return}
+if(!confirm('將此裝置的 '+n+' 篇舊紀錄匯入目前的 Google 帳號？同篇號將以本機版本覆蓋雲端版本；建議先按「備份資料」。'))return;
+for(const [k,v] of Object.entries(entries)){if(!/^(?:[1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k))continue;queueWrite(k,v)}
+setInfo('正在上傳舊紀錄，請保持網頁開啟直到同步完成');};
+getRedirectResult(auth).catch(e=>setInfo(errMsg(e),true));
+onAuthStateChanged(auth,async u=>{
+epoch++;const seq=epoch;ready=false;pending.clear();for(const t of timers.values())clearTimeout(t);timers.clear();if(unsub){unsub();unsub=null}user=u;
+el('signIn').hidden=!!u;el('signOut').hidden=!u;el('importLocalCloud').hidden=!u;
+if(!u){cloudCache={};window.DevotionIsland.switchAccount(null,{});setInfo('請先登入 Google 帳號');el('authHelp').textContent='登入後才能開始靈修，每個帳號的紀錄獨立保存。';showGate('');return}
+gateButton.disabled=true;gateMessage.textContent='正在載入你的靈修紀錄…';setInfo('正在讀取 '+(u.displayName||u.email)+' 的私人紀錄…');
+el('authHelp').textContent='雲端同步：'+(u.email||'已登入')+'。每位使用者都只能存取自己的靈修紀錄。';
+try{
+const snap=await getDocs(path(u.uid));if(seq!==epoch)return;cloudCache={};snap.forEach(x=>cloudCache[x.id]=x.data());window.DevotionIsland.switchAccount(u.uid,cloudCache);ready=true;hideGate();setInfo('✓ 已登入並啟用雲端同步 · '+(u.displayName||u.email));
+unsub=onSnapshot(path(u.uid),snapshot=>{if(seq!==epoch)return;for(const change of snapshot.docChanges()){if(change.type==='removed')delete cloudCache[change.doc.id];else cloudCache[change.doc.id]=change.doc.data()}if(pending.size===0)window.DevotionIsland.receiveCloud(cloudCache)},e=>setInfo(errMsg(e),true));
+const local=window.DevotionIsland.localBackup();if(Object.keys(local).length)el('importLocalCloud').hidden=false;
+}catch(e){setInfo(errMsg(e),true);window.DevotionIsland.switchAccount(null,{});el('signIn').hidden=false;el('signOut').hidden=true;el('importLocalCloud').hidden=true;showGate('登入資料載入失敗，請重新登入。'+errMsg(e))}
+});
+</script></body></html>
