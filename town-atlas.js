@@ -178,6 +178,22 @@ svg.querySelectorAll('.atlas-art').forEach(function(img){
 });
 // The entire sky, bridges, islands and residents are one responsive SVG scene.
 // Keep the atlas fixed; only island hotspots and resident sprites are interactive.
+// Put all task lamps above the island artwork, so they remain easy to tap
+// even where a neighboring island overlaps an icon.
+svg.insertAdjacentHTML('beforeend','<g id="atlasTaskLights">'+nodes.map(function(n){
+ var scale=n.id===2?1.16:1;
+ var x=n.x+100*scale,y=n.y-54*scale;
+ var existing=svg.querySelector('[data-map-island="'+n.id+'"] .atlas-status');
+ if(existing){existing.setAttribute('aria-hidden','true');existing.style.display='none'}
+ return '<g class="atlas-status-link" role="button" tabindex="0" data-light-island="'+n.id+'" aria-label="前往'+n.name+'查看今日任務" transform="translate('+x+' '+y+')">'+
+ '<g class="atlas-status status-pending" data-status="'+n.id+'">'+
+ circle(0,0,24,'#fff6c2',{class:'atlas-status-halo'})+
+ circle(0,0,15,'#ffd05c',{class:'atlas-status-lamp',stroke:'#fffdf0','stroke-width':3})+
+ text(0,5,'!',{class:'atlas-status-symbol','text-anchor':'middle',fill:'#6c4c14','font-size':17,'font-weight':950})+'</g>'+
+ '<circle class="atlas-status-clicktarget" cx="0" cy="0" r="27" fill="transparent" pointer-events="all"/>'+
+ '</g>'
+}).join('')+'</g>');
+
 var moved=false,down=null;
 svg.style.transform='none';
 svg.setAttribute('preserveAspectRatio','xMidYMid meet');
@@ -196,8 +212,20 @@ stage.addEventListener('pointermove',function(ev){
 window.addEventListener('pointerup',function(){down=null;if(moved)setTimeout(function(){moved=false},130)});
 stage.addEventListener('pointercancel',function(){down=null;moved=false});
 function visitIsland(i){if(mode!=='2d')return;var id=Number(i);if(!Number.isInteger(id)||id<0||id>5)return;var api=window.DevotionIsland;if(api&&typeof api.navigateIsland==='function')api.navigateIsland(id);}
-svg.addEventListener('click',function(ev){if(mode!=='2d'||moved)return;var item=ev.target.closest('[data-map-island]');if(item){ev.preventDefault();visitIsland(item.getAttribute('data-map-island'))}});
-svg.addEventListener('keydown',function(ev){if(ev.key!=='Enter'&&ev.key!==' ')return;var item=ev.target.closest('[data-map-island]');if(item){ev.preventDefault();moved=false;visitIsland(item.getAttribute('data-map-island'))}});
+svg.addEventListener('click',function(ev){
+ if(mode!=='2d'||moved)return;
+ var lamp=ev.target.closest('[data-light-island]');
+ if(lamp){ev.preventDefault();visitIsland(lamp.getAttribute('data-light-island'));return}
+ var item=ev.target.closest('[data-map-island]');
+ if(item){ev.preventDefault();visitIsland(item.getAttribute('data-map-island'))}
+});
+svg.addEventListener('keydown',function(ev){
+ if(ev.key!=='Enter'&&ev.key!==' ')return;
+ var lamp=ev.target.closest('[data-light-island]');
+ if(lamp){ev.preventDefault();moved=false;visitIsland(lamp.getAttribute('data-light-island'));return}
+ var item=ev.target.closest('[data-map-island]');
+ if(item){ev.preventDefault();moved=false;visitIsland(item.getAttribute('data-map-island'))}
+});
 function updateState(d){
  if(!d)return;
  var route=[0,1,3,4,5,2],status={};
@@ -207,7 +235,7 @@ function updateState(d){
   n.classList.toggle('selected',current);
   n.classList.toggle('task-complete',done);
   n.classList.toggle('task-pending',!done);
-  var light=n.querySelector('.atlas-status');
+  var light=svg.querySelector('#atlasTaskLights [data-status="'+id+'"]');
   if(!light)return;
   light.classList.toggle('status-done',done);
   light.classList.toggle('status-pending',!done);
