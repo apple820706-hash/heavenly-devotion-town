@@ -263,6 +263,35 @@ svg.querySelectorAll('.atlas-art').forEach(function(img){
  };
  probe.src=url;
 });
+// V2 CLEAN-BASE PILOT (safe and opt-in).
+// A newly painted scripture-base.webp can be tested without modifying the
+// original scripture.webp or any saved purchase and placement preferences.
+// The page intentionally does NOT request the file in ordinary production mode.
+// For art QA only: open the site with ?v2pilot=scripture. If that asset has not
+// been uploaded yet (or fails to decode), the original painterly island stays.
+var v2PilotEnabled=new URLSearchParams(window.location.search).get('v2pilot')==='scripture';
+if(v2PilotEnabled){
+ var scriptureIsland=svg.querySelector('[data-map-island="0"]');
+ var scriptureImage=scriptureIsland&&scriptureIsland.querySelector('.atlas-art');
+ if(scriptureImage){
+  var originalArt=scriptureImage.getAttribute('href');
+  var candidate='./scripture-base.webp';
+  var cleanProbe=new Image();
+  cleanProbe.onload=function(){
+   if(cleanProbe.naturalWidth<500||cleanProbe.naturalHeight<500)return;
+   scriptureImage.setAttribute('href',candidate);
+   scriptureImage.setAttribute('data-original-art',originalArt);
+   scriptureIsland.classList.add('v2-clean-art-active');
+   scriptureImage.addEventListener('error',function(){
+    scriptureImage.setAttribute('href',originalArt);
+    scriptureIsland.classList.remove('v2-clean-art-active');
+   },{once:true});
+  };
+  cleanProbe.onerror=function(){scriptureIsland.classList.remove('v2-clean-art-active')};
+  cleanProbe.src=candidate;
+ }
+}
+
 // The entire sky, bridges, islands and residents are one responsive SVG scene.
 // Keep the atlas fixed; only island hotspots and resident sprites are interactive.
 // Put all task lamps above the island artwork, so they remain easy to tap
