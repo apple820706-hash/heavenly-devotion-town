@@ -352,8 +352,131 @@ body{background:linear-gradient(180deg,#e8faf5 0%,#dbf3f5 58%,#fdf3d7 100%);colo
 .scene.mode-2d .atlas-status-link:focus-visible .atlas-status-halo{stroke:#12795c;stroke-width:5}
 .scene.mode-2d .atlas-status-link .atlas-status-clicktarget{fill:transparent;pointer-events:all;cursor:pointer}
 
+
+/* V8 · ONE COHESIVE SKY WORLD — chapter controls, six tasks and map */
+html{background:#a9e7f9}
+body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);color:#1a4e44}
+.shell{max-width:none;margin:0;padding:0;background:transparent}
+.top{background:#f6fffcbb!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid #d8f4e4;box-shadow:0 5px 20px #126e7430}
+.authbox{background:#e7f9f8b8!important;border-bottom:0!important}
+.town-unified-world{
+ position:relative;isolation:isolate;overflow:hidden;
+ padding:15px clamp(10px,2.5vw,34px) 26px;
+ background:
+ radial-gradient(ellipse at 87% 39%,#fff9c980 0%,#fffae900 27%),
+ radial-gradient(ellipse at 10% 58%,#f6ffff66 0%,#ffffff00 33%),
+ linear-gradient(180deg,#8dd7f7 0%,#a5e7fa 34%,#b4ecfa 66%,#d0eff6 100%);
+}
+.town-unified-world:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:
+ radial-gradient(ellipse 190px 55px at 3% 45%,#ffffff7e 0%,#fff0 100%),
+ radial-gradient(ellipse 200px 62px at 98% 55%,#ffffffe0 0%,#fff0 100%),
+ radial-gradient(ellipse 235px 56px at 8% 76%,#ffffff6e 0%,#fff0 100%),
+ radial-gradient(ellipse 230px 68px at 92% 83%,#ffffff8a 0%,#fff0 100%);
+ opacity:.68;
+}
+.town-unified-world .hero{
+ background:transparent!important;
+ padding:0!important;margin:0 0 10px!important;
+ gap:10px;grid-template-columns:minmax(0,1fr) 305px;
+}
+.town-unified-world .hero .intro{
+ background:#fffdf5e3!important;
+ border:1.5px solid #d6eacb;border-radius:18px;
+ color:#215b4f;box-shadow:0 6px 17px #285e6030;
+}
+.town-unified-world .hero .intro .days .btn,
+.town-unified-world .hero .intro .today-row .btn{
+ background:#ecfff4;color:#195d4c;border-color:#9cdbbb
+}
+.town-unified-world .hero .stats{
+ background:#fffdf5d8!important;border:1px solid #d4e9d4;box-shadow:0 6px 17px #285e6030
+}
+.town-unified-world .town-board{
+ margin:0 0 10px!important;padding:10px 16px!important;
+ border:1.5px solid #dceac1!important;border-radius:18px!important;
+ background:#fffef4d9!important;box-shadow:0 4px 16px #206f6b2b!important;
+}
+.town-unified-world .town-board .town-seeds{background:#fff9dbea}
+.town-unified-world .main.atlas-workspace{
+ display:flex!important;flex-direction:column;
+ position:relative;gap:0;background:transparent;padding:0!important;
+ border:1.5px solid #e0f7f0a9;border-radius:25px;overflow:visible;
+ box-shadow:0 12px 40px #2c7e7e25;
+}
+.town-unified-world .mission-board{
+ position:relative;z-index:4;
+ width:100%;margin:0!important;padding:16px 20px 12px!important;
+ border:none!important;border-radius:24px 24px 0 0!important;
+ background:linear-gradient(180deg,#fffef1d6 0%,#f4fff0a8 100%)!important;
+ box-shadow:none!important;backdrop-filter:blur(4px);
+}
+.town-unified-world .mission-board .mission-top{
+ display:flex;align-items:center;justify-content:space-between;
+ padding-bottom:7px;margin-bottom:6px;border-bottom:1px solid #c1e5d644
+}
+.town-unified-world .mission-board .mission-top h2{font-size:1.02rem;font-weight:950;color:#145f53}
+.town-unified-world .mission-board .mission-current{
+ background:#168667;color:#fff;font-weight:900;padding:3px 11px;border-radius:999px
+}
+.town-unified-world .mission-board .mission-items{
+ display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;overflow:visible
+}
+.town-unified-world .mission-board .mission-step{
+ flex:unset;min-width:0;min-height:91px;
+ border:1.5px solid #a6d9bd!important;border-radius:15px;
+ background:#fffdf0dd!important;box-shadow:0 3px 10px #1e81702b;
+}
+.town-unified-world .mission-board .mission-step.done{
+ background:#c5f4e1e3!important;border-color:#69caa4!important
+}
+.town-unified-world .mission-board .mission-step.next{
+ background:#ffecb5ee!important;border-color:#e8b04a!important
+}
+.town-unified-world .mission-board .mission-track{
+ margin:11px 0 0!important;height:5px;border-radius:10px;background:#d9eae7
+}
+.town-unified-world .mission-board .mission-next{display:none!important}
+.town-unified-world .scene.mode-2d{
+ width:100%;margin:0!important;
+ border:0!important;border-radius:0 0 24px 24px!important;
+ box-shadow:none!important;
+ height:clamp(490px,64vw,800px)!important;
+ min-height:490px!important;
+ background:transparent!important;
+}
+.town-unified-world .scene.mode-2d #illustratedMap{inset:0;background:transparent!important}
+.town-unified-world .scene.mode-2d #townAtlas{background:none!important;filter:saturate(1.17) contrast(1.04)}
+.town-unified-world .atlas-workspace-top{top:15px;left:18px;right:18px}
+.town-unified-world .atlas-workspace-title{background:#fffef8dc}
+.town-unified-world .atlas-workspace-actions{background:#fffef8e6}
+.town-unified-world .footer{background:transparent}
+@media(max-width:950px){
+ .town-unified-world .hero{grid-template-columns:1fr}
+ .town-unified-world .hero .stats{display:none}
+ .town-unified-world .mission-board .mission-items{display:flex;overflow-x:auto;scrollbar-width:thin;gap:8px;padding:3px 1px 8px;scroll-snap-type:x proximity}
+ .town-unified-world .mission-board .mission-step{flex:0 0 132px;min-height:93px;scroll-snap-align:start}
+}
+@media(max-width:600px){
+ .town-unified-world{padding:10px 0 0}
+ .town-unified-world .hero{margin:0 11px 9px!important}
+ .town-unified-world .hero .intro{padding:9px 11px!important}
+ .town-unified-world .town-board{margin:0 11px 9px!important;padding:8px 12px!important}
+ .town-unified-world .main.atlas-workspace{border-radius:20px 20px 0 0;border-left:0;border-right:0;border-bottom:0}
+ .town-unified-world .mission-board{padding:11px 12px 8px!important;border-radius:20px 20px 0 0!important}
+ .town-unified-world .mission-board .mission-step{flex:0 0 118px;min-height:89px}
+ .town-unified-world .mission-board .mission-top h2{font-size:.92rem}
+ .town-unified-world .mission-board .mission-current{font-size:.75rem}
+ .town-unified-world .scene.mode-2d{
+  border-radius:0!important;
+  height:clamp(470px,82vw,590px)!important;min-height:470px!important
+ }
+ .town-unified-world .atlas-workspace-top{top:7px;left:10px;right:10px}
+ .town-unified-world .atlas-workspace-actions{max-width:100%}
+}
+
 </style>
-</head><body><div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle"><div class="login-card"><div style="font-size:3rem">🌿</div><div style="letter-spacing:.18em;font-size:.78rem;color:#d4e7ca">HEAVENLY DEVOTION TOWN</div><h1 id="loginTitle">天堂靈修小鎮</h1><p>與神同行，每一天。<br>請先登入 Google 帳號，開啟專屬於你的詩篇旅程。</p><button id="gateSignIn" disabled>正在確認登入狀態…</button><div id="loginMessage" class="login-msg" aria-live="polite"></div><small>每位使用者都有獨立的靈修進度、禱告與日記。</small></div></div><div class="shell"><header class="top"><div><div class="brand">🌿 天堂靈修小鎮 <span class="tag">HEAVENLY DEVOTION TOWN</span></div><div class="tag">與神同行 · 每一天</div></div><nav class="nav"><span id="authText" class="authstatus">登入狀態載入中…</span><button class="btn" id="signIn" hidden>使用 Google 登入</button><button class="btn" id="signOut" hidden>登出</button><button class="btn" id="importLocalCloud" hidden>匯入此裝置舊紀錄</button><button class="btn" id="export">備份資料</button><button class="btn" id="import">匯入備份</button><input id="file" type="file" accept="application/json" hidden></nav></header><div class="authbox" id="authHelp">請登入自己的 Google 帳號以在手機與電腦同步。未登入時仍可在本裝置記錄，資料不會自動上傳。</div><section class="hero"><div class="intro"><div class="eyebrow">150 DAYS IN PSALMS</div><h1>讓神的話語，<br>成為生命中的風景。</h1><p>探索六座靈修島嶼，閱讀詩篇、安靜默想、寫下禱告。每天前進一小步，留下與神同行的足跡。</p><div class="days"><button class="btn" id="prev">← 前一篇</button><select id="day" aria-label="選擇靈修篇章"></select><button class="btn" id="next">下一篇 →</button></div><div class="today-row"><button class="btn" id="today">☀ 回到今日詩篇</button><span class="today-note" id="todayNote"></span></div></div><aside class="stats"><div><div class="eyebrow" style="color:#688d7c">YOUR JOURNEY</div><h2 style="margin:6px 0">我的詩篇旅程</h2></div><div class="numbers"><div><strong id="done">0</strong><span>完成篇數</span></div><div><strong id="percent">0%</strong><span>旅程進度</span></div><div><strong id="remaining">150</strong><span>剩餘篇數</span></div></div><div class="progress"><div id="progress"></div></div><div class="hint" id="status">今天，讓我們從神的話語開始。</div></aside></section><section class="town-board" id="townBoard"><div class="town-heading"><div><span class="town-kicker">🌱 MY GROWING TOWN</span><h2 id="townLevel">萌芽小鎮</h2><span id="townChapters">0 / 150 篇</span></div><div class="town-seeds"><span>✨ 恩典種子</span><strong id="townSeeds">0</strong></div></div><p id="townNext" class="town-next">完成靈修，培育你的天空小鎮</p><details><summary>🏡 打開小鎮建設手冊</summary><div id="townItems" class="town-items"></div></details></section><section class="mission-board" id="missionBoard"><div class="mission-top"><h2>🌿 今日六島任務</h2><span class="mission-current" id="missionCount">0 / 6</span></div><div class="mission-items" id="missionItems"></div><div class="mission-track"><div class="mission-fill" id="missionFill" style="width:0%"></div></div><div class="mission-next" id="missionNext"></div></section><main class="main atlas-workspace"><section class="scene" id="scene"><canvas id="world3d" aria-label="可拖曳旋轉與縮放的立體靈修島嶼地圖"></canvas><div class="atlas-workspace-top"><div class="atlas-workspace-title"><span class="atlas-workspace-kicker">✦ HEAVENLY DEVOTION ATLAS ✦</span><strong>天堂靈修小鎮・探索地圖</strong><small>六島靈修旅程 · 點選建築開始探索</small></div><div class="atlas-workspace-actions"><button type="button" id="atlasOverview" class="atlas-uxbtn active">🗺️ 全島地圖</button><button type="button" id="atlasOpenDaily" class="atlas-uxbtn">📖 今日靈修</button><button type="button" id="atlasOpenBuild" class="atlas-uxbtn">🌱 小鎮建設</button></div></div><div id="illustratedMap" role="region" aria-label="精緻靈修小鎮地圖，六座島嶼可點選"><svg id="townAtlas" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" aria-label="禱告聖殿位於中央的六島天空地圖"></svg></div><div class="atlas-toolbar"><button id="atlas2d" aria-pressed="true" title="精緻 2D 地圖">🗺️ 插畫地圖</button><button id="atlas3d" aria-pressed="false" title="原本的可旋轉 3D 世界">🌤️ 3D 世界</button></div><div class="atlas-map-legend"><strong>🌿 靈修導覽</strong><span><i class="atlas-dot done"></i>已完成任務</span><span><i class="atlas-dot next"></i>目前探索</span><span>✦ 點選島嶼開啟專屬靈修內容</span></div><div class="atlas-hint">✦ 地圖固定 · 點選發光島嶼開始今日靈修</div><div class="atlas-zooms"><button id="atlasZoomIn" aria-label="放大">＋</button><button id="atlasZoomOut" aria-label="縮小">－</button><button id="atlasZoomReset" aria-label="重設縮放">⌂</button></div><div class="sanctuary-version" title="本次聖殿模型更新">⛪ 聖殿模型 v2</div><div class="sky-controls"><span id="skyClock" aria-label="台灣目前時間"></span></div><div class="map-controls"><button id="zoomIn" title="放大地圖">＋</button><button id="zoomOut" title="縮小地圖">－</button><button id="resetView" title="重設視角">重設</button></div><div class="scene-header"><h2>探索天空靈修群島</h2><p>從禱告聖殿出發 · 第一站：真理之島</p></div><button class="island i0 selected" data-island="0"><span class="land"><span>📖</span></span><b>真理之島</b><small>每日經文</small></button><button class="island i1" data-island="1"><span class="land"><span>🌳</span></span><b>默想森林</b><small>經文反省</small></button><button class="island i2" data-island="2"><span class="land"><span>🕊️</span></span><b>禱告聖殿</b><small>與神對話</small></button><button class="island i3" data-island="3"><span class="land"><span>🌱</span></span><b>生命花園</b><small>生活實踐</small></button><button class="island i4" data-island="4"><span class="land"><span>🌄</span></span><b>恩典山谷</b><small>感恩日記</small></button><button class="island i5" data-island="5"><span class="land"><span>🗺️</span></span><b>信仰旅程</b><small>靈修足跡</small></button><div class="scene-foot">✦ 插畫小鎮 · 點選六座島嶼 · 靈修紀錄透過 Google 帳號同步 ✦</div></section><div id="atlasDrawerBackdrop" class="atlas-drawer-backdrop" hidden></div><aside id="atlasDrawer" class="atlas-drawer" aria-label="靈修內容抽屜" aria-hidden="true"><div class="atlas-drawer-head"><div><span>🌿 DAILY DEVOTION</span><strong id="atlasDrawerTitle">今日靈修</strong></div><button type="button" id="atlasDrawerClose" aria-label="關閉靈修內容">✕</button></div><section class="panel" id="panel" aria-live="polite"></section><div class="atlas-drawer-footer"><button type="button" id="atlasDrawerPrev">← 上一座島</button><button type="button" id="atlasDrawerHome">返回全島地圖</button><button type="button" id="atlasDrawerNext">下一座島 →</button></div></aside></main><footer class="footer">天堂靈修小鎮 · 2D 插畫地圖 · 每日六島靈修任務 · Google 登入與個人進度同步。</footer></div><div class="toast" id="toast" role="status"></div>
+</head><body><div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle"><div class="login-card"><div style="font-size:3rem">🌿</div><div style="letter-spacing:.18em;font-size:.78rem;color:#d4e7ca">HEAVENLY DEVOTION TOWN</div><h1 id="loginTitle">天堂靈修小鎮</h1><p>與神同行，每一天。<br>請先登入 Google 帳號，開啟專屬於你的詩篇旅程。</p><button id="gateSignIn" disabled>正在確認登入狀態…</button><div id="loginMessage" class="login-msg" aria-live="polite"></div><small>每位使用者都有獨立的靈修進度、禱告與日記。</small></div></div><div class="shell"><header class="top"><div><div class="brand">🌿 天堂靈修小鎮 <span class="tag">HEAVENLY DEVOTION TOWN</span></div><div class="tag">與神同行 · 每一天</div></div><nav class="nav"><span id="authText" class="authstatus">登入狀態載入中…</span><button class="btn" id="signIn" hidden>使用 Google 登入</button><button class="btn" id="signOut" hidden>登出</button><button class="btn" id="importLocalCloud" hidden>匯入此裝置舊紀錄</button><button class="btn" id="export">備份資料</button><button class="btn" id="import">匯入備份</button><input id="file" type="file" accept="application/json" hidden></nav></header><div class="authbox" id="authHelp">請登入自己的 Google 帳號以在手機與電腦同步。未登入時仍可在本裝置記錄，資料不會自動上傳。</div><div class="town-unified-world" id="townWorld"><section class="hero"><div class="intro"><div class="eyebrow">150 DAYS IN PSALMS</div><h1>讓神的話語，<br>成為生命中的風景。</h1><p>探索六座靈修島嶼，閱讀詩篇、安靜默想、寫下禱告。每天前進一小步，留下與神同行的足跡。</p><div class="days"><button class="btn" id="prev">← 前一篇</button><select id="day" aria-label="選擇靈修篇章"></select><button class="btn" id="next">下一篇 →</button></div><div class="today-row"><button class="btn" id="today">☀ 回到今日詩篇</button><span class="today-note" id="todayNote"></span></div></div><aside class="stats"><div><div class="eyebrow" style="color:#688d7c">YOUR JOURNEY</div><h2 style="margin:6px 0">我的詩篇旅程</h2></div><div class="numbers"><div><strong id="done">0</strong><span>完成篇數</span></div><div><strong id="percent">0%</strong><span>旅程進度</span></div><div><strong id="remaining">150</strong><span>剩餘篇數</span></div></div><div class="progress"><div id="progress"></div></div><div class="hint" id="status">今天，讓我們從神的話語開始。</div></aside></section><section class="town-board" id="townBoard"><div class="town-heading"><div><span class="town-kicker">🌱 MY GROWING TOWN</span><h2 id="townLevel">萌芽小鎮</h2><span id="townChapters">0 / 150 篇</span></div><div class="town-seeds"><span>✨ 恩典種子</span><strong id="townSeeds">0</strong></div></div><p id="townNext" class="town-next">完成靈修，培育你的天空小鎮</p><details><summary>🏡 打開小鎮建設手冊</summary><div id="townItems" class="town-items"></div></details></section><main class="main atlas-workspace" id="townMain"><section class="mission-board" id="missionBoard"><div class="mission-top"><h2>🌿 今日六島任務</h2><span class="mission-current" id="missionCount">0 / 6</span></div><div class="mission-items" id="missionItems"></div><div class="mission-track"><div class="mission-fill" id="missionFill" style="width:0%"></div></div><div class="mission-next" id="missionNext"></div></section><section class="scene" id="scene"><canvas id="world3d" aria-label="可拖曳旋轉與縮放的立體靈修島嶼地圖"></canvas><div class="atlas-workspace-top"><div class="atlas-workspace-title"><span class="atlas-workspace-kicker">✦ HEAVENLY DEVOTION ATLAS ✦</span><strong>天堂靈修小鎮・探索地圖</strong><small>六島靈修旅程 · 點選建築開始探索</small></div><div class="atlas-workspace-actions"><button type="button" id="atlasOverview" class="atlas-uxbtn active">🗺️ 全島地圖</button><button type="button" id="atlasOpenDaily" class="atlas-uxbtn">📖 今日靈修</button><button type="button" id="atlasOpenBuild" class="atlas-uxbtn">🌱 小鎮建設</button></div></div><div id="illustratedMap" role="region" aria-label="精緻靈修小鎮地圖，六座島嶼可點選"><svg id="townAtlas" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" aria-label="禱告聖殿位於中央的六島天空地圖"></svg></div><div class="atlas-toolbar"><button id="atlas2d" aria-pressed="true" title="精緻 2D 地圖">🗺️ 插畫地圖</button><button id="atlas3d" aria-pressed="false" title="原本的可旋轉 3D 世界">🌤️ 3D 世界</button></div><div class="atlas-map-legend"><strong>🌿 靈修導覽</strong><span><i class="atlas-dot done"></i>已完成任務</span><span><i class="atlas-dot next"></i>目前探索</span><span>✦ 點選島嶼開啟專屬靈修內容</span></div><div class="atlas-hint">✦ 地圖固定 · 點選發光島嶼開始今日靈修</div><div class="atlas-zooms"><button id="atlasZoomIn" aria-label="放大">＋</button><button id="atlasZoomOut" aria-label="縮小">－</button><button id="atlasZoomReset" aria-label="重設縮放">⌂</button></div><div class="sanctuary-version" title="本次聖殿模型更新">⛪ 聖殿模型 v2</div><div class="sky-controls"><span id="skyClock" aria-label="台灣目前時間"></span></div><div class="map-controls"><button id="zoomIn" title="放大地圖">＋</button><button id="zoomOut" title="縮小地圖">－</button><button id="resetView" title="重設視角">重設</button></div><div class="scene-header"><h2>探索天空靈修群島</h2><p>從禱告聖殿出發 · 第一站：真理之島</p></div><button class="island i0 selected" data-island="0"><span class="land"><span>📖</span></span><b>真理之島</b><small>每日經文</small></button><button class="island i1" data-island="1"><span class="land"><span>🌳</span></span><b>默想森林</b><small>經文反省</small></button><button class="island i2" data-island="2"><span class="land"><span>🕊️</span></span><b>禱告聖殿</b><small>與神對話</small></button><button class="island i3" data-island="3"><span class="land"><span>🌱</span></span><b>生命花園</b><small>生活實踐</small></button><button class="island i4" data-island="4"><span class="land"><span>🌄</span></span><b>恩典山谷</b><small>感恩日記</small></button><button class="island i5" data-island="5"><span class="land"><span>🗺️</span></span><b>信仰旅程</b><small>靈修足跡</small></button><div class="scene-foot">✦ 插畫小鎮 · 點選六座島嶼 · 靈修紀錄透過 Google 帳號同步 ✦</div></section><div id="atlasDrawerBackdrop" class="atlas-drawer-backdrop" hidden></div><aside id="atlasDrawer" class="atlas-drawer" aria-label="靈修內容抽屜" aria-hidden="true"><div class="atlas-drawer-head"><div><span>🌿 DAILY DEVOTION</span><strong id="atlasDrawerTitle">今日靈修</strong></div><button type="button" id="atlasDrawerClose" aria-label="關閉靈修內容">✕</button></div><section class="panel" id="panel" aria-live="polite"></section><div class="atlas-drawer-footer"><button type="button" id="atlasDrawerPrev">← 上一座島</button><button type="button" id="atlasDrawerHome">返回全島地圖</button><button type="button" id="atlasDrawerNext">下一座島 →</button></div></aside></main></div><footer class="footer">天堂靈修小鎮 · 2D 插畫地圖 · 每日六島靈修任務 · Google 登入與個人進度同步。</footer></div><div class="toast" id="toast" role="status"></div>
 <script src="./town-atlas.js"></script><script>
 (function(){
 'use strict';
