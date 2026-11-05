@@ -45,13 +45,6 @@ function tile(n){
  art+
  '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/></g>';
 }
-function bridge(a,b,index){
- var x1=a.x,y1=a.y,x2=b.x,y2=b.y;
- var dx=x2-x1,dy=y2-y1,length=Math.hypot(dx,dy),off=length>0?Math.min(75,length*.23):0;
- x1+=dx/length*105;y1+=dy/length*66;x2-=dx/length*105;y2-=dy/length*66;
- var d='M '+x1+' '+y1+' Q '+((x1+x2)/2)+' '+((y1+y2)/2-17)+' '+x2+' '+y2;
- return path(d,'none',{stroke:'#648f8e','stroke-width':21,'stroke-linecap':'round',opacity:.46})+path(d,'none',{stroke:'#fff5d9','stroke-width':15,'stroke-linecap':'round'})+path(d,'none',{stroke:'#d4bc92','stroke-width':2,'stroke-dasharray':'9 13','stroke-linecap':'round'})
-}
 function cloud(x,y,s){return '<g class="atlas-cloud" transform="translate('+x+' '+y+') scale('+s+')">'+ellipse(0,0,55,15,'#ffffff9d')+circle(-20,-10,21,'#fffdf4')+circle(5,-15,29,'#fffdf8')+circle(30,-6,21,'#fffaf1')+'</g>'}
 var defs='<defs>'+ 
 '<radialGradient id="islandFadeGradient"><stop offset="0" stop-color="white"/><stop offset=".54" stop-color="white"/><stop offset=".83" stop-color="white" stop-opacity=".83"/><stop offset="1" stop-color="black"/></radialGradient>'+ 
@@ -72,7 +65,6 @@ path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
 '<g class="atlas-parallax">'+brightCloud(85,128,.76,.82)+brightCloud(922,120,.83,.8)+brightCloud(600,72,.43,.48)+brightCloud(78,422,.7,.65)+brightCloud(950,413,.85,.64)+
 brightCloud(70,655,.66,.44)+brightCloud(440,687,.57,.37)+brightCloud(915,658,.68,.44)+'</g>'+
 '<g opacity=".83">'+twinkle(54,285,.78)+twinkle(916,315,.65)+twinkle(589,271,.58)+twinkle(670,598,.74)+twinkle(355,80,.52)+twinkle(947,520,.6)+twinkle(90,540,.47)+'</g>'+
-'<g opacity=".22">'+path('M 0 560 Q 151 515 290 559 T 560 570 T 1000 550','none',{stroke:'#e9fff8','stroke-width':4,opacity:.28})+'</g>'+
 '';
 // Painterly map only: the old vector bridges, scatter decorations and scenery
 // are intentionally not rendered. Each island is the original detailed WebP.
@@ -80,34 +72,6 @@ svg.innerHTML=defs+base+'<g id="atlasIslandNodes">'+
  nodes.filter(function(n){return n.id!==2}).map(tile).join('')+
  tile(nodes[2])+'</g>';
 
-function residentIcon(kind){
- var face='#ffd7b3',hair='#80523a';
- var head=ellipse(0,-19,10,10,face)+path('M -10 -23 Q -9 -37 4 -31 Q 14 -27 10 -21 Q 4 -29 -3 -25 Z',hair)+
- circle(-3,-19,1.4,'#46302b')+circle(4,-19,1.4,'#46302b')+path('M -1 -15 Q 2 -13 5 -15','none',{stroke:'#a24f49','stroke-width':1.4,'stroke-linecap':'round'})+
- circle(-7,-15,2.7,'#f5aab185')+circle(8,-15,2.5,'#f5aab185');
- var legs=path('M -4 5 L -8 17 M 5 5 L 8 17','none',{stroke:'#765242','stroke-width':5,'stroke-linecap':'round'});
- if(kind==='rabbit'){
-  return '<g>'+ellipse(0,17,12,3,'#1f5d5660')+
-   path('M -6 -21 Q -17 -61 -8 -59 Q 0 -58 -1 -27 M 5 -25 Q 6 -65 17 -56 Q 23 -46 11 -22','#fffaf1',{stroke:'#8b6f63','stroke-width':2})+
-   ellipse(0,-18,14,13,'#fffef5')+ellipse(-4,-18,1.5,2.5,'#3a393c')+ellipse(5,-18,1.5,2.5,'#3a393c')+circle(1,-12,2,'#e8939c')+
-   path('M -12 -4 Q 0 -13 12 -4 L 13 10 Q 0 18 -13 9 Z','#7acb96',{stroke:'#44785d','stroke-width':2})+
-   path('M -11 -5 Q 4 -12 13 -3 L 21 2','#ff5d62',{stroke:'#d94757','stroke-width':3})+
-   rect(-12,9,9,8,'#fff8ea',4)+rect(5,9,9,8,'#fff8ea',4)+rect(7,-6,14,9,'#ffefca',2)+circle(13,-2,2,'#ed7967')+'</g>'
- }
- var shirt=kind==='reader'?'#65bda1':kind==='flower'?'#68a9e9':'#ffaf81',cape=kind==='reader'?'#f2ce70':kind==='flower'?'#85d5b5':'#ffd778';
- var accessories='';
- if(kind==='reader')accessories=rect(5,-7,12,14,'#b27b4d',2)+rect(6,-7,10,12,'#fff4d8',1)+path('M 11 -3 L 11 1 M 9 -1 L 13 -1','none',{stroke:'#d6ac51','stroke-width':1.2});
- if(kind==='flower')accessories=ellipse(13,3,10,6,'#bd844d')+path('M 4 2 Q 13 -14 22 2','none',{stroke:'#bd844d','stroke-width':2.5})+flower(12,-3,'#fff0ba')+flower(18,0,'#a2d6ee');
- if(kind==='angel')accessories=path('M -8 -11 Q -24 -21 -18 -3 Q -12 3 -6 -2 M 8 -11 Q 24 -21 18 -3 Q 12 3 6 -2','#fffef0',{stroke:'#dbb86b','stroke-width':1.4})+
- ellipse(0,-42,14,3,'none',{stroke:'#ffcd41','stroke-width':3})+
- path('M 8 -4 L 20 5','none',{stroke:'#6eb87b','stroke-width':3})+ellipse(21,6,7,5,'#85d3a4')+
- flower(-6,-30,'#ffc0d5');
- return '<g>'+ellipse(0,17,12,3,'#2c695d55')+legs+
- path('M -13 -6 Q 0 -13 13 -6 L 11 11 Q 0 16 -11 11Z',shirt,{stroke:'#f7f2d7','stroke-width':2})+
- path('M -11 -7 Q 0 0 11 -7 L 4 3 L -4 3 Z',cape)+
- path('M -10 -5 L -16 6 M 11 -5 L 16 5','none',{stroke:face,'stroke-width':4,'stroke-linecap':'round'})+
- head+accessories+'</g>'
-}
 var residentPlans=[
  {type:'reader',at:[{x:175,y:262},{x:203,y:281},{x:240,y:265},{x:214,y:251}],start:1.3,speed:23},
  {type:'flower',at:[{x:777,y:522},{x:807,y:540},{x:826,y:519},{x:800,y:500}],start:2.7,speed:26},
