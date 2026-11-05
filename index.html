@@ -710,11 +710,17 @@ body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);colo
   intro.innerHTML='<span>📖 詩篇篇章選擇</span>';
   left.appendChild(intro);left.appendChild(hero);
   center.appendChild(map);
+  var scene=map.querySelector('#scene');
+  var details=board.querySelector('details');
+  // The six islands are the FULL-SIZE background; interface floats above it.
+  // Never use three columns to reduce the map image size.
   right.appendChild(board);
+  scene.appendChild(left);
+  scene.appendChild(right);
   bottom.appendChild(stats);
-  grid.appendChild(left);grid.appendChild(center);grid.appendChild(right);grid.appendChild(bottom);
+  grid.appendChild(center);grid.appendChild(bottom);
   world.appendChild(grid);
-  var details=board.querySelector('details');if(details)details.open=true;
+  if(details)details.open=false;
   function showText(id,v){var el=document.getElementById(id);if(el)el.textContent=v}
   function refresh(){
     showText('dashSeeds',document.getElementById('townSeeds')?.textContent||'0');
@@ -730,8 +736,7 @@ body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);colo
     }
     if(action==='daily')document.getElementById('atlasOpenDaily')?.click();
     if(action==='build'){
-      if(details&&!details.open)document.getElementById('atlasOpenBuild')?.click();
-      board.scrollIntoView({behavior:'smooth',block:'nearest'});
+      document.getElementById('atlasOpenBuild')?.click();
     }
     if(action==='stats')bottom.scrollIntoView({behavior:'smooth',block:'center'});
     left.querySelectorAll('[data-dash-nav]').forEach(function(btn){btn.classList.toggle('active',btn.dataset.dashNav===action)});
@@ -768,6 +773,7 @@ buildButton.setAttribute('aria-controls','townItems');
 function placeBuildPanel(){
  if(!buildPanel.open)return;
  if(document.getElementById('townWorld')?.classList.contains('dash-v10')){
+  // The shop is an overlay within the full-size map, not a permanent sidebar.
   buildPanel.style.left='';buildPanel.style.right='';buildPanel.style.top='';
   buildPanel.style.width='';buildPanel.style.maxHeight='';
   return;
@@ -794,12 +800,13 @@ buildPanel.addEventListener('toggle',()=>{
  if(buildPanel.open)placeBuildPanel();
 });
 document.addEventListener('pointerdown',ev=>{
- if(!document.getElementById('townWorld')?.classList.contains('dash-v10')&&buildPanel.open&&!buildPanel.contains(ev.target)&&!buildButton.contains(ev.target))setBuildPanel(false)
+ if(buildPanel.open&&!buildPanel.contains(ev.target)&&!buildButton.contains(ev.target)&&!ev.target.closest('[data-dash-nav="build"]')&&!ev.target.closest('.dash-right-head'))setBuildPanel(false)
 });
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')setBuildPanel(false)});
 window.addEventListener('resize',placeBuildPanel);
 document.getElementById('atlasOpenDaily').onclick=()=>{setBuildPanel(false);nav(0)};
 document.getElementById('atlasOverview').onclick=()=>{setBuildPanel(false);close()};
+document.querySelector('.dash-right-head')?.addEventListener('click',()=>setBuildPanel(!buildPanel.open));
 })();
 </script>
 <script>
@@ -847,7 +854,21 @@ const TOWN_ITEMS=[
 const TOWN_LEVELS=[{min:0,name:'萌芽小鎮'},{min:7,name:'花開小鎮'},{min:21,name:'希望村莊'},{min:51,name:'恩典小鎮'},{min:101,name:'榮耀之城'}];
 function townRecord(){return store.entries.town||(store.entries.town={purchases:{}})}
 function townMetrics(){let completed=0,earned=0;for(const [k,v] of Object.entries(store.entries)){if(!/^([1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k)||!v)continue;if(v.done)completed++;const flags=tasks(v);earned+=flags.reduce((s,f,i)=>s+(f?[10,15,15,10,5,15][i]:0),0)}const purchased=townRecord().purchases||{};const spent=TOWN_ITEMS.reduce((s,item)=>s+(purchased[item.id]?item.cost:0),0);const level=TOWN_LEVELS.reduce((a,l)=>completed>=l.min?l:a,TOWN_LEVELS[0]);return {completed,earned,spent,balance:Math.max(0,earned-spent),level,purchased}}
-function townUi(){const m=townMetrics(),next=TOWN_LEVELS.find(x=>x.min>m.completed);$('townLevel').textContent=m.level.name;$('townChapters').textContent=m.completed+' / 150 篇';$('townSeeds').textContent=m.balance.toLocaleString('zh-TW');$('townNext').textContent=next?'再完成 '+(next.min-m.completed)+' 篇解鎖「'+next.name+'」':'已達最高成長階段';$('townItems').innerHTML=TOWN_ITEMS.map(item=>'<div class="town-item build-shop-item"><div class="build-shop-art"><img src="./build-'+item.id+'.webp" alt="'+item.name+'插畫" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="build-shop-emoji" style="display:none">'+item.icon+'</span></div><div class="build-shop-meta"><strong>'+item.name+'</strong><small class="build-shop-island">'+item.island+'</small><small>'+item.desc+'</small></div><button class="btn" data-buy="'+item.id+'" '+(m.purchased[item.id]||m.balance<item.cost?'disabled':'')+'>'+(m.purchased[item.id]?'✓ 已建設':item.cost+' 🌱')+'</button></div>').join('');document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const item=TOWN_ITEMS.find(i=>i.id===b.dataset.buy),now=townMetrics();if(!item||now.purchased[item.id]||now.balance<item.cost)return;townRecord().purchases={...now.purchased,[item.id]:true};saveTown();townUi();toast('成功建造「'+item.name+'」！');window.dispatchEvent(new CustomEvent('town-growth',{detail:townMetrics()}))});window.dispatchEvent(new CustomEvent('town-growth',{detail:m}))}
+function townUi(){const m=townMetrics(),next=TOWN_LEVELS.find(x=>x.min>m.completed);$('townLevel').textContent=m.level.name;$('townChapters').textContent=m.completed+' / 150 篇';$('townSeeds').textContent=m.balance.toLocaleString('zh-TW');$('townNext').textContent=next?'再完成 '+(next.min-m.completed)+' 篇解鎖「'+next.name+'」':'已達最高成長階段';$('townItems').innerHTML=TOWN_ITEMS.map(item=>'<div class="town-item build-shop-item"><div class="build-shop-art"><img src="./build-'+item.id+'.webp" alt="'+item.name+'插畫" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="build-shop-emoji" style="display:none">'+item.icon+'</span></div><div class="build-shop-meta"><button type="button" class="build-info-toggle" data-build-info="'+item.id+'" aria-expanded="false"><strong>'+item.name+'</strong><small class="build-shop-island">'+item.island+'</small><span class="build-info-caret">▾</span></button><small class="build-item-description" id="build-description-'+item.id+'" hidden>'+item.desc+'</small></div><button class="btn" data-buy="'+item.id+'" '+(m.purchased[item.id]||m.balance<item.cost?'disabled':'')+'>'+(m.purchased[item.id]?'✓ 已建設':item.cost+' 🌱')+'</button></div>').join('');document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const item=TOWN_ITEMS.find(i=>i.id===b.dataset.buy),now=townMetrics();if(!item||now.purchased[item.id]||now.balance<item.cost)return;townRecord().purchases={...now.purchased,[item.id]:true};saveTown();townUi();toast('成功建造「'+item.name+'」！');window.dispatchEvent(new CustomEvent('town-growth',{detail:townMetrics()}))});document.querySelectorAll('[data-build-info]').forEach(b=>b.onclick=()=>{
+  const next=b.getAttribute('aria-expanded')!=='true';
+  document.querySelectorAll('[data-build-info]').forEach(other=>{
+    other.setAttribute('aria-expanded','false');
+    const d=document.getElementById('build-description-'+other.dataset.buildInfo);if(d)d.hidden=true;
+  });
+  if(next){b.setAttribute('aria-expanded','true');const d=document.getElementById('build-description-'+b.dataset.buildInfo);if(d)d.hidden=false}
+});window.dispatchEvent(new CustomEvent('town-growth',{detail:m}))}
+document.addEventListener('pointerdown',ev=>{
+ if(ev.target.closest('[data-build-info]')||ev.target.closest('.build-item-description'))return;
+ document.querySelectorAll('[data-build-info][aria-expanded="true"]').forEach(b=>{
+  b.setAttribute('aria-expanded','false');
+  const d=document.getElementById('build-description-'+b.dataset.buildInfo);if(d)d.hidden=true;
+ });
+});
 function saveTown(){try{localStorage.setItem(storageKey,JSON.stringify(store))}catch(_){}if(cloudActive&&!cloudBusy&&currentUid)window.DevotionSync?.saveDay('town',townRecord())}
 function render(){const m=meta(),e=entry();townUi();updateMissions();window.dispatchEvent(new CustomEvent('town-map-refresh',{detail:{active,completed:tasks(e),town:townMetrics()}}));window.dispatchEvent(new CustomEvent('devotion-progress',{detail:{completed:Object.values(store.entries).filter(x=>x&&x.done).length}}));$('todayNote').textContent=`台灣時間 ${todayDate} · 今日第 ${todayPsalm()} 篇`; document.querySelectorAll('.island').forEach((b,i)=>{b.classList.toggle('selected',i===active);b.setAttribute('aria-pressed',String(i===active))});$('day').value=String(day);$('prev').disabled=day===1;$('next').disabled=day===150;const count=Object.values(store.entries).filter(x=>x&&x.done).length;$('done').textContent=count;$('remaining').textContent=150-count;$('percent').textContent=Math.round(count/150*100)+'%';$('progress').style.width=(count/150*100)+'%';$('status').textContent=e.done?`第 ${day} 篇已完成。願今天的話語繼續陪伴你。`:`目前在詩篇第 ${day} 篇。你可以依自己的步調前進。`;let html=`<div class="panel-head"><span class="pill">第 ${day} / 150 天</span><span class="hint">${names[active]}</span></div><h2>${['📖','🌳','🕊️','🌱','🌄','🗺️'][active]} ${names[active]}</h2>`;
 switch(active){case 0:html+=`<div class="verse"><strong>${safe(m.reference)}｜${safe(m.title)}</strong><br>${safe(m.theme)}</div><p class="bodycopy">${safe(m.summary)}</p><div class="scripture-box"><h3>📖 詩篇第 ${day} 篇｜完整經文</h3><div id="bibleChapter" aria-live="polite"><p class="hint">正在載入中文和合本經文…</p></div></div><p class="hint">完整經文使用 1919 年中文和合本；第 6–150 篇的專屬背景解釋仍將逐篇補充。</p><div class="actions"><button class="btn primary" id="readDone">✓ 我已閱讀今天的經文</button><button class="btn" data-go="1">前往默想森林 →</button></div>`;break;case 1:html+=`<div class="forest-intro"><span>🌳 經文研讀 · 理解與回應</span><p>先理解詩篇的意思，再思考如何帶進今天的生活。</p></div><section class="forest-guide"><h3>📖 經文背景與解釋</h3><p class="forest-ref">${safe(m.reference)}｜${safe(m.title)}</p><p class="bodycopy">${safe((devotionGuides[day]||{}).explanation||m.summary)}</p><h3>🌿 生活應用說明</h3><p class="bodycopy">${safe((devotionGuides[day]||{}).application||'閱讀這篇詩篇時，留意作者對神的認識、情緒與處境。想想這些信仰回應如何幫助你面對今天的人際關係、工作、壓力或選擇；不必急著得到完整答案，可以先從一個小步驟開始。')}</p><div class="forest-suggestion"><strong>✨ 今天可以這樣做</strong><p>${safe(m.action)}</p></div></section><section class="forest-reflection"><h3>✍️ 默想與反省</h3><p class="bodycopy">${safe(m.question)}</p>${field('reflection','我的默想與反省','經文對今天的我有什麼提醒？我想如何回應？')}<div class="actions"><button class="btn primary" data-save="1">儲存默想</button><button class="btn" data-go="3">前往生命花園 →</button></div></section>`;break;case 2:html+=`<p class="bodycopy"><strong>歡迎來到天堂靈修小鎮的中心——禱告聖殿。</strong></p><div class="verse">🌿 今日靈修路線：先到「真理之島」閱讀詩篇第 ${day} 篇，依序前往默想森林、生命花園、恩典山谷、信仰旅程，最後回到聖殿禱告。</div><div class="actions"><button class="btn primary" data-go="0">📖 第一步：前往真理之島 →</button><button class="btn" data-go="1">🌳 前往默想森林</button></div><hr style="border:0;border-top:1px solid #e5eee5;margin:21px 0"><div class="verse">禱告引導：${safe(m.prayer)}</div>${field('prayer','我的禱告','親愛的天父……')}<button class="btn primary" data-save="1">儲存禱告</button>`;break;case 3:html+=`<p class="bodycopy">今日行動建議：<strong>${safe(m.action)}</strong></p>${field('action','我決定採取的行動','今天我要……',3)}<label style="display:flex;gap:8px;align-items:center;margin:13px 0"><input type="checkbox" id="actionDone" ${e.actionDone?'checked':''}> <span>今天已實踐這項行動</span></label><button class="btn primary" data-save="1">儲存實踐</button><button class="btn" data-go="4">前往恩典山谷 →</button>`;break;case 4:html+=`<p class="bodycopy">回想今天，無論大事小事，有什麼恩典值得記下？</p>${field('gratitude','今日感恩記錄','今天，我感謝神……')}<button class="btn primary" data-save="1">儲存感恩</button><button class="btn" data-go="5">前往信仰旅程 →</button>`;break;case 5:const logs=Object.keys(store.entries).filter(k=>store.entries[k].done).sort((a,b)=>Number(b)-Number(a));html+=`<p class="bodycopy">你已完成 <strong>${count}</strong> / 150 篇。沒有追趕進度的壓力，每一次回來都值得紀念。</p><div class="progress"><div style="width:${count/150*100}%"></div></div><button class="btn primary" id="journeyDone">✓ 今天已回顧信仰旅程</button><button class="btn" data-go="2">回到禱告聖殿 →</button><h3>已完成的篇章</h3>${logs.length?logs.slice(0,14).map(k=>`<div class="logitem"><strong>詩篇 ${k} 篇</strong><p>${safe(store.entries[k].reflection||store.entries[k].gratitude||'已完成今日靈修')}</p><button class="btn" data-jump="${k}">回顧這篇</button></div>`).join(''):'<p class="blank">尚未完成任何篇章，從第一篇開始吧。</p>'}`;break}
