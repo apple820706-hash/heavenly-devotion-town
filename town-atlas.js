@@ -52,7 +52,7 @@ function tile(n){
  artwork+
  '<g class="atlas-label-card">'+rect(-79,117,158,39,'#fffcf4',17)+text(0,143,n.name,{class:'atlas-island-label'})+text(0,171,n.sub,{class:'atlas-island-sub'})+'</g>'+
  progress+
- '<rect class="atlas-hit" x="-110" y="-120" width="220" height="260" rx="90" fill="transparent" pointer-events="all"/></g>'
+ '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/></g>'
 }
 function bridge(a,b,index){
  var x1=a.x,y1=a.y,x2=b.x,y2=b.y;
@@ -85,11 +85,10 @@ document.getElementById('atlasZoomReset').onclick=function(){zoom=1;panX=0;panY=
 stage.addEventListener('wheel',function(ev){if(mode!=='2d')return;ev.preventDefault();changeZoom(ev.deltaY>0?-.1:.1)},{passive:false});
 stage.addEventListener('pointerdown',function(ev){if(mode!=='2d')return;down={x:ev.clientX,y:ev.clientY,px:panX,py:panY};moved=false;stage.classList.add('dragging')});
 stage.addEventListener('pointermove',function(ev){if(!down)return;var dx=ev.clientX-down.x,dy=ev.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;if(moved){panX=down.px+dx;panY=down.py+dy;apply()}});
-window.addEventListener('pointerup',function(){down=null;stage.classList.remove('dragging')});
-svg.querySelectorAll('[data-map-island]').forEach(function(n){
- function visit(){if(moved||mode!=='2d')return;var target=Number(n.getAttribute('data-map-island'));if(window.DevotionIsland&&window.DevotionIsland.navigateIsland)window.DevotionIsland.navigateIsland(target)}
- n.addEventListener('click',visit);n.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();moved=false;visit()}})
-});
+window.addEventListener('pointerup',function(){down=null;stage.classList.remove('dragging');if(moved){window.setTimeout(function(){moved=false},100)}});stage.addEventListener('pointercancel',function(){down=null;stage.classList.remove('dragging');moved=false});
+function visitIsland(i){if(mode!=='2d')return;var id=Number(i);if(!Number.isInteger(id)||id<0||id>5)return;var api=window.DevotionIsland;if(api&&typeof api.navigateIsland==='function')api.navigateIsland(id);}
+svg.addEventListener('click',function(ev){if(mode!=='2d'||moved)return;var item=ev.target.closest('[data-map-island]');if(item){ev.preventDefault();visitIsland(item.getAttribute('data-map-island'))}});
+svg.addEventListener('keydown',function(ev){if(ev.key!=='Enter'&&ev.key!==' ')return;var item=ev.target.closest('[data-map-island]');if(item){ev.preventDefault();moved=false;visitIsland(item.getAttribute('data-map-island'))}});
 function updateState(d){
  if(!d)return;
  svg.querySelectorAll('[data-map-island]').forEach(function(n){n.classList.toggle('selected',Number(n.dataset.mapIsland)===d.active)});
