@@ -3,7 +3,7 @@
 'use strict';
 var stage=document.getElementById('illustratedMap'),svg=document.getElementById('townAtlas'),scene=document.getElementById('scene');
 if(!stage||!svg||!scene)return;
-var mode=localStorage.getItem('devotion-town-mapmode')==='3d'?'3d':'2d';
+var mode='2d'; // Illustrated-first edition; keep Three.js engine dormant.
 scene.classList.add('mode-'+mode);
 document.getElementById('atlas2d').setAttribute('aria-pressed',String(mode==='2d'));
 document.getElementById('atlas3d').setAttribute('aria-pressed',String(mode==='3d'));
@@ -43,7 +43,16 @@ function tile(n){
  var decorations=tree(-81,-7,'#9cd19c')+tree(85,-14,'#8dc69c')+flower(-71,28,'#f7bbcf')+flower(67,37,'#f3df98')+flower(30,43,'#d4b1ee')+npc(-65,31,'#d19abc','#f8d7b9',n.id/2)+npc(73,23,'#a3c7d0','#f3d8bc',n.id/3);
  if(n.id===2)decorations+=npc(-5,37,'#dfb995','#f4d2b6',.7);
  var progress='<g class="atlas-status" data-status="'+n.id+'" transform="translate(98 -51)">'+circle(0,0,17,'#fffef5',{stroke:'#d4e6d6','stroke-width':2})+text(0,5,'○',{'text-anchor':'middle',fill:'#8aac9d','font-size':17,'font-weight':900})+'</g>';
- return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+x+' '+y+') scale('+scale+')">'+ellipse(0,55,128,39,'#507a7050')+path(bottom,n.soil,{stroke:'#fff6df','stroke-width':2})+path('M -107 21 L 0 65 L 107 21 L 107 44 L 0 88 L -107 44 Z',n.edge,{opacity:.88})+path(top,n.top,{stroke:'#edf6db','stroke-width':4,'stroke-linejoin':'round',class:'atlas-plate'})+path('M -99 -32 L 0 -65 L 99 -32','none',{stroke:'#f9ffef','stroke-width':2,opacity:.68})+decorations+scenery(n.id)+progress+rect(-80,66,160,35,'#fffcf1',17)+text(0,88,n.name,{class:'atlas-island-label'})+text(0,116,n.sub,{class:'atlas-island-sub'})+path(top,'transparent',{class:'atlas-hit'})+'</g>'
+ var artNames=['scripture','forest','chapel','garden','valley','journey'];
+ var artPath='assets/islands/'+artNames[n.id]+'.webp';
+ var artW=n.id===2?270:251, artX=-artW/2,artY=-140;
+ var artwork='<image class="atlas-art" href="'+artPath+'" x="'+artX+'" y="'+artY+'" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>';
+ return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
+ '<g class="atlas-vector-fallback">'+ellipse(0,55,128,39,'#507a7050')+path(bottom,n.soil,{stroke:'#fff6df','stroke-width':2})+path('M -107 21 L 0 65 L 107 21 L 107 44 L 0 88 L -107 44 Z',n.edge,{opacity:.88})+path(top,n.top,{stroke:'#edf6db','stroke-width':4,'stroke-linejoin':'round',class:'atlas-plate'})+path('M -99 -32 L 0 -65 L 99 -32','none',{stroke:'#f9ffef','stroke-width':2,opacity:.68})+decorations+scenery(n.id)+'</g>'+
+ artwork+
+ '<g class="atlas-label-card">'+rect(-79,117,158,39,'#fffcf4',17)+text(0,143,n.name,{class:'atlas-island-label'})+text(0,171,n.sub,{class:'atlas-island-sub'})+'</g>'+
+ progress+
+ '<rect class="atlas-hit" x="-110" y="-120" width="220" height="260" rx="90" fill="transparent" pointer-events="all"/></g>'
 }
 function bridge(a,b,index){
  var x1=a.x,y1=a.y,x2=b.x,y2=b.y;
@@ -59,7 +68,14 @@ var base='<rect width="1000" height="720" fill="url(#atlasSky)"/>'+circle(820,95
 var links='';for(var i=0;i<order.length-1;i++)links+=bridge(nodes[order[i]],nodes[order[i+1]],i);
 var decorations=path('M 100 355 Q 490 285 950 410','none',{stroke:'#fffdf4','stroke-width':2,opacity:.4,'stroke-dasharray':'4 16'})+
 text(80,400,'✧',{fill:'#fffefa','font-size':35})+text(911,340,'✧',{fill:'#fffefa','font-size':36})+text(621,600,'✦',{fill:'#e1c78d','font-size':20});
-svg.innerHTML=defs+base+'<g>'+links+'</g>'+decorations+'<g id="atlasIslandNodes">'+nodes.map(tile).join('')+'</g>';
+svg.innerHTML=defs+base+'<g>'+links+'</g>'+decorations+'<g id="atlasIslandNodes">'+nodes.filter(function(n){return n.id!==2}).map(tile).join('')+tile(nodes[2])+'</g>';
+svg.querySelectorAll('.atlas-art').forEach(function(img){
+ var url=img.getAttribute('href');
+ var probe=new Image();
+ probe.onload=function(){img.closest('.town-island').classList.add('art-loaded')};
+ probe.onerror=function(){img.remove()};
+ probe.src=url;
+});
 var zoom=1,panX=0,panY=0,down=null,moved=false;
 function apply(){svg.style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')'}
 function changeZoom(delta){zoom=Math.max(.75,Math.min(2.2,zoom+delta));apply()}
