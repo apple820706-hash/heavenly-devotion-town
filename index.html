@@ -571,10 +571,62 @@ new ResizeObserver(resize).observe(sceneEl);resize();sceneEl.classList.add('thre
 }catch(err){console.error('3D failed; retaining fallback map',err);canvas.style.display='none'}
 })();
 </script>
+<script>
+/* Login watchdog: never leave the user on a permanently disabled button.
+   No personal data or Firebase state is changed by this diagnostics-only guard. */
+(function(){
+ const btn=document.getElementById('gateSignIn');
+ const msg=document.getElementById('loginMessage');
+ const gate=document.getElementById('loginGate');
+ window.__devotionAuthBoot={started:false,resolved:false,error:null};
+ function allowRetry(reason){
+  if(gate.hidden||window.__devotionAuthBoot.resolved)return;
+  btn.disabled=false;
+  btn.textContent='重新載入登入系統';
+  btn.onclick=function(){location.href=location.pathname+'?app_refresh='+Date.now()};
+  msg.textContent=reason;
+ }
+ window.addEventListener('error',function(e){
+  if(/firebase|gstatic|module/i.test(String(e.message||e.filename||''))){
+   window.__devotionAuthBoot.error=String(e.message||'登入模組載入失敗');
+   allowRetry('登入模組載入異常：'+window.__devotionAuthBoot.error+'。請點按鈕重新載入。');
+  }
+ });
+ window.addEventListener('unhandledrejection',function(e){
+  const m=String(e.reason?.message||e.reason||'');
+  if(/firebase|auth|network/i.test(m))allowRetry('登入啟動異常：'+m.slice(0,160));
+ });
+ setTimeout(function(){
+  if(gate.hidden||window.__devotionAuthBoot.resolved)return;
+  allowRetry(window.__devotionAuthBoot.started?
+    'Google 登入驗證尚未完成。可重新載入，原本靈修紀錄不會清除。':
+    '登入程式尚未啟動，可能是網路或 Firebase 模組載入問題。請重新載入。');
+ },10500);
+})();
+</script>
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
-import {getFirestore,collection,doc,getDocs,setDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+const __boot=window.__devotionAuthBoot;
+if(__boot)__boot.started=true;
+let initializeApp,getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut;
+let getFirestore,collection,doc,getDocs,setDoc,onSnapshot;
+try{
+ const sdk=await Promise.all([
+  import('https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js'),
+  import('https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js'),
+  import('https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js')
+ ]);
+ ({initializeApp}=sdk[0]);
+ ({getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut}=sdk[1]);
+ ({getFirestore,collection,doc,getDocs,setDoc,onSnapshot}=sdk[2]);
+}catch(err){
+ console.error('[天堂靈修小鎮] Firebase SDK 無法載入',err);
+ if(__boot)__boot.error=String(err?.message||err);
+ const btn=document.getElementById('gateSignIn'),msg=document.getElementById('loginMessage');
+ btn.disabled=false;btn.textContent='重新連線登入';
+ btn.onclick=function(){location.href=location.pathname+'?app_refresh='+Date.now()};
+ msg.textContent='Firebase 登入模組載入失敗：'+String(err?.message||err).slice(0,150)+'，請按上方按鈕重試。';
+ throw err;
+}
 const firebaseConfig={apiKey:"AIzaSyDPfdrruK6SOSgk3qktAuEaz4PAS2DGfPQ",authDomain:"devotion-island.firebaseapp.com",projectId:"devotion-island",storageBucket:"devotion-island.firebasestorage.app",messagingSenderId:"714034029985",appId:"1:714034029985:web:737dccc9e1e77c9726d7e0"};
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
 const el=id=>document.getElementById(id);const gate=el('loginGate');const gateButton=el('gateSignIn');const gateMessage=el('loginMessage');function showGate(message){gate.hidden=false;gateButton.disabled=false;gateButton.textContent='使用 Google 帳號登入';gateMessage.textContent=message||''}function hideGate(){gate.hidden=true;gateMessage.textContent=''};
@@ -611,7 +663,7 @@ if(!confirm('將此裝置的 '+n+' 篇舊紀錄匯入目前的 Google 帳號？�
 for(const [k,v] of Object.entries(entries)){if(!/^(?:[1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k))continue;queueWrite(k,v)}
 setInfo('正在上傳舊紀錄，請保持網頁開啟直到同步完成');};
 getRedirectResult(auth).catch(e=>setInfo(errMsg(e),true));
-onAuthStateChanged(auth,async u=>{
+onAuthStateChanged(auth,async u=>{if(__boot)__boot.resolved=true;
 epoch++;const seq=epoch;ready=false;pending.clear();for(const t of timers.values())clearTimeout(t);timers.clear();if(unsub){unsub();unsub=null}user=u;
 el('signIn').hidden=!!u;el('signOut').hidden=!u;el('importLocalCloud').hidden=!u;
 if(!u){cloudCache={};window.DevotionIsland.switchAccount(null,{});setInfo('請先登入 Google 帳號');el('authHelp').textContent='登入後才能開始靈修，每個帳號的紀錄獨立保存。';showGate('');return}
