@@ -64,12 +64,7 @@ var defs='<defs>'+
 function brightCloud(x,y,scale,opacity){return '<g opacity="'+opacity+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
 ellipse(0,0,115,31,'url(#cloudShine)')+ellipse(-69,-11,53,35,'url(#cloudShine)')+ellipse(-17,-32,62,47,'url(#cloudShine)')+ellipse(51,-25,66,43,'url(#cloudShine)')+ellipse(103,-7,44,29,'url(#cloudShine)')+'</g>'}
 function twinkle(x,y,sz){return '<g class="atlas-twinkle" transform="translate('+x+' '+y+') scale('+sz+')">'+path('M 0 -13 Q 3 -3 13 0 Q 3 3 0 13 Q -3 3 -13 0 Q -3 -3 0 -13 Z','#fffdf1',{stroke:'#ffc957','stroke-width':1.5})+'</g>'}
-function sceneryBorder(){return '<g pointer-events="none" class="atlas-integrated-horizon">'+
-'<g opacity=".42">'+brightCloud(22,721,.79,.38)+brightCloud(405,723,.66,.31)+brightCloud(970,728,.8,.41)+'</g>'+
-'<g opacity=".33">'+
-Array.from({length:8},function(_,i){var x=i<4?i*30:884+(i-4)*30,y=714+(i%3)*3;return flower(x,y,i%3===0?'#fffbe8':i%3===1?'#ffc6df':'#d6b1f7')}).join('')+'</g></g>'}
-// The page shell now owns the entire sky gradient, including missions and islands.
-// Keep SVG transparent to make all sections one continuous illustrated world.
+// The outside world is drawn by the page-level sky background.
 var base=''+
 circle(790,68,170,'url(#atlasSun)')+
 '<g opacity=".29" stroke="#fffbe1" stroke-width="16">'+
@@ -78,11 +73,12 @@ path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
 brightCloud(70,655,.66,.44)+brightCloud(440,687,.57,.37)+brightCloud(915,658,.68,.44)+'</g>'+
 '<g opacity=".83">'+twinkle(54,285,.78)+twinkle(916,315,.65)+twinkle(589,271,.58)+twinkle(670,598,.74)+twinkle(355,80,.52)+twinkle(947,520,.6)+twinkle(90,540,.47)+'</g>'+
 '<g opacity=".22">'+path('M 0 560 Q 151 515 290 559 T 560 570 T 1000 550','none',{stroke:'#e9fff8','stroke-width':4,opacity:.28})+'</g>'+
-sceneryBorder();
-var links='';for(var i=0;i<order.length-1;i++)links+=bridge(nodes[order[i]],nodes[order[i+1]],i);
-var decorations=path('M 100 355 Q 490 285 950 410','none',{stroke:'#fffdf4','stroke-width':2,opacity:.4,'stroke-dasharray':'4 16'})+
-text(80,400,'✧',{fill:'#fffefa','font-size':35})+text(911,340,'✧',{fill:'#fffefa','font-size':36})+text(621,600,'✦',{fill:'#e1c78d','font-size':20});
-svg.innerHTML=defs+base+'<g>'+links+'</g>'+decorations+'<g id="atlasIslandNodes">'+nodes.filter(function(n){return n.id!==2}).map(tile).join('')+tile(nodes[2])+'</g>';
+'';
+// Painterly map only: the old vector bridges, scatter decorations and scenery
+// are intentionally not rendered. Each island is the original detailed WebP.
+svg.innerHTML=defs+base+'<g id="atlasIslandNodes">'+
+ nodes.filter(function(n){return n.id!==2}).map(tile).join('')+
+ tile(nodes[2])+'</g>';
 
 function residentIcon(kind){
  var face='#ffd7b3',hair='#80523a';
@@ -123,7 +119,6 @@ var residentPlans=[
 ];
 svg.insertAdjacentHTML('beforeend','<g id="atlasResidents" aria-hidden="true" pointer-events="none">'+
  residentPlans.map(function(r,i){return '<g id="atlasResident'+i+'" class="atlas-walking-resident" data-kind="'+r.type+'">'+
- '<g class="resident-vector">'+residentIcon(r.type)+'</g>'+
  '<image class="resident-image" href="./resident-'+r.type+'.webp" x="-31" y="-48" width="62" height="66" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>'+
  '</g>'}).join('')+'</g>');
 ['reader','flower','angel','rabbit'].forEach(function(type){
