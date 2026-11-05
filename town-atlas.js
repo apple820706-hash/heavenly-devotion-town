@@ -46,7 +46,7 @@ function tile(n){
  var artNames=['scripture','forest','chapel','garden','valley','journey'];
  var artPath='./'+artNames[n.id]+'.webp';
  var artW=n.id===2?270:251, artX=-artW/2,artY=-140;
- var artwork='<image class="atlas-art" href="'+artPath+'" x="'+artX+'" y="'+artY+'" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>';
+ var artwork='<image class="atlas-art" href="'+artPath+'" x="'+artX+'" y="'+artY+'" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" mask="url(#islandArtworkFade)" pointer-events="none"/>';
  return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
  '<g class="atlas-vector-fallback">'+ellipse(0,55,128,39,'#507a7050')+path(bottom,n.soil,{stroke:'#fff6df','stroke-width':2})+path('M -107 21 L 0 65 L 107 21 L 107 44 L 0 88 L -107 44 Z',n.edge,{opacity:.88})+path(top,n.top,{stroke:'#edf6db','stroke-width':4,'stroke-linejoin':'round',class:'atlas-plate'})+path('M -99 -32 L 0 -65 L 99 -32','none',{stroke:'#f9ffef','stroke-width':2,opacity:.68})+decorations+scenery(n.id)+'</g>'+
  artwork+
@@ -62,7 +62,9 @@ function bridge(a,b,index){
  return path(d,'none',{stroke:'#648f8e','stroke-width':21,'stroke-linecap':'round',opacity:.46})+path(d,'none',{stroke:'#fff5d9','stroke-width':15,'stroke-linecap':'round'})+path(d,'none',{stroke:'#d4bc92','stroke-width':2,'stroke-dasharray':'9 13','stroke-linecap':'round'})
 }
 function cloud(x,y,s){return '<g class="atlas-cloud" transform="translate('+x+' '+y+') scale('+s+')">'+ellipse(0,0,55,15,'#ffffff9d')+circle(-20,-10,21,'#fffdf4')+circle(5,-15,29,'#fffdf8')+circle(30,-6,21,'#fffaf1')+'</g>'}
-var defs='<defs>'+
+var defs='<defs>'+ 
+'<radialGradient id="islandFadeGradient"><stop offset="0" stop-color="white"/><stop offset=".54" stop-color="white"/><stop offset=".83" stop-color="white" stop-opacity=".83"/><stop offset="1" stop-color="black"/></radialGradient>'+ 
+'<mask id="islandArtworkFade" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox"><rect x="0" y="0" width="1" height="1" fill="url(#islandFadeGradient)"/></mask>'+
 '<linearGradient id="atlasSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#74c9fa"/><stop offset=".35" stop-color="#a0e5fc"/><stop offset=".68" stop-color="#d0f3fc"/><stop offset="1" stop-color="#fef2ce"/></linearGradient>'+
 '<radialGradient id="atlasSun"><stop stop-color="#fff9c5" stop-opacity="1"/><stop offset=".58" stop-color="#fff2bd" stop-opacity=".6"/><stop offset="1" stop-color="#ffe6a4" stop-opacity="0"/></radialGradient>'+
 '<linearGradient id="cloudShine" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".96"/><stop offset="1" stop-color="#f4eeff" stop-opacity=".55"/></linearGradient>'+
@@ -76,7 +78,7 @@ function sceneryBorder(){return '<g pointer-events="none">'+
 '<path d="M0 716 Q142 661 260 736 M703 735 Q860 659 1000 721" fill="none" stroke="#ffffff88" stroke-width="5"/>'+
 Array.from({length:18},function(_,i){var side=i<9?i*33:730+(i-9)*32,yy=691+(i%3)*12;return flower(side,yy,i%3===0?'#fff9eb':i%3===1?'#ffb4d1':'#c596f2')}).join('')+
 '</g>'}
-var base='<rect width="1000" height="720" fill="url(#atlasSky)"/>'+
+var base=''+
 circle(790,68,220,'url(#atlasSun)')+
 '<g opacity=".29" stroke="#fffbe1" stroke-width="16">'+
 path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
