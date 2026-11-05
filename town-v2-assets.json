@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 2,
+  "description": "天堂靈修小鎮 V2 — 精緻乾淨底圖與可購買裝飾獨立化。原版仍為預設，素材驗收後逐島切換。",
+  "compatibility": {
+    "storageKey": "devotion-island-v1",
+    "townEntry": "town",
+    "purchaseKeys": [
+      "flowers",
+      "bench",
+      "lantern",
+      "tree",
+      "fountain",
+      "arch"
+    ],
+    "placementKey": "placements",
+    "rules": "不得清空已購買物件、變更費用或覆蓋使用者進度"
+  },
+  "islands": [
+    {
+      "id": 0,
+      "name": "真理之島",
+      "original": "scripture.webp",
+      "clean": "scripture-base.webp",
+      "status": "awaiting-art",
+      "keep": [
+        "書苑建築和彩繪窗",
+        "中央聖經閱讀台",
+        "主廣場與階梯",
+        "浮島石基及雲朵",
+        "地形與少量自然草地"
+      ],
+      "separate": [
+        "左右花圃",
+        "閱讀長椅",
+        "金色庭院燈",
+        "大型希望樹",
+        "額外花架"
+      ],
+      "quality": "以原版 850×850 透明畫布直接修圖，保持原建築、角色、階梯、透視、光線方向和畫素對齊"
+    },
+    {
+      "id": 1,
+      "name": "默想森林",
+      "original": "forest.webp",
+      "clean": "forest-base.webp",
+      "status": "awaiting-art",
+      "keep": [
+        "曲折森林小徑",
+        "主樹與基礎林地",
+        "島嶼與瀑布",
+        "石階及地形"
+      ],
+      "separate": [
+        "花叢",
+        "默想長椅",
+        "園燈",
+        "花拱門",
+        "額外紀念牌"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "禱告聖殿",
+      "original": "chapel.webp",
+      "clean": "chapel-base.webp",
+      "status": "awaiting-art",
+      "keep": [
+        "中央聖殿",
+        "彩繪玻璃與十字架",
+        "主廣場",
+        "進入階梯",
+        "地形與瀑布"
+      ],
+      "separate": [
+        "花圃",
+        "庭院長椅",
+        "金色燈飾",
+        "白鴿雕像",
+        "花拱門"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "生命花園",
+      "original": "garden.webp",
+      "clean": "garden-base.webp",
+      "status": "awaiting-art",
+      "keep": [
+        "祈禱紀念區",
+        "溪流與瀑布",
+        "石橋和步道",
+        "島嶼與主觀景台"
+      ],
+      "separate": [
+        "鮮花花圃",
+        "花園長椅",
+        "裝飾燈",
+        "額外花樹"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "恩典山谷",
+      "original": "valley.webp",
+      "clean": "valley-base.webp",
+      "status": "awaiting-art",
+      "keep": [
+        "玻璃溫室主建築",
+        "小鎮步道",
+        "主廣場與階梯",
+        "瀑布和浮島地形"
+      ],
+      "separate": [
+        "花圃與花車",
+        "園藝工具",
+        "種植箱",
+        "額外花盆",
+        "長椅",
+        "裝飾燈"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "信仰旅程",
+      "original": "journey.webp",
+      "clean": "journey-base.webp",
+      "status": "awaiting-art",
+      "keep": [
+        "主樹",
+        "信仰旅途步道",
+        "石橋與瀑布",
+        "觀景亭與階梯",
+        "島嶼本體"
+      ],
+      "separate": [
+        "花圃",
+        "旅程長椅",
+        "路燈",
+        "里程碑",
+        "祈願牌"
+      ]
+    }
+  ],
+  "currentOverlaySet": {
+    "flowers": {
+      "cost": 120,
+      "instanceCount": 13,
+      "scope": "all-six",
+      "image": "build-flowers.webp"
+    },
+    "bench": {
+      "cost": 180,
+      "image": "build-bench.webp"
+    },
+    "lantern": {
+      "cost": 220,
+      "image": "build-lantern.webp"
+    },
+    "tree": {
+      "cost": 300,
+      "image": "build-tree.webp"
+    },
+    "fountain": {
+      "cost": 260,
+      "image": "build-fountain.webp",
+      "displayName": "和平白鴿雕像"
+    },
+    "arch": {
+      "cost": 360,
+      "image": "build-arch.webp"
+    }
+  },
+  "releaseGate": "只在對應 clean 圖檔真的存在、通過人工美術驗收且啟用開關後才替換原圖；新圖載入失敗必須恢復原版"
+}
