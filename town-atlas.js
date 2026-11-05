@@ -51,7 +51,7 @@ text(0,5,'!',{class:'atlas-status-symbol','text-anchor':'middle',fill:'#6c4c14',
  var artW=n.id===2?270:251, artX=-artW/2,artY=-140;
  var artwork='<image class="atlas-art" href="'+artPath+'" x="'+artX+'" y="'+artY+'" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" mask="url(#islandArtworkFade)" pointer-events="none"/>';
  return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
- '<g class="atlas-vector-fallback">'+ellipse(0,55,128,39,'#507a7050')+path(bottom,n.soil,{stroke:'#fff6df','stroke-width':2})+path('M -107 21 L 0 65 L 107 21 L 107 44 L 0 88 L -107 44 Z',n.edge,{opacity:.88})+path(top,n.top,{stroke:'#edf6db','stroke-width':4,'stroke-linejoin':'round',class:'atlas-plate'})+path('M -99 -32 L 0 -65 L 99 -32','none',{stroke:'#f9ffef','stroke-width':2,opacity:.68})+decorations+scenery(n.id)+'</g>'+
+ '<g class="atlas-vector-fallback">'+ellipse(0,55,128,39,'#507a7050')+path(bottom,n.soil,{stroke:'#fff6df','stroke-width':2})+path('M -107 21 L 0 65 L 107 21 L 107 44 L 0 88 L -107 44 Z',n.edge,{opacity:.88})+path(top,n.top,{stroke:'#edf6db','stroke-width':4,'stroke-linejoin':'round',class:'atlas-plate'})+'</g>'+
  artwork+
  // Labels are drawn in a dedicated topmost layer: central island artwork used to hide 默想森林.
  progress+
@@ -143,6 +143,74 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasResidents" aria-hidden="true" po
   svg.querySelectorAll('[data-kind="'+type+'"]').forEach(function(n){n.classList.add('resident-art-loaded')})
  };img.onerror=function(){};img.src='./resident-'+type+'.webp';
 });
+/* Construction overlay architecture v1.
+ * Existing purchase keys are preserved so Firestore/local journals continue to work.
+ * Every purchased object is anchored to its island-local SVG coordinates; the whole
+ * group scales together on mobile and no independent image positioning is required.
+ */
+var buildDefinitions=[
+ {id:'flowers',island:3,file:'build-flowers.webp',x:-104,y:2,w:96,h:88,emoji:'🌷'},
+ {id:'bench',island:1,file:'build-bench.webp',x:39,y:14,w:91,h:83,emoji:'🪑'},
+ {id:'lantern',island:2,file:'build-lantern.webp',x:-104,y:-10,w:76,h:103,emoji:'🏮'},
+ {id:'tree',island:0,file:'build-tree.webp',x:49,y:-39,w:110,h:120,emoji:'🌳'},
+ {id:'fountain',island:2,file:'build-fountain.webp',x:49,y:18,w:84,h:78,emoji:'⛲'},
+ {id:'arch',island:2,file:'build-arch.webp',x:-17,y:-69,w:105,h:114,emoji:'✨'}
+];
+var validBuildIds=buildDefinitions.map(function(item){return item.id});
+buildDefinitions.forEach(function(item){
+ var root=svg.querySelector('[data-map-island="'+item.island+'"]');
+ if(!root)return;
+ var group=document.createElementNS('http://www.w3.org/2000/svg','g');
+ group.setAttribute('class','atlas-building-overlay');
+ group.setAttribute('data-building',item.id);
+ group.setAttribute('data-building-island',String(item.island));
+ group.setAttribute('pointer-events','none');
+ group.style.display='none';
+ // Canvas-relative coordinates, not viewport pixels.  Even in iPhone Safari the
+ // decoration follows its floating island without being independently positioned.
+ var imageEl=document.createElementNS('http://www.w3.org/2000/svg','image');
+ imageEl.setAttribute('href','./'+item.file);
+ imageEl.setAttribute('x',String(item.x));imageEl.setAttribute('y',String(item.y));
+ imageEl.setAttribute('width',String(item.w));imageEl.setAttribute('height',String(item.h));
+ imageEl.setAttribute('preserveAspectRatio','xMidYMid meet');
+ imageEl.setAttribute('class','atlas-building-image');
+ imageEl.setAttribute('pointer-events','none');
+ group.appendChild(imageEl);
+ var fallback=document.createElementNS('http://www.w3.org/2000/svg','text');
+ fallback.setAttribute('x',String(item.x+item.w/2));
+ fallback.setAttribute('y',String(item.y+item.h*.64));
+ fallback.setAttribute('text-anchor','middle');
+ fallback.setAttribute('font-size','23');
+ fallback.setAttribute('class','atlas-building-fallback');
+ fallback.textContent=item.emoji;
+ group.appendChild(fallback);
+ root.appendChild(group);
+ var probe=new Image();
+ probe.onload=function(){group.classList.add('building-image-ready')};
+ probe.onerror=function(){group.classList.add('building-image-missing')};
+ probe.src='./'+item.file;
+});
+function updateTownBuildings(detail){
+ var purchased=(detail&&detail.purchased)||{};
+ buildDefinitions.forEach(function(item){
+  var layer=svg.querySelector('[data-building="'+item.id+'"]');
+  if(!layer)return;
+  var built=!!purchased[item.id];
+  layer.style.display=built?'':'none';
+  layer.setAttribute('aria-hidden',String(!built));
+  layer.classList.toggle('is-built',built);
+ });
+ var chapelCount=['lantern','fountain','arch'].filter(function(k){return !!purchased[k]}).length;
+ var stage=Math.min(3,chapelCount+1);
+ svg.dataset.chapelStage=String(stage);
+ var chapelLabel=svg.querySelector('[data-label-island="2"] .atlas-island-sub');
+ if(chapelLabel)chapelLabel.textContent='🕊️ 小鎮中心 · Lv.'+stage;
+ var total=validBuildIds.filter(function(k){return !!purchased[k]}).length;
+ var shopProgress=document.getElementById('townBuildStatus');
+ if(shopProgress)shopProgress.textContent='已建設 '+total+' / '+validBuildIds.length+' 項 · 聖殿 Lv.'+stage;
+}
+window.addEventListener('town-growth',function(ev){updateTownBuildings(ev.detail)});
+
 var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function pointOnRoute(route,time,speed){
  var distance=time*speed,total=0;
