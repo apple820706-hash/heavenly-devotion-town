@@ -149,12 +149,12 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasResidents" aria-hidden="true" po
  * group scales together on mobile and no independent image positioning is required.
  */
 var buildDefinitions=[
- {id:'flowers',island:3,file:'build-flowers.webp',x:-104,y:2,w:96,h:88,emoji:'🌷'},
- {id:'bench',island:1,file:'build-bench.webp',x:39,y:14,w:91,h:83,emoji:'🪑'},
- {id:'lantern',island:2,file:'build-lantern.webp',x:-104,y:-10,w:76,h:103,emoji:'🏮'},
- {id:'tree',island:0,file:'build-tree.webp',x:49,y:-39,w:110,h:120,emoji:'🌳'},
- {id:'fountain',island:2,file:'build-fountain.webp',x:49,y:18,w:84,h:78,emoji:'⛲'},
- {id:'arch',island:2,file:'build-arch.webp',x:-17,y:-69,w:105,h:114,emoji:'✨'}
+ {id:'flowers',island:3,file:'build-flowers.webp',x:-73,y:-28,w:96,h:88,emoji:'🌷'},
+ {id:'bench',island:1,file:'build-bench.webp',x:5,y:-10,w:91,h:83,emoji:'🪑'},
+ {id:'lantern',island:2,file:'build-lantern.webp',x:-95,y:-16,w:76,h:103,emoji:'🏮'},
+ {id:'tree',island:0,file:'build-tree.webp',x:11,y:-47,w:110,h:120,emoji:'🌳'},
+ {id:'fountain',island:2,file:'build-fountain.webp',x:14,y:11,w:84,h:78,emoji:'⛲'},
+ {id:'arch',island:2,file:'build-arch.webp',x:-37,y:-58,w:105,h:114,emoji:'✨'}
 ];
 var validBuildIds=buildDefinitions.map(function(item){return item.id});
 buildDefinitions.forEach(function(item){
