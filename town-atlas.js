@@ -44,7 +44,7 @@ function tile(n){
  if(n.id===2)decorations+=npc(-5,37,'#dfb995','#f4d2b6',.7);
  var progress='<g class="atlas-status" data-status="'+n.id+'" transform="translate(98 -51)">'+circle(0,0,17,'#fffef5',{stroke:'#d4e6d6','stroke-width':2})+text(0,5,'○',{'text-anchor':'middle',fill:'#8aac9d','font-size':17,'font-weight':900})+'</g>';
  var artNames=['scripture','forest','chapel','garden','valley','journey'];
- var artPath='assets/islands/'+artNames[n.id]+'.webp';
+ var artPath='./'+artNames[n.id]+'.webp';
  var artW=n.id===2?270:251, artX=-artW/2,artY=-140;
  var artwork='<image class="atlas-art" href="'+artPath+'" x="'+artX+'" y="'+artY+'" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>';
  return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
