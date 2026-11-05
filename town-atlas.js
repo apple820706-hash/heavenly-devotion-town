@@ -137,12 +137,13 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasResidents" aria-hidden="true" po
  * group scales together on mobile and no independent image positioning is required.
  */
 var buildDefinitions=[
- {id:'flowers',island:3,file:'build-flowers.webp',x:-73,y:-28,w:96,h:88,emoji:'🌷'},
- {id:'bench',island:1,file:'build-bench.webp',x:5,y:-10,w:91,h:83,emoji:'🪑'},
- {id:'lantern',island:2,file:'build-lantern.webp',x:-95,y:-16,w:76,h:103,emoji:'🏮'},
- {id:'tree',island:0,file:'build-tree.webp',x:11,y:-47,w:110,h:120,emoji:'🌳'},
- {id:'fountain',island:2,file:'build-fountain.webp',x:14,y:11,w:84,h:78,emoji:'⛲'},
- {id:'arch',island:2,file:'build-arch.webp',x:-37,y:-58,w:105,h:114,emoji:'✨'}
+ // Same painterly detail at every stage. Coordinates are local to the original 850px island illustration.
+ {id:'flowers',island:3,file:'build-flowers.webp',x:-74,y:8,w:53,h:53,emoji:'🌷'},
+ {id:'bench',island:1,file:'build-bench.webp',x:38,y:12,w:57,h:57,emoji:'🪑'},
+ {id:'lantern',island:2,file:'build-lantern.webp',x:-91,y:15,w:47,h:47,emoji:'🏮'},
+ {id:'tree',island:0,file:'build-tree.webp',x:34,y:-50,w:91,h:91,emoji:'🌳'},
+ {id:'fountain',island:2,file:'build-fountain.webp',x:60,y:16,w:48,h:48,emoji:'🕊️'},
+ {id:'arch',island:2,file:'build-arch.webp',x:-36,y:22,w:71,h:71,emoji:'🌸'}
 ];
 var validBuildIds=buildDefinitions.map(function(item){return item.id});
 buildDefinitions.forEach(function(item){
