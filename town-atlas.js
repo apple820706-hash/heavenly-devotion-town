@@ -68,7 +68,7 @@ function cloud(x,y,s){return '<g class="atlas-cloud" transform="translate('+x+' 
 var defs='<defs>'+ 
 '<radialGradient id="islandFadeGradient"><stop offset="0" stop-color="white"/><stop offset=".54" stop-color="white"/><stop offset=".83" stop-color="white" stop-opacity=".83"/><stop offset="1" stop-color="black"/></radialGradient>'+ 
 '<mask id="islandArtworkFade" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox"><rect x="0" y="0" width="1" height="1" fill="url(#islandFadeGradient)"/></mask>'+
-'<linearGradient id="atlasSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#74c9fa"/><stop offset=".35" stop-color="#a0e5fc"/><stop offset=".68" stop-color="#d0f3fc"/><stop offset="1" stop-color="#fef2ce"/></linearGradient>'+
+'<linearGradient id="atlasSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#73c9f4"/><stop offset=".4" stop-color="#a0e7fa"/><stop offset=".75" stop-color="#bdeefb"/><stop offset="1" stop-color="#d5f1f8"/></linearGradient>'+
 '<radialGradient id="atlasSun"><stop stop-color="#fff9c5" stop-opacity="1"/><stop offset=".58" stop-color="#fff2bd" stop-opacity=".6"/><stop offset="1" stop-color="#ffe6a4" stop-opacity="0"/></radialGradient>'+
 '<linearGradient id="cloudShine" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".96"/><stop offset="1" stop-color="#f4eeff" stop-opacity=".55"/></linearGradient>'+
 '<linearGradient id="atlasGrass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#bee887"/><stop offset="1" stop-color="#6fc6a1"/></linearGradient>'+
@@ -77,18 +77,17 @@ function brightCloud(x,y,scale,opacity){return '<g opacity="'+opacity+'" transfo
 ellipse(0,0,115,31,'url(#cloudShine)')+ellipse(-69,-11,53,35,'url(#cloudShine)')+ellipse(-17,-32,62,47,'url(#cloudShine)')+ellipse(51,-25,66,43,'url(#cloudShine)')+ellipse(103,-7,44,29,'url(#cloudShine)')+'</g>'}
 function twinkle(x,y,sz){return '<g class="atlas-twinkle" transform="translate('+x+' '+y+') scale('+sz+')">'+path('M 0 -13 Q 3 -3 13 0 Q 3 3 0 13 Q -3 3 -13 0 Q -3 -3 0 -13 Z','#fffdf1',{stroke:'#ffc957','stroke-width':1.5})+'</g>'}
 function sceneryBorder(){return '<g pointer-events="none" class="atlas-integrated-horizon">'+
-'<path d="M0 644 Q180 579 340 647 T700 651 T1000 638 L1000 720 L0 720 Z" fill="#fffef4" opacity=".24"/>'+
-brightCloud(70,690,1.38,.82)+brightCloud(337,715,1.22,.73)+brightCloud(687,699,1.38,.82)+brightCloud(976,689,1.35,.85)+
-'<g opacity=".72">'+
-Array.from({length:13},function(_,i){var x=i<7?i*27:842+(i-7)*27,y=710+(i%3)*3;return flower(x,y,i%3===0?'#fffbe8':i%3===1?'#ffc6df':'#d6b1f7')}).join('')+'</g></g>'}
+'<g opacity=".42">'+brightCloud(22,721,.79,.38)+brightCloud(405,723,.66,.31)+brightCloud(970,728,.8,.41)+'</g>'+
+'<g opacity=".33">'+
+Array.from({length:8},function(_,i){var x=i<4?i*30:884+(i-4)*30,y=714+(i%3)*3;return flower(x,y,i%3===0?'#fffbe8':i%3===1?'#ffc6df':'#d6b1f7')}).join('')+'</g></g>'}
 var base='<rect width="1000" height="720" fill="url(#atlasSky)" pointer-events="none"/>'+
-circle(790,68,220,'url(#atlasSun)')+
+circle(790,68,170,'url(#atlasSun)')+
 '<g opacity=".29" stroke="#fffbe1" stroke-width="16">'+
 path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
 '<g class="atlas-parallax">'+brightCloud(85,128,.76,.82)+brightCloud(922,120,.83,.8)+brightCloud(600,72,.43,.48)+brightCloud(78,422,.7,.65)+brightCloud(950,413,.85,.64)+
-brightCloud(105,641,1.22,.9)+brightCloud(420,682,1.25,.88)+brightCloud(875,667,1.32,.95)+'</g>'+
+brightCloud(70,655,.66,.44)+brightCloud(440,687,.57,.37)+brightCloud(915,658,.68,.44)+'</g>'+
 '<g opacity=".83">'+twinkle(54,285,.78)+twinkle(916,315,.65)+twinkle(589,271,.58)+twinkle(670,598,.74)+twinkle(355,80,.52)+twinkle(947,520,.6)+twinkle(90,540,.47)+'</g>'+
-'<g opacity=".48">'+path('M 0 560 Q 151 515 290 559 T 560 570 T 1000 550','none',{stroke:'#fffce7','stroke-width':6,opacity:.65})+'</g>'+
+'<g opacity=".22">'+path('M 0 560 Q 151 515 290 559 T 560 570 T 1000 550','none',{stroke:'#e9fff8','stroke-width':4,opacity:.28})+'</g>'+
 sceneryBorder();
 var links='';for(var i=0;i<order.length-1;i++)links+=bridge(nodes[order[i]],nodes[order[i+1]],i);
 var decorations=path('M 100 355 Q 490 285 950 410','none',{stroke:'#fffdf4','stroke-width':2,opacity:.4,'stroke-dasharray':'4 16'})+
