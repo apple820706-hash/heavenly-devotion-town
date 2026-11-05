@@ -773,6 +773,34 @@ body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);colo
  .dash-v10 .dash-bottom > .stats{grid-column:1/-1!important}
 }
 
+
+/* V12 badges and devotion statistics are compact modal popovers INSIDE the full-size atlas. */
+.dash-v10 .dash-info-overlay[hidden]{display:none!important}
+.dash-v10 .scene.mode-2d .dash-info-overlay{position:absolute;z-index:42;left:clamp(170px,17.5vw,260px);top:72px;width:min(440px,calc(100% - 420px));max-height:calc(100% - 90px);overflow:auto;overscroll-behavior:contain;background:#fffcf2f7;border:2px solid #e7d3a1;border-radius:18px;box-shadow:0 14px 48px #1d66635c;backdrop-filter:blur(12px);color:#225a4b}
+.dash-v10 .dash-info-head{display:flex;align-items:center;justify-content:space-between;padding:12px 15px 10px;border-bottom:1px solid #dfebd7;position:sticky;top:0;background:#fffdf5f8;z-index:1}
+.dash-v10 .dash-info-head strong{font-size:1.05rem}
+.dash-v10 #dashInfoClose{height:30px;width:30px;min-width:30px;border:1px solid #b6d7bd;background:#f4fbef;border-radius:50%;font-size:1.1rem;cursor:pointer;color:#356e57}
+.dash-v10 .dash-info-body{padding:12px}
+.dash-v10 .dash-info-note{font-size:.77rem;line-height:1.65;color:#607d6b;margin:0 0 11px}
+.dash-v10 .dash-badge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.dash-v10 .dash-badge{border:1.5px solid #c7dfc5;border-radius:13px;background:linear-gradient(150deg,#f2fff0,#fffdf3);display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 7px;min-width:0;text-align:center}
+.dash-v10 .dash-badge.locked{filter:grayscale(.6);opacity:.6;background:#eef2ee}
+.dash-v10 .dash-badge-icon{font-size:1.8rem}
+.dash-v10 .dash-badge strong{font-size:.83rem}
+.dash-v10 .dash-badge small{font-size:.66rem;line-height:1.4;color:#66836f}
+.dash-v10 .dash-badge em{font-style:normal;color:#248666;font-size:.71rem;font-weight:800}
+.dash-v10 .dash-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dash-v10 .dash-stat-tile{background:#f5fcf2;border:1px solid #d5e6d0;padding:10px;border-radius:12px;display:flex;flex-direction:column;gap:5px}
+.dash-v10 .dash-stat-tile span{font-size:.73rem;color:#627d6b}
+.dash-v10 .dash-stat-tile strong{font-size:1.15rem;color:#1b6e55}
+.dash-v10 .dash-stat-progress{padding:13px 5px}
+.dash-v10 .dash-stat-progress>div:first-child{display:flex;justify-content:space-between;font-size:.8rem;color:#345f50}
+.dash-v10 .dash-stat-track{height:9px;border-radius:20px;background:#dbebdb;overflow:hidden;margin-top:9px}
+.dash-v10 .dash-stat-track i{display:block;height:100%;background:linear-gradient(90deg,#30a87b,#c4ce69);border-radius:20px}
+.dash-v10 .dash-nav[aria-expanded="true"]{background:#147e64;color:white}
+@media(max-width:850px){.dash-v10 .scene.mode-2d .dash-info-overlay{left:clamp(140px,23vw,205px);right:8px;top:93px;width:auto;max-height:calc(100% - 105px)}}
+@media(max-width:700px){.dash-v10 .scene.mode-2d .dash-info-overlay{left:5vw;right:5vw;top:80px;width:90vw;max-height:min(65vh,calc(100% - 98px));z-index:70}.dash-v10 .dash-badge-grid{gap:6px}.dash-v10 .dash-info-head{padding:9px 11px}.dash-v10 .dash-badge{padding:8px 5px}}
+
 </style>
 </head><body><div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle"><div class="login-card"><div style="font-size:3rem">🌿</div><div style="letter-spacing:.18em;font-size:.78rem;color:#d4e7ca">HEAVENLY DEVOTION TOWN</div><h1 id="loginTitle">天堂靈修小鎮</h1><p>與神同行，每一天。<br>請先登入 Google 帳號，開啟專屬於你的詩篇旅程。</p><button id="gateSignIn" disabled>正在確認登入狀態…</button><div id="loginMessage" class="login-msg" aria-live="polite"></div><small>每位使用者都有獨立的靈修進度、禱告與日記。</small></div></div><div class="shell"><header class="top"><div><div class="brand">🌿 天堂靈修小鎮 <span class="tag">HEAVENLY DEVOTION TOWN</span></div><div class="tag">與神同行 · 每一天</div></div><nav class="nav"><span id="authText" class="authstatus">登入狀態載入中…</span><button class="btn" id="signIn" hidden>使用 Google 登入</button><button class="btn" id="signOut" hidden>登出</button><button class="btn" id="importLocalCloud" hidden>匯入此裝置舊紀錄</button><button class="btn" id="export">備份資料</button><button class="btn" id="import">匯入備份</button><input id="file" type="file" accept="application/json" hidden></nav></header><div class="authbox" id="authHelp">請登入自己的 Google 帳號以在手機與電腦同步。未登入時仍可在本裝置記錄，資料不會自動上傳。</div><div class="town-unified-world" id="townWorld"><section class="hero"><div class="intro"><div class="eyebrow">150 DAYS IN PSALMS</div><h1>讓神的話語，<br>成為生命中的風景。</h1><p>探索六座靈修島嶼，閱讀詩篇、安靜默想、寫下禱告。每天前進一小步，留下與神同行的足跡。</p><div class="days"><button class="btn" id="prev">← 前一篇</button><select id="day" aria-label="選擇靈修篇章"></select><button class="btn" id="next">下一篇 →</button></div><div class="today-row"><button class="btn" id="today">☀ 回到今日詩篇</button><span class="today-note" id="todayNote"></span></div></div><aside class="stats"><div><div class="eyebrow" style="color:#688d7c">YOUR JOURNEY</div><h2 style="margin:6px 0">我的詩篇旅程</h2></div><div class="numbers"><div><strong id="done">0</strong><span>完成篇數</span></div><div><strong id="percent">0%</strong><span>旅程進度</span></div><div><strong id="remaining">150</strong><span>剩餘篇數</span></div></div><div class="progress"><div id="progress"></div></div><div class="hint" id="status">今天，讓我們從神的話語開始。</div></aside></section><section class="town-board" id="townBoard"><div class="town-heading"><div><span class="town-kicker">🌱 MY GROWING TOWN</span><h2 id="townLevel">萌芽小鎮</h2><span id="townChapters">0 / 150 篇</span></div><div class="town-seeds"><span>✨ 恩典種子</span><strong id="townSeeds">0</strong></div></div><p id="townNext" class="town-next">完成靈修，培育你的天空小鎮</p><div id="townBuildStatus" class="town-build-status" aria-live="polite">已建設 0 / 6 項 · 聖殿 Lv.1</div><details><summary>🏡 打開小鎮建設手冊</summary><div id="townItems" class="town-items"></div></details></section><main class="main atlas-workspace" id="townMain"><section class="mission-board" id="missionBoard"><div class="mission-top"><h2>🌿 今日六島任務</h2><span class="mission-current" id="missionCount">0 / 6</span></div><div class="mission-items" id="missionItems"></div><div class="mission-track"><div class="mission-fill" id="missionFill" style="width:0%"></div></div><div class="mission-next" id="missionNext"></div></section><section class="scene" id="scene"><canvas id="world3d" aria-label="可拖曳旋轉與縮放的立體靈修島嶼地圖"></canvas><div class="atlas-workspace-top"><div class="atlas-workspace-title"><span class="atlas-workspace-kicker">✦ HEAVENLY DEVOTION ATLAS ✦</span><strong>天堂靈修小鎮・探索地圖</strong><small>六島靈修旅程 · 點選建築開始探索</small></div><div class="atlas-workspace-actions"><button type="button" id="atlasOverview" class="atlas-uxbtn active">🗺️ 全島地圖</button><button type="button" id="atlasOpenDaily" class="atlas-uxbtn">📖 今日靈修</button><button type="button" id="atlasOpenBuild" class="atlas-uxbtn">🌱 小鎮建設</button></div></div><div id="illustratedMap" role="region" aria-label="精緻靈修小鎮地圖，六座島嶼可點選"><svg id="townAtlas" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" aria-label="禱告聖殿位於中央的六島天空地圖"></svg></div><div class="atlas-toolbar"><button id="atlas2d" aria-pressed="true" title="精緻 2D 地圖">🗺️ 插畫地圖</button><button id="atlas3d" aria-pressed="false" title="原本的可旋轉 3D 世界">🌤️ 3D 世界</button></div><div class="atlas-map-legend"><strong>🌿 靈修導覽</strong><span><i class="atlas-dot done"></i>已完成任務</span><span><i class="atlas-dot next"></i>目前探索</span><span>✦ 點選島嶼開啟專屬靈修內容</span></div><div class="atlas-hint">✦ 地圖固定 · 點選發光島嶼開始今日靈修</div><div class="atlas-zooms"><button id="atlasZoomIn" aria-label="放大">＋</button><button id="atlasZoomOut" aria-label="縮小">－</button><button id="atlasZoomReset" aria-label="重設縮放">⌂</button></div><div class="sanctuary-version" title="本次聖殿模型更新">⛪ 聖殿模型 v2</div><div class="sky-controls"><span id="skyClock" aria-label="台灣目前時間"></span></div><div class="map-controls"><button id="zoomIn" title="放大地圖">＋</button><button id="zoomOut" title="縮小地圖">－</button><button id="resetView" title="重設視角">重設</button></div><div class="scene-header"><h2>探索天空靈修群島</h2><p>從禱告聖殿出發 · 第一站：真理之島</p></div><button class="island i0 selected" data-island="0"><span class="land"><span>📖</span></span><b>真理之島</b><small>每日經文</small></button><button class="island i1" data-island="1"><span class="land"><span>🌳</span></span><b>默想森林</b><small>經文反省</small></button><button class="island i2" data-island="2"><span class="land"><span>🕊️</span></span><b>禱告聖殿</b><small>與神對話</small></button><button class="island i3" data-island="3"><span class="land"><span>🌱</span></span><b>生命花園</b><small>生活實踐</small></button><button class="island i4" data-island="4"><span class="land"><span>🌄</span></span><b>恩典山谷</b><small>感恩日記</small></button><button class="island i5" data-island="5"><span class="land"><span>🗺️</span></span><b>信仰旅程</b><small>靈修足跡</small></button><div class="scene-foot">✦ 插畫小鎮 · 點選六座島嶼 · 靈修紀錄透過 Google 帳號同步 ✦</div></section><div id="atlasDrawerBackdrop" class="atlas-drawer-backdrop" hidden></div><aside id="atlasDrawer" class="atlas-drawer" aria-label="靈修內容抽屜" aria-hidden="true"><div class="atlas-drawer-head"><div><span>🌿 DAILY DEVOTION</span><strong id="atlasDrawerTitle">今日靈修</strong></div><button type="button" id="atlasDrawerClose" aria-label="關閉靈修內容">✕</button></div><section class="panel" id="panel" aria-live="polite"></section><div class="atlas-drawer-footer"><button type="button" id="atlasDrawerPrev">← 上一座島</button><button type="button" id="atlasDrawerHome">返回全島地圖</button><button type="button" id="atlasDrawerNext">下一座島 →</button></div></aside></main></div><footer class="footer">天堂靈修小鎮 · 2D 插畫地圖 · 每日六島靈修任務 · Google 登入與個人進度同步。</footer></div><div class="toast" id="toast" role="status"></div>
 <script>
@@ -793,7 +821,8 @@ body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);colo
     '<button class="dash-nav" data-dash-nav="daily">📖 <span>今日靈修</span></button>'+
     '<button class="dash-nav" data-dash-nav="build">🌱 <span>小鎮建設</span></button>'+
     '<button class="dash-nav" data-dash-nav="map">🗺️ <span>探索六島</span></button>'+
-    '<button class="dash-nav" data-dash-nav="stats">🏆 <span>靈修成長</span></button>'+
+    '<button class="dash-nav" data-dash-nav="badges" aria-expanded="false">🏆 <span>成就徽章</span></button>'+
+    '<button class="dash-nav" data-dash-nav="stats" aria-expanded="false">📊 <span>靈修統計</span></button>'+
     '</nav>'+
     '<div class="dash-welcome"><strong>✨ 與神同行，每一天</strong><p>從今天的六島任務出發，在天空小鎮留下靈修足跡。</p></div>';
   var center=document.createElement('div');center.className='dash-center';
@@ -815,6 +844,15 @@ body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);colo
   right.appendChild(board);
   scene.appendChild(left);
   scene.appendChild(right);
+  var dashboardOverlay=document.createElement('aside');
+  dashboardOverlay.id='dashInfoOverlay';
+  dashboardOverlay.className='dash-info-overlay';
+  dashboardOverlay.hidden=true;
+  dashboardOverlay.setAttribute('role','dialog');
+  dashboardOverlay.setAttribute('aria-modal','false');
+  dashboardOverlay.setAttribute('aria-label','靈修成就與統計');
+  dashboardOverlay.innerHTML='<div class="dash-info-head"><strong id="dashInfoTitle">靈修成就</strong><button type="button" id="dashInfoClose" aria-label="關閉面板">✕</button></div><div id="dashInfoContent" class="dash-info-body" aria-live="polite"></div>';
+  scene.appendChild(dashboardOverlay);
   bottom.appendChild(stats);
   grid.appendChild(center);grid.appendChild(bottom);
   world.appendChild(grid);
@@ -827,22 +865,86 @@ body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);colo
     var data=window.DevotionIsland?.getTownMetrics?.();
     if(data){showText('dashBuilt',Object.values(data.purchased||{}).filter(Boolean).length+' / 6');showText('dashLevel',data.level?.name||'萌芽小鎮')}
   }
+  var panel=dashboardOverlay;
+  var openedPanel='';
+  var achievements=[
+    {icon:'📖',title:'靈修啟程',need:'完成 1 篇詩篇',pass:d=>d.completed>=1,value:d=>d.completed+' / 1'},
+    {icon:'🌱',title:'七日扎根',need:'完成 7 篇詩篇',pass:d=>d.completed>=7,value:d=>d.completed+' / 7'},
+    {icon:'🌳',title:'穩定成長',need:'完成 30 篇詩篇',pass:d=>d.completed>=30,value:d=>d.completed+' / 30'},
+    {icon:'🌷',title:'生命開花',need:'完成 75 篇詩篇',pass:d=>d.completed>=75,value:d=>d.completed+' / 75'},
+    {icon:'👑',title:'詩篇旅程',need:'完成全部 150 篇',pass:d=>d.completed>=150,value:d=>d.completed+' / 150'},
+    {icon:'✍️',title:'默想之心',need:'留下 10 篇默想筆記',pass:d=>d.reflections>=10,value:d=>d.reflections+' / 10'},
+    {icon:'🙏',title:'禱告之光',need:'留下 10 篇禱告',pass:d=>d.prayers>=10,value:d=>d.prayers+' / 10'},
+    {icon:'✨',title:'六島探險家',need:'任一天完成六項任務',pass:d=>d.fullDays>=1,value:d=>d.fullDays+' / 1'}
+  ];
+  function progressData(){
+    try{return window.DevotionIsland?.getProgressStats?.()||null}catch(_){return null}
+  }
+  function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  function renderDashboardPanel(){
+    if(!openedPanel||panel.hidden)return;
+    var d=progressData(),body=document.getElementById('dashInfoContent');
+    if(!d){body.innerHTML='<p class="dash-info-note">正在整理你的靈修紀錄…</p>';return}
+    if(openedPanel==='badges'){
+      document.getElementById('dashInfoTitle').textContent='🏆 成就徽章';
+      var unlocked=achievements.filter(x=>x.pass(d)).length;
+      body.innerHTML='<p class="dash-info-note">已解鎖 '+unlocked+' / '+achievements.length+' 枚徽章。依實際靈修紀錄自動更新。</p>'+
+       '<div class="dash-badge-grid">'+achievements.map(x=>{
+        var got=x.pass(d);
+        return '<div class="dash-badge '+(got?'unlocked':'locked')+'"><span class="dash-badge-icon">'+x.icon+'</span><strong>'+esc(x.title)+'</strong><small>'+esc(x.need)+'</small><em>'+(got?'✓ 已獲得':esc(x.value(d)))+'</em></div>'
+       }).join('')+'</div>';
+    }else{
+      document.getElementById('dashInfoTitle').textContent='📊 靈修統計';
+      var stats=[
+       ['📖','完成篇數',d.completed+' / 150'],
+       ['✅','累計完成任務',d.taskTotal+' 項'],
+       ['✨','六項全完成的篇數',d.fullDays+' 篇'],
+       ['✍️','默想筆記',d.reflections+' 篇'],
+       ['🙏','禱告筆記',d.prayers+' 篇'],
+       ['🌿','生活實踐',d.actions+' 篇'],
+       ['❤️','感恩記錄',d.gratitudes+' 篇'],
+       ['🌱','累計獲得種子',d.earned+' 顆'],
+       ['🔨','已建設',d.built+' 項']
+      ];
+      body.innerHTML='<div class="dash-stat-grid">'+stats.map(x=>'<div class="dash-stat-tile"><span>'+x[0]+' '+esc(x[1])+'</span><strong>'+esc(x[2])+'</strong></div>').join('')+'</div>'+
+       '<div class="dash-stat-progress"><div><span>詩篇靈修進度</span><b>'+Math.round(d.completed/150*100)+'%</b></div><div class="dash-stat-track"><i style="width:'+Math.min(100,Math.round(d.completed/150*100))+'%"></i></div></div>'+
+       '<p class="dash-info-note">以目前登入帳號的已儲存篇章計算；未完成的草稿不算完成篇數。</p>';
+    }
+  }
+  function closeInfo(){
+    openedPanel='';panel.hidden=true;
+    left.querySelectorAll('[data-dash-nav="badges"],[data-dash-nav="stats"]').forEach(b=>b.setAttribute('aria-expanded','false'));
+  }
+  function toggleInfo(name){
+    if(openedPanel===name){closeInfo();return}
+    openedPanel=name;panel.hidden=false;
+    left.querySelectorAll('[data-dash-nav="badges"],[data-dash-nav="stats"]').forEach(b=>b.setAttribute('aria-expanded',String(b.dataset.dashNav===name)));
+    document.getElementById('atlasOpenBuild')?.setAttribute('aria-expanded',document.getElementById('townBoard')?.querySelector('details')?.open?'true':'false');
+    var shop=document.getElementById('townBoard')?.querySelector('details');
+    if(shop)shop.open=false;
+    renderDashboardPanel();
+  }
+  document.getElementById('dashInfoClose').onclick=closeInfo;
+  document.addEventListener('pointerdown',e=>{
+    if(!panel.hidden&&!panel.contains(e.target)&&!e.target.closest('[data-dash-nav="badges"],[data-dash-nav="stats"]'))closeInfo();
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInfo()});
+  window.addEventListener('atlas-open-drawer',closeInfo);
   function navAction(action){
     if(action==='home'||action==='map'){
       document.getElementById('atlasOverview')?.click();
       document.getElementById('scene')?.scrollIntoView({behavior:'smooth',block:'center'});
     }
-    if(action==='daily')document.getElementById('atlasOpenDaily')?.click();
-    if(action==='build'){
-      document.getElementById('atlasOpenBuild')?.click();
-    }
-    if(action==='stats')bottom.scrollIntoView({behavior:'smooth',block:'center'});
+    if(action==='daily'){closeInfo();document.getElementById('atlasOpenDaily')?.click()}
+    if(action==='build'){closeInfo();document.getElementById('atlasOpenBuild')?.click()}
+    if(action==='badges'||action==='stats'){toggleInfo(action);return}
+    closeInfo();
     left.querySelectorAll('[data-dash-nav]').forEach(function(btn){btn.classList.toggle('active',btn.dataset.dashNav===action)});
   }
   left.querySelectorAll('[data-dash-nav]').forEach(function(btn){btn.addEventListener('click',function(){navAction(btn.dataset.dashNav)})});
-  window.addEventListener('town-growth',refresh);
-  window.addEventListener('town-map-refresh',refresh);
-  window.addEventListener('devotion-progress',refresh);
+  window.addEventListener('town-growth',()=>{refresh();renderDashboardPanel()});
+  window.addEventListener('town-map-refresh',()=>{refresh();renderDashboardPanel()});
+  window.addEventListener('devotion-progress',()=>{refresh();renderDashboardPanel()});
   window.addEventListener('load',refresh);
   requestAnimationFrame(refresh);
 })();
@@ -987,7 +1089,22 @@ html+=`<hr style="border:0;border-top:1px solid #e5eee5;margin:21px 0"><p class=
 
 function switchAccount(uid,cloudEntries){cloudBusy=true;currentUid=uid||null;cloudActive=!!uid;storageKey=uid?'devotion-island-user-'+uid:KEY;let cached={};try{cached=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(_){}store={...cached,entries:uid?{...cloudEntries}:cached.entries||{}};day=todayPsalm();todayDate=taipeiDate();store.lastAutoDate=todayDate;cloudBusy=false;save();render()}
 function receiveCloud(entries){if(!currentUid)return;const editing=window._devotionEditing===true||document.activeElement?.matches?.('#panel textarea, #panel input');const recentlyEdited=Date.now()-(window._lastDevotionEdit||0)<6000;const localDay=store.entries[day];cloudBusy=true;const localTown=store.entries.town;store.entries={...entries};if(localTown&&!entries.town)store.entries.town=localTown;if((editing||recentlyEdited)&&localDay)store.entries[day]=localDay;try{localStorage.setItem(storageKey,JSON.stringify(store))}catch(_){}cloudBusy=false;if(!editing&&!recentlyEdited)render()}
-window.DevotionIsland={switchAccount,receiveCloud,localBackup:()=>{let s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){}return s.entries||{}},getActiveUid:()=>currentUid,getTownMetrics:()=>townMetrics(),navigateIsland:(i)=>{active=i;render();window.dispatchEvent(new CustomEvent('atlas-open-drawer',{detail:{island:i,name:names[i]}}))},notify:toast};
+window.DevotionIsland={switchAccount,receiveCloud,localBackup:()=>{let s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){}return s.entries||{}},getActiveUid:()=>currentUid,getTownMetrics:()=>townMetrics(),getProgressStats:()=>{
+ const metrics=townMetrics();
+ const result={completed:0,taskTotal:0,fullDays:0,reflections:0,prayers:0,actions:0,gratitudes:0,earned:metrics.earned,built:Object.values(metrics.purchased||{}).filter(Boolean).length};
+ for(let chapter=1;chapter<=150;chapter++){
+  const e=store.entries[chapter];if(!e)continue;
+  const f=tasks(e);
+  if(e.done)result.completed++;
+  result.taskTotal+=f.filter(Boolean).length;
+  if(f.every(Boolean))result.fullDays++;
+  if(f[1])result.reflections++;
+  if(f[5])result.prayers++;
+  if(f[2])result.actions++;
+  if(f[3])result.gratitudes++;
+ }
+ return result;
+},navigateIsland:(i)=>{active=i;render();window.dispatchEvent(new CustomEvent('atlas-open-drawer',{detail:{island:i,name:names[i]}}))},notify:toast};
 for(let i=1;i<=150;i++){$('day').insertAdjacentHTML('beforeend',`<option value="${i}">第 ${i} 天 · 詩篇 ${i} 篇</option>`)}$('day').addEventListener('change',e=>{day=Number(e.target.value);save();render()});$('today').onclick=()=>{day=todayPsalm();save();render();toast('已切換到今日詩篇')};setInterval(()=>{const d=taipeiDate();if(d!==todayDate){todayDate=d;day=todayPsalm();store.lastAutoDate=d;save();render();toast('新的一天，詩篇已更新 ☀')}},60000);$('prev').onclick=()=>{if(day>1){day--;save();render()}};$('next').onclick=()=>{if(day<150){day++;save();render()}};document.querySelectorAll('.island').forEach(b=>b.onclick=()=>{active=Number(b.dataset.island);render();if(innerWidth<850)$('panel').scrollIntoView({behavior:'smooth',block:'start'})});$('export').onclick=()=>{save();const blob=new Blob([JSON.stringify({app:'devotion-island',version:1,exportedAt:new Date().toISOString(),data:store},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='天堂靈修小鎮-備份.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);toast('備份檔案已下載')};$('import').onclick=()=>$('file').click();$('file').onchange=async ev=>{const file=ev.target.files?.[0];if(!file)return;try{const obj=JSON.parse(await file.text());if(obj.app!=='devotion-island'||obj.version!==1||!obj.data?.entries||typeof obj.data.entries!=='object')throw Error();if(!confirm('匯入備份將覆蓋目前瀏覽器的靈修紀錄。確定繼續？'))return;store=obj.data;day=Math.max(1,Math.min(150,Number(store.currentDay)||1));save();if(currentUid)window.DevotionSync?.uploadEntries(store.entries);render();toast('備份已還原')}catch(e){toast('備份格式不正確，無法匯入')}finally{ev.target.value=''}};render()})();
 </script>
 <script type="module">
