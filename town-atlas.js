@@ -53,7 +53,7 @@ text(0,5,'!',{class:'atlas-status-symbol','text-anchor':'middle',fill:'#6c4c14',
  return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
  '<g class="atlas-vector-fallback">'+ellipse(0,55,128,39,'#507a7050')+path(bottom,n.soil,{stroke:'#fff6df','stroke-width':2})+path('M -107 21 L 0 65 L 107 21 L 107 44 L 0 88 L -107 44 Z',n.edge,{opacity:.88})+path(top,n.top,{stroke:'#edf6db','stroke-width':4,'stroke-linejoin':'round',class:'atlas-plate'})+path('M -99 -32 L 0 -65 L 99 -32','none',{stroke:'#f9ffef','stroke-width':2,opacity:.68})+decorations+scenery(n.id)+'</g>'+
  artwork+
- '<g class="atlas-label-card">'+rect(-79,117,158,39,'#fffcf4',17)+text(0,143,n.name,{class:'atlas-island-label'})+text(0,171,n.sub,{class:'atlas-island-sub'})+'</g>'+
+ // Labels are drawn in a dedicated topmost layer: central island artwork used to hide 默想森林.
  progress+
  '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/></g>'
 }
@@ -196,6 +196,22 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasTaskLights">'+nodes.map(function
  '</g>'
 }).join('')+'</g>');
 
+// Six island titles are always rendered above images and residents.
+// This prevents the central chapel from covering the forest name on narrow screens.
+function atlasLabel(n){
+ var scale=n.id===2?1.16:1;
+ // Keep the top-centre island label in the open corridor to its lower-left,
+ // not under the later-drawn chapel artwork.
+ var px=n.x+(n.id===1?-137:0)*scale;
+ var py=n.y+(n.id===1?100:136)*scale;
+ var w=n.id===1?152:158;
+ return '<g class="atlas-visible-label" data-label-island="'+n.id+'" pointer-events="none" transform="translate('+px+' '+py+')">'+
+ rect(-w/2,-25,w,38,'#fffdf5',17)+
+ text(0,1,n.name,{class:'atlas-island-label','font-size':18,'text-anchor':'middle'})+
+ text(0,30,n.sub,{class:'atlas-island-sub','font-size':11,'text-anchor':'middle'})+'</g>';
+}
+svg.insertAdjacentHTML('beforeend','<g id="atlasLabels" pointer-events="none">'+nodes.map(atlasLabel).join('')+'</g>');
+
 var moved=false,down=null;
 svg.style.transform='none';
 svg.setAttribute('preserveAspectRatio','xMidYMid meet');
@@ -235,6 +251,8 @@ function updateState(d){
  svg.querySelectorAll('[data-map-island]').forEach(function(n){
   var id=Number(n.dataset.mapIsland),done=!!status[id],current=id===Number(d.active);
   n.classList.toggle('selected',current);
+  var label=svg.querySelector('[data-label-island="'+id+'"]');
+  if(label){label.classList.toggle('selected',current);label.classList.toggle('task-complete',done)}
   n.classList.toggle('task-complete',done);
   n.classList.toggle('task-pending',!done);
   var light=svg.querySelector('#atlasTaskLights [data-status="'+id+'"]');
