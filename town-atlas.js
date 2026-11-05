@@ -80,7 +80,9 @@ function sceneryBorder(){return '<g pointer-events="none" class="atlas-integrate
 '<g opacity=".42">'+brightCloud(22,721,.79,.38)+brightCloud(405,723,.66,.31)+brightCloud(970,728,.8,.41)+'</g>'+
 '<g opacity=".33">'+
 Array.from({length:8},function(_,i){var x=i<4?i*30:884+(i-4)*30,y=714+(i%3)*3;return flower(x,y,i%3===0?'#fffbe8':i%3===1?'#ffc6df':'#d6b1f7')}).join('')+'</g></g>'}
-var base='<rect width="1000" height="720" fill="url(#atlasSky)" pointer-events="none"/>'+
+// The page shell now owns the entire sky gradient, including missions and islands.
+// Keep SVG transparent to make all sections one continuous illustrated world.
+var base=''+
 circle(790,68,170,'url(#atlasSun)')+
 '<g opacity=".29" stroke="#fffbe1" stroke-width="16">'+
 path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
