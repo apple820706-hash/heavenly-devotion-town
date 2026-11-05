@@ -585,7 +585,24 @@ const path=uid=>collection(db,'users',uid,'entries');
 function flushPending(){for(const [d,v] of pending){pending.delete(d);queueWrite(d,v)}}
 function queueWrite(d,value){if(!user||!ready)return;const uid=user.uid,seq=epoch,k=String(d);pending.set(k,{...value});clearTimeout(timers.get(k));timers.set(k,setTimeout(async()=>{const v=pending.get(k);pending.delete(k);if(!v||!user||user.uid!==uid||seq!==epoch)return;try{await setDoc(doc(db,'users',uid,'entries',k),v)}catch(e){setInfo(errMsg(e),true);pending.set(k,v)}},450))}
 window.DevotionSync={saveDay:(d,v)=>queueWrite(d,v),uploadEntries:async entries=>{if(!user||!ready)return;for(const [k,v] of Object.entries(entries)){if(/^([1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k)){queueWrite(k,v)}}}};
-async function startGoogleSignIn(){gateButton.disabled=true;gateMessage.textContent='正在開啟 Google 登入視窗…';try{await signInWithPopup(auth,provider)}catch(e){const msg=errMsg(e);setInfo(msg,true);gateMessage.textContent=msg}finally{gateButton.disabled=false}}gateButton.onclick=startGoogleSignIn;el('signIn').onclick=startGoogleSignIn;
+async function startGoogleSignIn(){
+ if(gateButton.disabled)return;
+ gateButton.disabled=true;
+ gateMessage.textContent='正在開啟 Google 登入視窗…';
+ try{
+  await signInWithPopup(auth,provider);
+ }catch(e){
+  if(e?.code==='auth/popup-blocked'){
+   gateMessage.textContent='登入視窗遭瀏覽器阻擋，正在改用整頁登入…';
+   try{await signInWithRedirect(auth,provider);return}catch(redirectError){e=redirectError}
+  }
+  const msg=errMsg(e);setInfo(msg,true);
+  gateMessage.textContent=msg;
+  gateButton.disabled=false;
+ }finally{
+  if(!auth.currentUser)gateButton.disabled=false;
+ }
+}gateButton.onclick=startGoogleSignIn;el('signIn').onclick=startGoogleSignIn;
 el('signOut').onclick=async()=>{try{await signOut(auth)}catch(e){setInfo(errMsg(e),true)}};
 el('importLocalCloud').onclick=async()=>{
 if(!user||!ready)return;const entries=window.DevotionIsland.localBackup();const n=Object.keys(entries).length;
@@ -598,12 +615,38 @@ onAuthStateChanged(auth,async u=>{
 epoch++;const seq=epoch;ready=false;pending.clear();for(const t of timers.values())clearTimeout(t);timers.clear();if(unsub){unsub();unsub=null}user=u;
 el('signIn').hidden=!!u;el('signOut').hidden=!u;el('importLocalCloud').hidden=!u;
 if(!u){cloudCache={};window.DevotionIsland.switchAccount(null,{});setInfo('請先登入 Google 帳號');el('authHelp').textContent='登入後才能開始靈修，每個帳號的紀錄獨立保存。';showGate('');return}
-gateButton.disabled=true;gateMessage.textContent='正在載入你的靈修紀錄…';setInfo('正在讀取 '+(u.displayName||u.email)+' 的私人紀錄…');
-el('authHelp').textContent='雲端同步：'+(u.email||'已登入')+'。每位使用者都只能存取自己的靈修紀錄。';
+// Google authentication has already succeeded. Never keep the login gate visible
+// just because Firestore is slow: the signed-in person can safely use local cache.
+gateButton.disabled=false;hideGate();
+setInfo('✓ Google 登入成功 · 正在同步靈修資料…');
+el('authHelp').textContent='已使用 '+(u.email||'Google 帳號')+' 登入；正同步專屬紀錄。';
 try{
-const snap=await getDocs(path(u.uid));if(seq!==epoch)return;cloudCache={};snap.forEach(x=>cloudCache[x.id]=x.data());window.DevotionIsland.switchAccount(u.uid,cloudCache);ready=true;hideGate();setInfo('✓ 已登入並啟用雲端同步 · '+(u.displayName||u.email));
-unsub=onSnapshot(path(u.uid),snapshot=>{if(seq!==epoch)return;for(const change of snapshot.docChanges()){if(change.type==='removed')delete cloudCache[change.doc.id];else cloudCache[change.doc.id]=change.doc.data()}if(pending.size===0)window.DevotionIsland.receiveCloud(cloudCache)},e=>setInfo(errMsg(e),true));
-const local=window.DevotionIsland.localBackup();if(Object.keys(local).length)el('importLocalCloud').hidden=false;
-}catch(e){setInfo(errMsg(e),true);window.DevotionIsland.switchAccount(null,{});el('signIn').hidden=false;el('signOut').hidden=true;el('importLocalCloud').hidden=true;showGate('登入資料載入失敗，請重新登入。'+errMsg(e))}
+ const snap=await getDocs(path(u.uid));if(seq!==epoch)return;
+ cloudCache={};snap.forEach(x=>cloudCache[x.id]=x.data());
+ window.DevotionIsland.switchAccount(u.uid,cloudCache);
+ ready=true;setInfo('✓ 已登入並啟用雲端同步 · '+(u.displayName||u.email));
+ unsub=onSnapshot(path(u.uid),snapshot=>{
+  if(seq!==epoch)return;
+  for(const change of snapshot.docChanges()){
+   if(change.type==='removed')delete cloudCache[change.doc.id];
+   else cloudCache[change.doc.id]=change.doc.data()
+  }
+  if(pending.size===0)window.DevotionIsland.receiveCloud(cloudCache)
+ },e=>setInfo(errMsg(e),true));
+ const local=window.DevotionIsland.localBackup();
+ if(Object.keys(local).length)el('importLocalCloud').hidden=false;
+}catch(e){
+ if(seq!==epoch)return;
+ console.error('[天堂靈修小鎮] Firebase 記錄暫時讀取失敗，保留已登入身分與本機快取',e);
+ let cached={};try{
+  cached=JSON.parse(localStorage.getItem('devotion-island-user-'+u.uid)||'{}').entries||{}
+ }catch(_){}
+ // Do not sign out, clear cloud records, or overwrite the user cache on read failures.
+ window.DevotionIsland.switchAccount(u.uid,cached);
+ ready=false;
+ setInfo('✓ Google 已登入；雲端讀取暫時失敗，正在使用本機紀錄（'+(e?.code||'網路問題')+'）',true);
+ el('authHelp').textContent='帳號已登入，但雲端讀取暫時失敗。請確認網路後重新整理；本機紀錄仍保留。';
+ hideGate();
+}
 });
 </script></body></html>
