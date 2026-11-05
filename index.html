@@ -808,6 +808,47 @@ body{background:linear-gradient(180deg,#c8f0fb 0%,#9bdff7 40%,#d2f0f4 100%);colo
 .dash-v10 #townBoard .build-placement-toggle.is-hidden{background:#fff4d7;color:#8d6729;border:1px solid #e2c98e}
 .dash-v10 #townBoard .build-placement-toggle:focus-visible{outline:2px solid #16866c;outline-offset:2px}
 
+
+/* V13b: prominent placement controls always displayed for purchased items */
+.dash-v10 #townBoard .town-item.build-shop-item{
+ display:grid!important;grid-template-columns:58px minmax(0,1fr)!important;
+ align-items:center!important;gap:5px 9px!important;padding:9px!important;
+}
+.dash-v10 #townBoard .town-item.build-shop-item .build-shop-art{
+ grid-column:1!important;grid-row:1!important;width:58px!important;height:58px!important
+}
+.dash-v10 #townBoard .town-item.build-shop-item .build-shop-meta{
+ grid-column:2!important;grid-row:1!important
+}
+.dash-v10 #townBoard .town-item.build-shop-item .build-purchase-controls{
+ display:flex!important;flex-direction:column!important;align-items:stretch!important;
+ grid-column:1/-1!important;grid-row:auto!important;gap:6px!important;
+ min-width:0!important;margin-top:5px!important;
+}
+.dash-v10 #townBoard .build-owned-status{display:block!important;text-align:left!important;font-size:.76rem!important;font-weight:850!important;line-height:1.35}
+.dash-v10 #townBoard .build-owned-status.status-purchased{color:#247b59}
+.dash-v10 #townBoard .build-owned-status.status-not-owned{color:#8b7860}
+.dash-v10 #townBoard .build-purchase-controls .btn{
+ display:block!important;visibility:visible!important;opacity:1!important;
+ grid-column:auto!important;grid-row:auto!important;
+ width:100%!important;max-width:none!important;min-height:38px!important;
+ padding:9px 12px!important;font-size:.83rem!important;font-weight:900!important;
+ white-space:normal!important;text-align:center!important;
+}
+.dash-v10 #townBoard .build-purchase-controls .build-placement-toggle.is-visible{
+ background:#286f59!important;color:#fff!important;border:1px solid #286f59!important
+}
+.dash-v10 #townBoard .build-purchase-controls .build-placement-toggle.is-hidden{
+ background:#fff0bc!important;color:#735318!important;border:1px solid #dab766!important
+}
+.dash-v10 #townBoard .build-purchase-controls .btn:disabled{
+ opacity:.48!important;cursor:not-allowed!important
+}
+@media(max-width:700px){
+ .dash-v10 #townBoard .town-item.build-shop-item{grid-template-columns:66px minmax(0,1fr)!important}
+ .dash-v10 #townBoard .town-item.build-shop-item .build-shop-art{width:64px!important;height:64px!important}
+}
+
 </style>
 </head><body><div id="loginGate" role="dialog" aria-modal="true" aria-labelledby="loginTitle"><div class="login-card"><div style="font-size:3rem">🌿</div><div style="letter-spacing:.18em;font-size:.78rem;color:#d4e7ca">HEAVENLY DEVOTION TOWN</div><h1 id="loginTitle">天堂靈修小鎮</h1><p>與神同行，每一天。<br>請先登入 Google 帳號，開啟專屬於你的詩篇旅程。</p><button id="gateSignIn" disabled>正在確認登入狀態…</button><div id="loginMessage" class="login-msg" aria-live="polite"></div><small>每位使用者都有獨立的靈修進度、禱告與日記。</small></div></div><div class="shell"><header class="top"><div><div class="brand">🌿 天堂靈修小鎮 <span class="tag">HEAVENLY DEVOTION TOWN</span></div><div class="tag">與神同行 · 每一天</div></div><nav class="nav"><span id="authText" class="authstatus">登入狀態載入中…</span><button class="btn" id="signIn" hidden>使用 Google 登入</button><button class="btn" id="signOut" hidden>登出</button><button class="btn" id="importLocalCloud" hidden>匯入此裝置舊紀錄</button><button class="btn" id="export">備份資料</button><button class="btn" id="import">匯入備份</button><input id="file" type="file" accept="application/json" hidden></nav></header><div class="authbox" id="authHelp">請登入自己的 Google 帳號以在手機與電腦同步。未登入時仍可在本裝置記錄，資料不會自動上傳。</div><div class="town-unified-world" id="townWorld"><section class="hero"><div class="intro"><div class="eyebrow">150 DAYS IN PSALMS</div><h1>讓神的話語，<br>成為生命中的風景。</h1><p>探索六座靈修島嶼，閱讀詩篇、安靜默想、寫下禱告。每天前進一小步，留下與神同行的足跡。</p><div class="days"><button class="btn" id="prev">← 前一篇</button><select id="day" aria-label="選擇靈修篇章"></select><button class="btn" id="next">下一篇 →</button></div><div class="today-row"><button class="btn" id="today">☀ 回到今日詩篇</button><span class="today-note" id="todayNote"></span></div></div><aside class="stats"><div><div class="eyebrow" style="color:#688d7c">YOUR JOURNEY</div><h2 style="margin:6px 0">我的詩篇旅程</h2></div><div class="numbers"><div><strong id="done">0</strong><span>完成篇數</span></div><div><strong id="percent">0%</strong><span>旅程進度</span></div><div><strong id="remaining">150</strong><span>剩餘篇數</span></div></div><div class="progress"><div id="progress"></div></div><div class="hint" id="status">今天，讓我們從神的話語開始。</div></aside></section><section class="town-board" id="townBoard"><div class="town-heading"><div><span class="town-kicker">🌱 MY GROWING TOWN</span><h2 id="townLevel">萌芽小鎮</h2><span id="townChapters">0 / 150 篇</span></div><div class="town-seeds"><span>✨ 恩典種子</span><strong id="townSeeds">0</strong></div></div><p id="townNext" class="town-next">完成靈修，培育你的天空小鎮</p><div id="townBuildStatus" class="town-build-status" aria-live="polite">已建設 0 / 6 項 · 聖殿 Lv.1</div><details><summary>🏡 打開小鎮建設手冊</summary><div id="townItems" class="town-items"></div></details></section><main class="main atlas-workspace" id="townMain"><section class="mission-board" id="missionBoard"><div class="mission-top"><h2>🌿 今日六島任務</h2><span class="mission-current" id="missionCount">0 / 6</span></div><div class="mission-items" id="missionItems"></div><div class="mission-track"><div class="mission-fill" id="missionFill" style="width:0%"></div></div><div class="mission-next" id="missionNext"></div></section><section class="scene" id="scene"><canvas id="world3d" aria-label="可拖曳旋轉與縮放的立體靈修島嶼地圖"></canvas><div class="atlas-workspace-top"><div class="atlas-workspace-title"><span class="atlas-workspace-kicker">✦ HEAVENLY DEVOTION ATLAS ✦</span><strong>天堂靈修小鎮・探索地圖</strong><small>六島靈修旅程 · 點選建築開始探索</small></div><div class="atlas-workspace-actions"><button type="button" id="atlasOverview" class="atlas-uxbtn active">🗺️ 全島地圖</button><button type="button" id="atlasOpenDaily" class="atlas-uxbtn">📖 今日靈修</button><button type="button" id="atlasOpenBuild" class="atlas-uxbtn">🌱 小鎮建設</button></div></div><div id="illustratedMap" role="region" aria-label="精緻靈修小鎮地圖，六座島嶼可點選"><svg id="townAtlas" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" aria-label="禱告聖殿位於中央的六島天空地圖"></svg></div><div class="atlas-toolbar"><button id="atlas2d" aria-pressed="true" title="精緻 2D 地圖">🗺️ 插畫地圖</button><button id="atlas3d" aria-pressed="false" title="原本的可旋轉 3D 世界">🌤️ 3D 世界</button></div><div class="atlas-map-legend"><strong>🌿 靈修導覽</strong><span><i class="atlas-dot done"></i>已完成任務</span><span><i class="atlas-dot next"></i>目前探索</span><span>✦ 點選島嶼開啟專屬靈修內容</span></div><div class="atlas-hint">✦ 地圖固定 · 點選發光島嶼開始今日靈修</div><div class="atlas-zooms"><button id="atlasZoomIn" aria-label="放大">＋</button><button id="atlasZoomOut" aria-label="縮小">－</button><button id="atlasZoomReset" aria-label="重設縮放">⌂</button></div><div class="sanctuary-version" title="本次聖殿模型更新">⛪ 聖殿模型 v2</div><div class="sky-controls"><span id="skyClock" aria-label="台灣目前時間"></span></div><div class="map-controls"><button id="zoomIn" title="放大地圖">＋</button><button id="zoomOut" title="縮小地圖">－</button><button id="resetView" title="重設視角">重設</button></div><div class="scene-header"><h2>探索天空靈修群島</h2><p>從禱告聖殿出發 · 第一站：真理之島</p></div><button class="island i0 selected" data-island="0"><span class="land"><span>📖</span></span><b>真理之島</b><small>每日經文</small></button><button class="island i1" data-island="1"><span class="land"><span>🌳</span></span><b>默想森林</b><small>經文反省</small></button><button class="island i2" data-island="2"><span class="land"><span>🕊️</span></span><b>禱告聖殿</b><small>與神對話</small></button><button class="island i3" data-island="3"><span class="land"><span>🌱</span></span><b>生命花園</b><small>生活實踐</small></button><button class="island i4" data-island="4"><span class="land"><span>🌄</span></span><b>恩典山谷</b><small>感恩日記</small></button><button class="island i5" data-island="5"><span class="land"><span>🗺️</span></span><b>信仰旅程</b><small>靈修足跡</small></button><div class="scene-foot">✦ 插畫小鎮 · 點選六座島嶼 · 靈修紀錄透過 Google 帳號同步 ✦</div></section><div id="atlasDrawerBackdrop" class="atlas-drawer-backdrop" hidden></div><aside id="atlasDrawer" class="atlas-drawer" aria-label="靈修內容抽屜" aria-hidden="true"><div class="atlas-drawer-head"><div><span>🌿 DAILY DEVOTION</span><strong id="atlasDrawerTitle">今日靈修</strong></div><button type="button" id="atlasDrawerClose" aria-label="關閉靈修內容">✕</button></div><section class="panel" id="panel" aria-live="polite"></section><div class="atlas-drawer-footer"><button type="button" id="atlasDrawerPrev">← 上一座島</button><button type="button" id="atlasDrawerHome">返回全島地圖</button><button type="button" id="atlasDrawerNext">下一座島 →</button></div></aside></main></div><footer class="footer">天堂靈修小鎮 · 2D 插畫地圖 · 每日六島靈修任務 · Google 登入與個人進度同步。</footer></div><div class="toast" id="toast" role="status"></div>
 <script>
@@ -1063,7 +1104,25 @@ function townRecord(){return store.entries.town||(store.entries.town={purchases:
 // Only explicitly hidden items are off. Previous purchases remain displayed by default.
 function townPlacements(){const t=townRecord();return t.placements&&typeof t.placements==='object'?t.placements:{}}
 function townMetrics(){let completed=0,earned=0;for(const [k,v] of Object.entries(store.entries)){if(!/^([1-9]|[1-9][0-9]|1[0-4][0-9]|150)$/.test(k)||!v)continue;if(v.done)completed++;const flags=tasks(v);earned+=flags.reduce((s,f,i)=>s+(f?[10,15,15,10,5,15][i]:0),0)}const purchased=townRecord().purchases||{};const spent=TOWN_ITEMS.reduce((s,item)=>s+(purchased[item.id]?item.cost:0),0);const level=TOWN_LEVELS.reduce((a,l)=>completed>=l.min?l:a,TOWN_LEVELS[0]);return {completed,earned,spent,balance:Math.max(0,earned-spent),level,purchased,placements:townPlacements()}}
-function townUi(){const m=townMetrics(),next=TOWN_LEVELS.find(x=>x.min>m.completed);$('townLevel').textContent=m.level.name;$('townChapters').textContent=m.completed+' / 150 篇';$('townSeeds').textContent=m.balance.toLocaleString('zh-TW');$('townNext').textContent=next?'再完成 '+(next.min-m.completed)+' 篇解鎖「'+next.name+'」':'已達最高成長階段';$('townItems').innerHTML=TOWN_ITEMS.map(item=>'<div class="town-item build-shop-item"><div class="build-shop-art"><img src="./build-'+item.id+'.webp" alt="'+item.name+'插畫" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="build-shop-emoji" style="display:none">'+item.icon+'</span></div><div class="build-shop-meta"><button type="button" class="build-info-toggle" data-build-info="'+item.id+'" aria-expanded="false"><strong>'+item.name+'</strong><small class="build-shop-island">'+item.island+'</small><span class="build-info-caret">▾</span></button><small class="build-item-description" id="build-description-'+item.id+'" hidden>'+item.desc+'</small></div>'+(m.purchased[item.id]?'<button type="button" class="btn build-placement-toggle '+(m.placements[item.id]===false?'is-hidden':'is-visible')+'" data-place="'+item.id+'" aria-pressed="'+(m.placements[item.id]!==false)+'">'+(m.placements[item.id]===false?'◯ 擺設出來':'✓ 收起擺設')+'</button>':'<button class="btn" data-buy="'+item.id+'" '+(m.balance<item.cost?'disabled':'')+'>'+item.cost+' 🌱 購買</button>')+'</div>').join('');document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const item=TOWN_ITEMS.find(i=>i.id===b.dataset.buy),now=townMetrics();if(!item||now.purchased[item.id]||now.balance<item.cost)return;townRecord().purchases={...now.purchased,[item.id]:true};saveTown();townUi();toast('成功建造「'+item.name+'」！');window.dispatchEvent(new CustomEvent('town-growth',{detail:townMetrics()}))});document.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>{
+function townUi(){
+ const m=townMetrics(),next=TOWN_LEVELS.find(x=>x.min>m.completed);
+ $('townLevel').textContent=m.level.name;
+ $('townChapters').textContent=m.completed+' / 150 篇';
+ $('townSeeds').textContent=m.balance.toLocaleString('zh-TW');
+ $('townNext').textContent=next?'再完成 '+(next.min-m.completed)+' 篇解鎖「'+next.name+'」':'已達最高成長階段';
+ $('townItems').innerHTML=TOWN_ITEMS.map(item=>{
+  const owned=!!m.purchased[item.id],visible=owned&&m.placements[item.id]!==false;
+  const status=owned?(visible?'● 已購買 · 擺設中':'● 已購買 · 已收起'):'○ 尚未購買';
+  const action=owned?
+   '<button type="button" class="btn build-placement-toggle '+(visible?'is-visible':'is-hidden')+'" data-place="'+item.id+'" aria-pressed="'+visible+'" title="'+(visible?'點擊後從地圖隱藏，並保留購買紀錄':'重新顯示在原本的島嶼上')+'">'+(visible?'收起擺設':'擺設出來')+'</button>':
+   '<button type="button" class="btn build-buy-button" data-buy="'+item.id+'" '+(m.balance<item.cost?'disabled':'')+'>'+item.cost+' 🌱 購買</button>';
+  return '<div class="town-item build-shop-item '+(owned?'build-owned':'build-locked')+'">'+
+   '<div class="build-shop-art"><img src="./build-'+item.id+'.webp" alt="'+item.name+'插畫" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="build-shop-emoji" style="display:none">'+item.icon+'</span></div>'+
+   '<div class="build-shop-meta"><button type="button" class="build-info-toggle" data-build-info="'+item.id+'" aria-expanded="false"><strong>'+item.name+'</strong><small class="build-shop-island">'+item.island+'</small><span class="build-info-caret">▾</span></button><small class="build-item-description" id="build-description-'+item.id+'" hidden>'+item.desc+'</small></div>'+
+   '<div class="build-purchase-controls"><span class="build-owned-status '+(owned?'status-purchased':'status-not-owned')+'">'+status+'</span>'+action+'</div>'+
+   '</div>';
+ }).join('');
+ document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const item=TOWN_ITEMS.find(i=>i.id===b.dataset.buy),now=townMetrics();if(!item||now.purchased[item.id]||now.balance<item.cost)return;townRecord().purchases={...now.purchased,[item.id]:true};saveTown();townUi();toast('成功建造「'+item.name+'」！');window.dispatchEvent(new CustomEvent('town-growth',{detail:townMetrics()}))});document.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>{
   const item=TOWN_ITEMS.find(i=>i.id===b.dataset.place),now=townMetrics();
   if(!item||!now.purchased[item.id])return;
   const nextVisible=now.placements[item.id]===false;
