@@ -170,13 +170,18 @@ buildDefinitions.forEach(function(item){
 });
 function updateTownBuildings(detail){
  var purchased=(detail&&detail.purchased)||{};
+ var placements=(detail&&detail.placements)||{};
  buildDefinitions.forEach(function(item){
   var layer=svg.querySelector('[data-building="'+item.id+'"]');
   if(!layer)return;
+  // A purchase is permanent; visibility is separately controlled by its owner.
+  // Legacy purchases without placement settings remain visible.
   var built=!!purchased[item.id];
-  layer.style.display=built?'':'none';
-  layer.setAttribute('aria-hidden',String(!built));
+  var visible=built&&placements[item.id]!==false;
+  layer.style.display=visible?'':'none';
+  layer.setAttribute('aria-hidden',String(!visible));
   layer.classList.toggle('is-built',built);
+  layer.classList.toggle('is-displayed',visible);
  });
  var chapelCount=['lantern','fountain','arch'].filter(function(k){return !!purchased[k]}).length;
  var stage=Math.min(3,chapelCount+1);
