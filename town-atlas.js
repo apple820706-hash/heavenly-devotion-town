@@ -263,35 +263,44 @@ svg.querySelectorAll('.atlas-art').forEach(function(img){
  };
  probe.src=url;
 });
-// V2 CLEAN-BASE PILOT (safe and opt-in).
-// A newly painted scripture-base.webp can be tested without modifying the
-// original scripture.webp or any saved purchase and placement preferences.
-// The page intentionally does NOT request the file in ordinary production mode.
-// For art QA only: open the site with ?v2pilot=scripture. If that asset has not
-// been uploaded yet (or fails to decode), the original painterly island stays.
-var v2PilotEnabled=new URLSearchParams(window.location.search).get('v2pilot')==='scripture';
-if(v2PilotEnabled){
- var scriptureIsland=svg.querySelector('[data-map-island="0"]');
- var scriptureImage=scriptureIsland&&scriptureIsland.querySelector('.atlas-art');
- if(scriptureImage){
-  var originalArt=scriptureImage.getAttribute('href');
-  var candidate='./scripture-base.webp';
-  var cleanProbe=new Image();
-  cleanProbe.onload=function(){
-   if(cleanProbe.naturalWidth<500||cleanProbe.naturalHeight<500)return;
-   scriptureImage.setAttribute('href',candidate);
-   scriptureImage.setAttribute('data-original-art',originalArt);
-   scriptureIsland.classList.add('v2-clean-art-active');
-   scriptureImage.addEventListener('error',function(){
-    scriptureImage.setAttribute('href',originalArt);
-    scriptureIsland.classList.remove('v2-clean-art-active');
+// V2 CLEAN-BASE PILOT — six-island safe preview, never on by default.
+// Preview ?v2pilot=scripture|forest|chapel|garden|valley|journey|all
+// Requires individual *real* 850x850 clean-base WebP. Missing/invalid images
+// leave the original untouched. This switch NEVER modifies user saved data.
+(function(){
+ var sourceNames=['scripture','forest','chapel','garden','valley','journey'];
+ var requested=new URLSearchParams(window.location.search).get('v2pilot');
+ var enabled=requested==='all'?sourceNames.slice():sourceNames.filter(function(x){return x===requested});
+ if(!enabled.length)return;
+ var diagnostics={requested:requested,ready:[],missing:[]};
+ window.DevotionV2Pilot=diagnostics;
+ function previewIsland(i){
+  var name=sourceNames[i],island=svg.querySelector('[data-map-island="'+i+'"]');
+  var art=island&&island.querySelector('.atlas-art');
+  if(!art)return;
+  var original=art.getAttribute('href'),candidate='./'+name+'-base.webp';
+  var probe=new Image();
+  probe.onload=function(){
+   // A smaller preview or a text/html 404 response must never replace the artwork.
+   if(probe.naturalWidth!==850||probe.naturalHeight!==850){
+    diagnostics.missing.push(name+' (invalid dimensions)');return;
+   }
+   art.setAttribute('href',candidate);
+   art.setAttribute('data-original-art',original);
+   island.classList.add('v2-clean-art-active');
+   diagnostics.ready.push(name);
+   art.addEventListener('error',function(){
+    art.setAttribute('href',original);
+    island.classList.remove('v2-clean-art-active');
+    diagnostics.ready=diagnostics.ready.filter(function(x){return x!==name});
+    diagnostics.missing.push(name+' (render failed)');
    },{once:true});
   };
-  cleanProbe.onerror=function(){scriptureIsland.classList.remove('v2-clean-art-active')};
-  cleanProbe.src=candidate;
+  probe.onerror=function(){diagnostics.missing.push(name+' (file missing)')};
+  probe.src=candidate;
  }
-}
-
+ enabled.forEach(function(name){previewIsland(sourceNames.indexOf(name))});
+})();
 // The entire sky, bridges, islands and residents are one responsive SVG scene.
 // Keep the atlas fixed; only island hotspots and resident sprites are interactive.
 // Put all task lamps above the island artwork, so they remain easy to tap
