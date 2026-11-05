@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>天堂靈修小鎮 V2｜底圖品質檢查</title>
+<style>
+:root{color-scheme:light;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;color:#205c4c;background:#dff3f7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 5%,#fff3cf,#dcf6fd 52%,#d9f3e1);min-height:100vh}
+header{background:#f5fff9e8;border-bottom:1px solid #bfe4d1;padding:14px clamp(14px,3vw,50px);display:flex;justify-content:space-between;align-items:center;gap:16px}
+h1{font-size:clamp(1.1rem,2vw,1.5rem);margin:0}p{line-height:1.7}a{color:#14735b}
+main{max-width:1150px;margin:24px auto;padding:0 16px}
+.card{background:#fffef8ed;border:1px solid #d6dabd;border-radius:18px;padding:18px;box-shadow:0 6px 25px #3377601b;margin-bottom:15px}
+.options{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.options label{display:grid;gap:7px;font-weight:700;font-size:.9rem}
+select,input[type=file]{padding:9px;border-radius:9px;border:1px solid #9ac7ac;background:#fff;max-width:100%}
+.status{font-size:.84rem;display:block;margin:12px 0 0;color:#63776a}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+figure{margin:0}figcaption{text-align:center;font-weight:800;padding:9px}.image-wrap{position:relative;aspect-ratio:1;border-radius:15px;overflow:hidden;border:1px solid #8cb6a5;background:linear-gradient(45deg,#e2eee9 25%,#f7fffb 25%,#f7fffb 50%,#e2eee9 50%,#e2eee9 75%,#f7fffb 75%);background-size:26px 26px}
+.image-wrap img{width:100%;height:100%;object-fit:contain;display:block}
+img:not([src]){display:none}
+.placeholder{position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:25px;color:#667c72;pointer-events:none}
+.image-wrap img[src]+.placeholder{display:none}
+.checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.check{border-radius:10px;padding:12px;background:#eef7ef;font-size:.82rem}
+.check strong{display:block;font-size:.95rem;margin-bottom:4px}
+#comparison{display:none}#comparison.visible{display:block}
+.slider{width:100%;accent-color:#0c8467;margin:10px 0}
+.split{position:relative;max-width:600px;aspect-ratio:1;margin:auto;overflow:hidden;border-radius:15px;background:#c9edf4}
+.split>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#candidateClip{position:absolute;inset:0;overflow:hidden;clip-path:inset(0 50% 0 0)}
+#candidateClip img{width:100%;height:100%;object-fit:contain}
+.split::after{content:"";position:absolute;top:0;bottom:0;left:var(--cut,50%);border-left:2px solid #ffe092;pointer-events:none}
+aside{color:#587363;font-size:.83rem;margin-top:14px}
+@media(max-width:700px){.gallery{grid-template-columns:1fr}.checks{grid-template-columns:1fr 1fr}.card{padding:13px}}
+</style></head><body>
+<header><h1>🌿 天堂靈修小鎮 · V2 底圖驗收</h1><a href="./">返回正式小鎮</a></header>
+<main>
+<section class="card"><h2>對比「原始精緻插畫」與「乾淨底圖候選素材」</h2>
+<p>本頁只在你的瀏覽器預覽圖片，不會上傳素材、修改網站或變動恩典種子、建設購買與 Firebase 紀錄。</p>
+<div class="options"><label>選擇島嶼<select id="island">
+<option value="scripture">真理之島</option><option value="forest">默想森林</option>
+<option value="chapel">禱告聖殿</option><option value="garden">生命花園</option>
+<option value="valley">恩典山谷</option><option value="journey">信仰旅程</option>
+</select></label><label>選擇新底圖檔案（850×850 WebP／PNG）<input id="imageUpload" type="file" accept="image/webp,image/png"></label></div>
+<span class="status" id="status" role="status">尚未選擇新底圖；右邊不會拿示意圖冒充素材。</span></section>
+<section class="card gallery"><figure><figcaption>原始插畫 · 不變</figcaption><div class="image-wrap"><img id="original" src="./scripture.webp" alt="原始島嶼插畫"></div></figure>
+<figure><figcaption>新底圖 · 待上傳驗收</figcaption><div class="image-wrap"><img id="candidate" alt="新底圖候選"><div class="placeholder">選擇你要驗收的獨立透明底圖素材</div></div></figure></section>
+<section class="card"><h2>素材檢查</h2><div class="checks">
+<div class="check"><strong id="dimension">尺寸待驗</strong>850 × 850 像素</div>
+<div class="check"><strong id="alpha">透明度待驗</strong>應保有透明背景</div>
+<div class="check"><strong id="format">格式待驗</strong>WebP 或 PNG</div></div>
+<aside>自動檢查只能確認檔案尺寸與透明度；「有沒有破壞人物、建築、畫風」仍須人工比較。</aside></section>
+<section class="card" id="comparison"><h2>拖曳比較｜左邊新圖、右邊原圖</h2><input class="slider" id="slider" type="range" min="0" max="100" value="50" aria-label="新舊底圖分隔比例">
+<div class="split" id="split"><img id="splitOriginal" alt="原始島嶼"><div id="candidateClip"><img id="splitCandidate" alt="新島嶼"></div></div>
+<p>通過驗收後才能把素材命名為 <code id="filename">scripture-base.webp</code>，並放進正式地圖。未通過時不應替換原圖。</p></section></main>
+<script>
+(function(){
+'use strict';
+const island=document.getElementById('island'),upload=document.getElementById('imageUpload');
+const original=document.getElementById('original'),candidate=document.getElementById('candidate');
+const status=document.getElementById('status'),split=document.getElementById('split');
+const slider=document.getElementById('slider'),clip=document.getElementById('candidateClip');
+let candidateUrl='';
+function clearCandidate(){
+ if(candidateUrl)URL.revokeObjectURL(candidateUrl);candidateUrl='';
+ candidate.removeAttribute('src');document.getElementById('comparison').classList.remove('visible');
+ ['dimension','alpha','format'].forEach(id=>document.getElementById(id).textContent='待驗');
+}
+function setIsland(){
+ const file='./'+island.value+'.webp';original.src=file;
+ document.getElementById('splitOriginal').src=file;
+ document.getElementById('filename').textContent=island.value+'-base.webp';
+ upload.value='';clearCandidate();status.textContent='等待上傳新底圖，本頁不會修改正式網站。';
+}
+function readAlpha(img){
+ const cv=document.createElement('canvas');cv.width=img.naturalWidth;cv.height=img.naturalHeight;
+ const cx=cv.getContext('2d',{willReadFrequently:true});cx.drawImage(img,0,0);
+ const data=cx.getImageData(0,0,cv.width,cv.height).data;
+ let transparent=0;for(let i=3;i<data.length;i+=4)if(data[i]<240)transparent++;
+ return transparent/data.length*4;
+}
+island.onchange=setIsland;
+upload.onchange=function(){
+ clearCandidate();const file=upload.files&&upload.files[0];if(!file)return;
+ if(!/^image\/(webp|png)$/.test(file.type)){status.textContent='只接受 PNG 或 WebP 圖片。';return}
+ candidateUrl=URL.createObjectURL(file);
+ const probe=new Image();
+ probe.onload=function(){
+  const dims=probe.naturalWidth===850&&probe.naturalHeight===850;
+  const alphaRate=readAlpha(probe),hasAlpha=alphaRate>.03;
+  document.getElementById('dimension').textContent=dims?'✓ 尺寸符合':'✕ '+probe.naturalWidth+' × '+probe.naturalHeight;
+  document.getElementById('alpha').textContent=hasAlpha?'✓ 有透明背景':'✕ 透明背景不足';
+  document.getElementById('format').textContent='✓ '+file.type.split('/')[1].toUpperCase();
+  candidate.src=candidateUrl;document.getElementById('splitCandidate').src=candidateUrl;
+  document.getElementById('comparison').classList.add('visible');
+  status.textContent=dims&&hasAlpha?'尺寸及透明背景符合。請仔細檢查建築、角色、島嶼輪廓是否與原圖一致。':'未達到基本素材規格，請勿直接部署。';
+ };
+ probe.onerror=function(){status.textContent='圖片載入失敗。';clearCandidate()};
+ probe.src=candidateUrl;
+};
+slider.oninput=function(){let n=Number(slider.value);clip.style.clipPath='inset(0 '+(100-n)+'% 0 0)';split.style.setProperty('--cut',n+'%')};
+})();
+</script></body></html>
