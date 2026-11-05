@@ -42,7 +42,10 @@ function tile(n){
  var bottom='M -107 -15 L 0 32 L 107 -15 L 107 45 L 0 92 L -107 45 Z';
  var decorations=tree(-81,-7,'#9cd19c')+tree(85,-14,'#8dc69c')+flower(-71,28,'#f7bbcf')+flower(67,37,'#f3df98')+flower(30,43,'#d4b1ee')+npc(-65,31,'#d19abc','#f8d7b9',n.id/2)+npc(73,23,'#a3c7d0','#f3d8bc',n.id/3);
  if(n.id===2)decorations+=npc(-5,37,'#dfb995','#f4d2b6',.7);
- var progress='<g class="atlas-status" data-status="'+n.id+'" transform="translate(98 -51)">'+circle(0,0,17,'#fffef5',{stroke:'#d4e6d6','stroke-width':2})+text(0,5,'○',{'text-anchor':'middle',fill:'#8aac9d','font-size':17,'font-weight':900})+'</g>';
+ var progress='<g class="atlas-status status-pending" data-status="'+n.id+'" transform="translate(100 -54)" aria-label="今日任務待完成">'+
+circle(0,0,24,'#fff6c2',{class:'atlas-status-halo'})+
+circle(0,0,15,'#ffd05c',{class:'atlas-status-lamp',stroke:'#fffdf0','stroke-width':3})+
+text(0,5,'!',{class:'atlas-status-symbol','text-anchor':'middle',fill:'#6c4c14','font-size':17,'font-weight':950})+'</g>';
  var artNames=['scripture','forest','chapel','garden','valley','journey'];
  var artPath='./'+artNames[n.id]+'.webp';
  var artW=n.id===2?270:251, artX=-artW/2,artY=-140;
@@ -73,12 +76,12 @@ var defs='<defs>'+
 function brightCloud(x,y,scale,opacity){return '<g opacity="'+opacity+'" transform="translate('+x+' '+y+') scale('+scale+')">'+
 ellipse(0,0,115,31,'url(#cloudShine)')+ellipse(-69,-11,53,35,'url(#cloudShine)')+ellipse(-17,-32,62,47,'url(#cloudShine)')+ellipse(51,-25,66,43,'url(#cloudShine)')+ellipse(103,-7,44,29,'url(#cloudShine)')+'</g>'}
 function twinkle(x,y,sz){return '<g class="atlas-twinkle" transform="translate('+x+' '+y+') scale('+sz+')">'+path('M 0 -13 Q 3 -3 13 0 Q 3 3 0 13 Q -3 3 -13 0 Q -3 -3 0 -13 Z','#fffdf1',{stroke:'#ffc957','stroke-width':1.5})+'</g>'}
-function sceneryBorder(){return '<g pointer-events="none">'+
-'<path d="M0 700 Q120 654 222 713 Q340 682 475 706 Q600 653 755 704 Q856 649 1000 695 L1000 760 L0 760Z" fill="url(#atlasGrass)" opacity=".9"/>'+
-'<path d="M0 716 Q142 661 260 736 M703 735 Q860 659 1000 721" fill="none" stroke="#ffffff88" stroke-width="5"/>'+
-Array.from({length:18},function(_,i){var side=i<9?i*33:730+(i-9)*32,yy=691+(i%3)*12;return flower(side,yy,i%3===0?'#fff9eb':i%3===1?'#ffb4d1':'#c596f2')}).join('')+
-'</g>'}
-var base=''+
+function sceneryBorder(){return '<g pointer-events="none" class="atlas-integrated-horizon">'+
+'<path d="M0 644 Q180 579 340 647 T700 651 T1000 638 L1000 720 L0 720 Z" fill="#fffef4" opacity=".24"/>'+
+brightCloud(70,690,1.38,.82)+brightCloud(337,715,1.22,.73)+brightCloud(687,699,1.38,.82)+brightCloud(976,689,1.35,.85)+
+'<g opacity=".72">'+
+Array.from({length:13},function(_,i){var x=i<7?i*27:842+(i-7)*27,y=710+(i%3)*3;return flower(x,y,i%3===0?'#fffbe8':i%3===1?'#ffc6df':'#d6b1f7')}).join('')+'</g></g>'}
+var base='<rect width="1000" height="720" fill="url(#atlasSky)" pointer-events="none"/>'+
 circle(790,68,220,'url(#atlasSun)')+
 '<g opacity=".29" stroke="#fffbe1" stroke-width="16">'+
 path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
@@ -174,24 +177,50 @@ svg.querySelectorAll('.atlas-art').forEach(function(img){
  probe.onerror=function(){img.remove()};
  probe.src=url;
 });
-var zoom=1,panX=0,panY=0,down=null,moved=false;
-function apply(){svg.style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')'}
-function changeZoom(delta){zoom=Math.max(.75,Math.min(2.2,zoom+delta));apply()}
-document.getElementById('atlasZoomIn').onclick=function(){changeZoom(.15)};
-document.getElementById('atlasZoomOut').onclick=function(){changeZoom(-.15)};
-document.getElementById('atlasZoomReset').onclick=function(){zoom=1;panX=0;panY=0;apply()};
-stage.addEventListener('wheel',function(ev){if(mode!=='2d')return;ev.preventDefault();changeZoom(ev.deltaY>0?-.1:.1)},{passive:false});
-stage.addEventListener('pointerdown',function(ev){if(mode!=='2d')return;down={x:ev.clientX,y:ev.clientY,px:panX,py:panY};moved=false;stage.classList.add('dragging')});
-stage.addEventListener('pointermove',function(ev){if(!down)return;var dx=ev.clientX-down.x,dy=ev.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;if(moved){panX=down.px+dx;panY=down.py+dy;apply()}});
-window.addEventListener('pointerup',function(){down=null;stage.classList.remove('dragging');if(moved){window.setTimeout(function(){moved=false},100)}});stage.addEventListener('pointercancel',function(){down=null;stage.classList.remove('dragging');moved=false});
+// The entire sky, bridges, islands and residents are one responsive SVG scene.
+// Keep the atlas fixed; only island hotspots and resident sprites are interactive.
+var moved=false,down=null;
+svg.style.transform='none';
+svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+['atlasZoomIn','atlasZoomOut','atlasZoomReset'].forEach(function(id){
+ var b=document.getElementById(id);
+ if(b){b.hidden=true;b.disabled=true;b.setAttribute('aria-hidden','true')}
+});
+stage.addEventListener('pointerdown',function(ev){
+ down={x:ev.clientX,y:ev.clientY};
+ moved=false;
+});
+stage.addEventListener('pointermove',function(ev){
+ if(!down)return;
+ if(Math.abs(ev.clientX-down.x)+Math.abs(ev.clientY-down.y)>12)moved=true;
+});
+window.addEventListener('pointerup',function(){down=null;if(moved)setTimeout(function(){moved=false},130)});
+stage.addEventListener('pointercancel',function(){down=null;moved=false});
 function visitIsland(i){if(mode!=='2d')return;var id=Number(i);if(!Number.isInteger(id)||id<0||id>5)return;var api=window.DevotionIsland;if(api&&typeof api.navigateIsland==='function')api.navigateIsland(id);}
 svg.addEventListener('click',function(ev){if(mode!=='2d'||moved)return;var item=ev.target.closest('[data-map-island]');if(item){ev.preventDefault();visitIsland(item.getAttribute('data-map-island'))}});
 svg.addEventListener('keydown',function(ev){if(ev.key!=='Enter'&&ev.key!==' ')return;var item=ev.target.closest('[data-map-island]');if(item){ev.preventDefault();moved=false;visitIsland(item.getAttribute('data-map-island'))}});
 function updateState(d){
  if(!d)return;
- svg.querySelectorAll('[data-map-island]').forEach(function(n){n.classList.toggle('selected',Number(n.dataset.mapIsland)===d.active)});
- var route=[0,1,3,4,5,2];
- (d.completed||[]).forEach(function(done,j){var id=route[j];var badge=svg.querySelector('[data-status="'+id+'"]');if(!badge)return;var t=badge.querySelector('text');t.textContent=done?'✓':'○';t.setAttribute('fill',done?'#368967':'#8aac9d')});
+ var route=[0,1,3,4,5,2],status={};
+ (d.completed||[]).forEach(function(done,i){status[route[i]]=!!done});
+ svg.querySelectorAll('[data-map-island]').forEach(function(n){
+  var id=Number(n.dataset.mapIsland),done=!!status[id],current=id===Number(d.active);
+  n.classList.toggle('selected',current);
+  n.classList.toggle('task-complete',done);
+  n.classList.toggle('task-pending',!done);
+  var light=n.querySelector('.atlas-status');
+  if(!light)return;
+  light.classList.toggle('status-done',done);
+  light.classList.toggle('status-pending',!done);
+  light.classList.toggle('status-current',!done&&current);
+  light.setAttribute('aria-label',done?'今日任務已完成':(current?'目前探索：尚未完成':'今日任務尚未完成'));
+  var circleEl=light.querySelector('.atlas-status-lamp');
+  var haloEl=light.querySelector('.atlas-status-halo');
+  var label=light.querySelector('.atlas-status-symbol');
+  if(circleEl)circleEl.setAttribute('fill',done?'#2dbb81':(current?'#ffbf38':'#ffd76c'));
+  if(haloEl)haloEl.setAttribute('fill',done?'#b7f2d4':(current?'#fff0a3':'#fff7cf'));
+  if(label){label.textContent=done?'✓':'!';label.setAttribute('fill',done?'#fffefa':'#765016')}
+ });
 }
 window.addEventListener('town-map-refresh',function(e){updateState(e.detail)});
 var all=[...document.querySelectorAll('.island')],sel=all.findIndex(function(n){return n.classList.contains('selected')});
