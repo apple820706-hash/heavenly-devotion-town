@@ -251,8 +251,8 @@ function updateState(d){
  svg.querySelectorAll('[data-map-island]').forEach(function(n){
   var id=Number(n.dataset.mapIsland),done=!!status[id],current=id===Number(d.active);
   n.classList.toggle('selected',current);
-  var label=svg.querySelector('[data-label-island="'+id+'"]');
-  if(label){label.classList.toggle('selected',current);label.classList.toggle('task-complete',done)}
+  var titleLabel=svg.querySelector('[data-label-island="'+id+'"]');
+  if(titleLabel){titleLabel.classList.toggle('selected',current);titleLabel.classList.toggle('task-complete',done)}
   n.classList.toggle('task-complete',done);
   n.classList.toggle('task-pending',!done);
   var light=svg.querySelector('#atlasTaskLights [data-status="'+id+'"]');
