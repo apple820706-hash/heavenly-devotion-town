@@ -263,10 +263,11 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasTaskLights">'+nodes.map(function
 // This prevents the central chapel from covering the forest name on narrow screens.
 function atlasLabel(n){
  var scale=n.id===2?1.16:1;
- // Keep the top-centre island label in the open corridor to its lower-left,
- // not under the later-drawn chapel artwork.
- var px=n.x+(n.id===1?-137:0)*scale;
- var py=n.y+(n.id===1?100:136)*scale;
+ // Forest is the top-centre island. Its title belongs on its own lower
+ // foreground, not in the corridor between the Scripture and Chapel islands.
+ // Positioning here preserves six visible labels on both desktop and mobile.
+ var px=n.x;
+ var py=n.y+(n.id===1?63:136)*scale;
  var w=n.id===1?152:158;
  return '<g class="atlas-visible-label" data-label-island="'+n.id+'" pointer-events="none" transform="translate('+px+' '+py+')">'+
  rect(-w/2,-25,w,38,'#fffdf5',17)+
