@@ -128,7 +128,15 @@ var residentPlans=[
  {type:'flower',at:[{x:477,y:405},{x:510,y:415},{x:534,y:390},{x:491,y:389}],start:3.6,speed:24}
 ];
 svg.insertAdjacentHTML('beforeend','<g id="atlasResidents" aria-hidden="true" pointer-events="none">'+
- residentPlans.map(function(r,i){return '<g id="atlasResident'+i+'" class="atlas-walking-resident" data-kind="'+r.type+'">'+residentIcon(r.type)+'</g>'}).join('')+'</g>');
+ residentPlans.map(function(r,i){return '<g id="atlasResident'+i+'" class="atlas-walking-resident" data-kind="'+r.type+'">'+
+ '<g class="resident-vector">'+residentIcon(r.type)+'</g>'+
+ '<image class="resident-image" href="./resident-'+r.type+'.webp" x="-31" y="-48" width="62" height="66" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>'+
+ '</g>'}).join('')+'</g>');
+['reader','flower','angel','rabbit'].forEach(function(type){
+ var img=new Image();img.onload=function(){
+  svg.querySelectorAll('[data-kind="'+type+'"]').forEach(function(n){n.classList.add('resident-art-loaded')})
+ };img.onerror=function(){};img.src='./resident-'+type+'.webp';
+});
 var reducedMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function pointOnRoute(route,time,speed){
  var distance=time*speed,total=0;
