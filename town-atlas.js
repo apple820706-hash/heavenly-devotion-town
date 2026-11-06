@@ -329,19 +329,20 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasTaskLights">'+nodes.map(function
 // Six island titles are always rendered above images and residents.
 // This prevents the central chapel from covering the forest name on narrow screens.
 function atlasLabel(n){
+ // Show the actual daily mission on each island rather than in a detached task strip.
  var scale=n.id===2?1.16:1;
- // Forest is the top-centre island. Its title belongs on its own lower
- // foreground, not in the corridor between the Scripture and Chapel islands.
- // Positioning here preserves six visible labels on both desktop and mobile.
- var px=n.x;
- var py=n.y+(n.id===1?63:136)*scale;
- var w=n.id===1?152:158;
- return '<g class="atlas-visible-label" data-label-island="'+n.id+'" pointer-events="none" transform="translate('+px+' '+py+')">'+
- rect(-w/2,-25,w,38,'#fffdf5',17)+
- text(0,1,n.name,{class:'atlas-island-label','font-size':18,'text-anchor':'middle'})+
- text(0,30,n.sub,{class:'atlas-island-sub','font-size':11,'text-anchor':'middle'})+'</g>';
+ var px=n.x, py=n.y+(n.id===1?63:136)*scale;
+ var w=174;
+ var taskNames=['閱讀經文','寫下默想','禱告回應','生活實踐','感恩日記','回顧旅程'];
+ return '<g class="atlas-visible-label atlas-mission-entry" data-label-island="'+n.id+'" data-map-island="'+n.id+'" role="button" tabindex="0" aria-label="'+n.name+'：'+taskNames[n.id]+'，點擊進入任務" transform="translate('+px+' '+py+')">'+
+ '<rect class="atlas-mission-card" x="'+(-w/2)+'" y="-26" width="'+w+'" height="69" rx="16" fill="#fffdf5" stroke="#b4d5c0" stroke-width="2"/>'+
+ text(0,-5,n.name,{class:'atlas-island-label','font-size':18,'text-anchor':'middle','pointer-events':'none'})+
+ text(0,16,taskNames[n.id],{class:'atlas-island-sub atlas-task-name','font-size':13,'font-weight':800,'text-anchor':'middle','pointer-events':'none'})+
+ '<rect class="atlas-mission-status-bg" x="-63" y="23" width="126" height="17" rx="9" fill="#fff1ca" pointer-events="none"/>'+
+ text(0,35,'○ 待完成',{class:'atlas-mission-status','font-size':10,'font-weight':800,'fill':'#815c2e','text-anchor':'middle','pointer-events':'none'})+
+ '</g>';
 }
-svg.insertAdjacentHTML('beforeend','<g id="atlasLabels" pointer-events="none">'+nodes.map(atlasLabel).join('')+'</g>');
+svg.insertAdjacentHTML('beforeend','<g id="atlasLabels">'+nodes.map(atlasLabel).join('')+'</g>');
 
 var moved=false,down=null;
 svg.style.transform='none';
@@ -383,7 +384,15 @@ function updateState(d){
   var id=Number(n.dataset.mapIsland),done=!!status[id],current=id===Number(d.active);
   n.classList.toggle('selected',current);
   var titleLabel=svg.querySelector('[data-label-island="'+id+'"]');
-  if(titleLabel){titleLabel.classList.toggle('selected',current);titleLabel.classList.toggle('task-complete',done)}
+  if(titleLabel){
+   titleLabel.classList.toggle('selected',current);
+   titleLabel.classList.toggle('task-complete',done);
+   var statusText=titleLabel.querySelector('.atlas-mission-status');
+   var statusBg=titleLabel.querySelector('.atlas-mission-status-bg');
+   if(statusText){statusText.textContent=done?'✓ 今日已完成':(current?'✦ 正在探索':'○ 待完成');statusText.setAttribute('fill',done?'#146744':(current?'#81541c':'#815c2e'))}
+   if(statusBg)statusBg.setAttribute('fill',done?'#ceefdb':(current?'#ffe2a1':'#fff1ca'));
+   titleLabel.setAttribute('aria-label',nodes[id].name+'：'+(statusText?statusText.textContent:'')+'，點擊進入任務');
+  }
   n.classList.toggle('task-complete',done);
   n.classList.toggle('task-pending',!done);
   var light=svg.querySelector('#atlasTaskLights [data-status="'+id+'"]');
