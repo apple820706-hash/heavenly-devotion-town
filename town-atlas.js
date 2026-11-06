@@ -378,7 +378,7 @@ stage.addEventListener('pointerdown',function(ev){
   var p=[...pointers.values()];pinchDistance=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)||1;
   pinchZoom=zoom;pinchX=panX;pinchY=panY;down=null;moved=true;
  }
- stage.setPointerCapture?.(ev.pointerId);
+ // Preserve normal tap/click targeting on island SVG elements.
 });
 stage.addEventListener('pointermove',function(ev){
  if(!pointers.has(ev.pointerId))return;
