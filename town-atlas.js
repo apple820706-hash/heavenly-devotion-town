@@ -41,9 +41,8 @@ function tile(n){
  var artNames=['scripture','forest','chapel','garden','valley','journey'];
  var artW=n.id===2?270:251;
  var art='<image class="atlas-art" href="./'+artNames[n.id]+'.webp" x="'+(-artW/2)+'" y="-140" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>';
- return '<g class="town-island" tabindex="0" role="button" aria-label="選取'+n.name+'" data-map-island="'+n.id+'" transform="translate('+n.x+' '+n.y+') scale('+scale+')">'+
+ return '<g class="town-island'+(n.id===2?' is-previewed':'')+'" tabindex="0" role="button" aria-label="選取'+n.name+'" data-map-island="'+n.id+'" transform="translate('+n.x+' '+n.y+') scale('+scale+')">'+
  '<g class="atlas-float-body">'+
- '<ellipse class="atlas-island-aura" cx="0" cy="-15" rx="112" ry="103" pointer-events="none"/>'+
  art+
  '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/>'+
  '</g></g>';
