@@ -41,9 +41,12 @@ function tile(n){
  var artNames=['scripture','forest','chapel','garden','valley','journey'];
  var artW=n.id===2?270:251;
  var art='<image class="atlas-art" href="./'+artNames[n.id]+'.webp" x="'+(-artW/2)+'" y="-140" width="'+artW+'" height="'+artW+'" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>';
- return '<g class="town-island" tabindex="0" role="button" aria-label="前往'+n.name+'" data-map-island="'+n.id+'" transform="translate('+n.x+' '+n.y+') scale('+scale+')">'+
+ return '<g class="town-island" tabindex="0" role="button" aria-label="選取'+n.name+'" data-map-island="'+n.id+'" transform="translate('+n.x+' '+n.y+') scale('+scale+')">'+
+ '<g class="atlas-float-body">'+
+ '<ellipse class="atlas-island-aura" cx="0" cy="-15" rx="112" ry="103" pointer-events="none"/>'+
  art+
- '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/></g>';
+ '<rect class="atlas-hit" x="-108" y="-105" width="216" height="255" rx="60" fill="transparent" pointer-events="all"/>'+
+ '</g></g>';
 }
 function cloud(x,y,s){return '<g class="atlas-cloud" transform="translate('+x+' '+y+') scale('+s+')">'+ellipse(0,0,55,15,'#ffffff9d')+circle(-20,-10,21,'#fffdf4')+circle(5,-15,29,'#fffdf8')+circle(30,-6,21,'#fffaf1')+'</g>'}
 var defs='<defs>'+ 
@@ -424,21 +427,63 @@ stage.addEventListener('pointerup',endPointer);
 stage.addEventListener('pointercancel',endPointer);
 window.addEventListener('blur',function(){pointers.clear();down=null});
 applyViewport();
-function visitIsland(i){if(mode!=='2d')return;var id=Number(i);if(!Number.isInteger(id)||id<0||id>5)return;var api=window.DevotionIsland;if(api&&typeof api.navigateIsland==='function')api.navigateIsland(id);}
+// Mobile uses deliberate two-tap navigation: first select/glow, second enter.
+// Desktop previews on hover; clicking remains one-step navigation.
+var previewIsland=-1;
+function highlightIsland(id){
+ previewIsland=id;
+ svg.querySelectorAll('.town-island').forEach(function(node){
+  var selected=Number(node.dataset.mapIsland)===id;
+  node.classList.toggle('is-previewed',selected);
+  node.setAttribute('aria-label',(selected?'已選取，': '選取')+nodes[Number(node.dataset.mapIsland)].name+(selected?'，再點一次進入靈修':''));
+ });
+ svg.querySelectorAll('[data-label-island]').forEach(function(node){
+  node.classList.toggle('is-previewed',Number(node.dataset.labelIsland)===id);
+ });
+ svg.querySelectorAll('[data-light-island]').forEach(function(node){
+  node.classList.toggle('is-previewed',Number(node.dataset.lightIsland)===id);
+ });
+}
+function isTouchNavigation(ev){
+ return window.matchMedia('(hover: none), (pointer: coarse)').matches || (ev && ev.pointerType==='touch');
+}
+function visitIsland(i,ev){
+ if(mode!=='2d')return;
+ var id=Number(i);if(!Number.isInteger(id)||id<0||id>5)return;
+ if(isTouchNavigation(ev)&&previewIsland!==id){
+  highlightIsland(id);
+  return;
+ }
+ highlightIsland(id);
+ var api=window.DevotionIsland;
+ if(api&&typeof api.navigateIsland==='function')api.navigateIsland(id);
+}
 svg.addEventListener('click',function(ev){
  if(mode!=='2d'||moved)return;
  var lamp=ev.target.closest('[data-light-island]');
- if(lamp){ev.preventDefault();visitIsland(lamp.getAttribute('data-light-island'));return}
+ if(lamp){ev.preventDefault();visitIsland(lamp.getAttribute('data-light-island'),ev);return}
  var item=ev.target.closest('[data-map-island]');
- if(item){ev.preventDefault();visitIsland(item.getAttribute('data-map-island'))}
+ if(item){ev.preventDefault();visitIsland(item.getAttribute('data-map-island'),ev)}
 });
 svg.addEventListener('keydown',function(ev){
  if(ev.key!=='Enter'&&ev.key!==' ')return;
  var lamp=ev.target.closest('[data-light-island]');
- if(lamp){ev.preventDefault();moved=false;visitIsland(lamp.getAttribute('data-light-island'));return}
- var item=ev.target.closest('[data-map-island]');
- if(item){ev.preventDefault();moved=false;visitIsland(item.getAttribute('data-map-island'))}
+ var item=lamp||ev.target.closest('[data-map-island]');
+ if(!item)return;
+ ev.preventDefault();moved=false;
+ visitIsland(item.getAttribute(lamp?'data-light-island':'data-map-island'),{pointerType:'touch'});
 });
+svg.addEventListener('pointerover',function(ev){
+ if(ev.pointerType==='touch')return;
+ var item=ev.target.closest('[data-map-island]');
+ if(item)highlightIsland(Number(item.dataset.mapIsland));
+});
+svg.addEventListener('pointerout',function(ev){
+ if(ev.pointerType==='touch'||isTouchNavigation(ev))return;
+ var item=ev.target.closest('[data-map-island]');
+ if(item&&!item.contains(ev.relatedTarget))highlightIsland(-1);
+});
+window.addEventListener('atlas-open-drawer',function(){highlightIsland(-1)});
 function updateState(d){
  if(!d)return;
  var route=[0,1,3,4,5,2],status={};
