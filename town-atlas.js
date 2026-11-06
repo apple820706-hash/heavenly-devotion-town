@@ -98,6 +98,7 @@ function makeCloudBridge(route){
  path(curve,'none',{class:'cloud-bridge-center'})+
  '</g>';
 }
+// Remember the sky nodes: these stay fixed while only the island world zooms.
 svg.innerHTML=defs+base+
  '<g id="atlasCloudBridges" aria-hidden="true" pointer-events="none">'+cloudRoutes.map(makeCloudBridge).join('')+'</g>'+
  '<g id="atlasIslandNodes">'+nodes.filter(function(n){return n.id!==2}).map(tile).join('')+tile(nodes[2])+'</g>';
@@ -341,12 +342,26 @@ function atlasLabel(n){
 svg.insertAdjacentHTML('beforeend','<g id="atlasLabels" pointer-events="none">'+nodes.map(atlasLabel).join('')+'</g>');
 
 // Full-map fit is the default on desktop and mobile. Users can zoom, drag, or pinch.
+// Keep stationary cloud/sky elements outside the zoomable island group.
+var zoomWorld=document.createElementNS('http://www.w3.org/2000/svg','g');
+zoomWorld.setAttribute('id','atlasZoomWorld');
+['atlasCloudBridges','atlasIslandNodes','atlasResidents','atlasBuildingOverlay','atlasTaskLights','atlasLabels'].forEach(function(id){
+ var item=svg.querySelector(':scope > #'+id);
+ if(item)zoomWorld.appendChild(item);
+});
+// Any additional construction/animation root groups belong to the island world too.
+Array.from(svg.children).forEach(function(child){
+ if(child.tagName.toLowerCase()==='g'&&!child.classList.contains('atlas-parallax')&&child.getAttribute('opacity')!=='.83'&&child!==zoomWorld){
+  if(child.id&&(/atlas|building|decoration|flower|town/i).test(child.id))zoomWorld.appendChild(child);
+ }
+});
+svg.appendChild(zoomWorld);
 var zoom=1,panX=0,panY=0,down=null,moved=false;
 var pointers=new Map(),pinchDistance=0,pinchZoom=1,pinchX=0,pinchY=0;
 svg.setAttribute('preserveAspectRatio','xMidYMid meet');
 function applyViewport(){
- svg.style.setProperty('transform','translate('+panX+'px,'+panY+'px) scale('+zoom+')','important');
- svg.style.transformOrigin='50% 50%';
+ // SVG world-only transform; the blue sky, clouds and the task cards remain still.
+ zoomWorld.setAttribute('transform','translate('+(500+panX)+' '+(360+panY)+') scale('+zoom+') translate(-500 -360)');
 }
 function setZoom(value){
  var next=Math.max(1,Math.min(3.5,value));
