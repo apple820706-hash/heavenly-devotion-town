@@ -176,7 +176,16 @@ var buildDefinitions=[
  {id:'lantern',island:2,file:'build-lantern.webp',x:-91,y:15,w:47,h:47,emoji:'🏮'},
  {id:'tree',island:0,file:'build-tree.webp',x:34,y:-50,w:91,h:91,emoji:'🌳'},
  {id:'fountain',island:2,file:'build-fountain.webp',x:60,y:16,w:48,h:48,emoji:'🕊️'},
- {id:'arch',island:2,file:'build-arch.webp',x:-36,y:22,w:71,h:71,emoji:'🌸'}
+ {id:'arch',island:2,file:'build-arch.webp',x:-36,y:22,w:71,h:71,emoji:'🌸'},
+ // Seven additional, smaller placements balance the six islands at 4/4/5/4/4/4.
+ // Each instance reuses the original purchase and show/hide key (no new cost).
+ {id:'bench',instance:'bench-truth',island:0,file:'build-bench.webp',x:-39,y:1,w:40,h:40,emoji:'🪑'},
+ {id:'bench',instance:'bench-forest-second',island:1,file:'build-bench.webp',x:-53,y:7,w:39,h:39,emoji:'🪑'},
+ {id:'bench',instance:'bench-garden',island:3,file:'build-bench.webp',x:-44,y:-25,w:39,h:39,emoji:'🪑'},
+ {id:'bench',instance:'bench-valley',island:4,file:'build-bench.webp',x:-41,y:-14,w:39,h:39,emoji:'🪑'},
+ {id:'fountain',instance:'fountain-valley',island:4,file:'build-fountain.webp',x:20,y:0,w:36,h:36,emoji:'🕊️'},
+ {id:'bench',instance:'bench-journey',island:5,file:'build-bench.webp',x:-45,y:-24,w:39,h:39,emoji:'🪑'},
+ {id:'lantern',instance:'lantern-journey',island:5,file:'build-lantern.webp',x:20,y:8,w:35,h:35,emoji:'🏮'}
 ]);
 var validBuildIds=Array.from(new Set(buildDefinitions.map(function(item){return item.id})));
 buildDefinitions.forEach(function(item){
