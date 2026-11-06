@@ -118,6 +118,24 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasResidents" aria-hidden="true" po
  residentPlans.map(function(r,i){return '<g id="atlasResident'+i+'" class="atlas-walking-resident" data-kind="'+r.type+'">'+
  '<image class="resident-image" href="./resident-'+r.type+'.webp" x="-31" y="-48" width="62" height="66" preserveAspectRatio="xMidYMid meet" pointer-events="none"/>'+
  '</g>'}).join('')+'</g>');
+// Anchor each roaming character to its island's floating body. The local
+// coordinate compensation preserves its existing walking route, while a hover
+// or selected island lifts the resident and island artwork together.
+var residentHomeIsland=[0,4,3,2,1,5,2];
+residentHomeIsland.forEach(function(islandId,residentId){
+ var islandNode=svg.querySelector('[data-map-island="'+islandId+'"]');
+ var resident=svg.querySelector('#atlasResident'+residentId);
+ var body=islandNode&&islandNode.querySelector('.atlas-float-body');
+ if(!body||!resident)return;
+ var island=nodes[islandId],scale=islandId===2?1.16:1;
+ var anchor=document.createElementNS('http://www.w3.org/2000/svg','g');
+ anchor.setAttribute('class','atlas-resident-local-anchor');
+ anchor.setAttribute('pointer-events','none');
+ anchor.setAttribute('transform','translate('+(-island.x/scale)+' '+(-island.y/scale)+') scale('+(1/scale)+')');
+ resident.parentNode.removeChild(resident);
+ anchor.appendChild(resident);
+ body.appendChild(anchor);
+});
 ['reader','flower','angel','rabbit'].forEach(function(type){
  var img=new Image();img.onload=function(){
   svg.querySelectorAll('[data-kind="'+type+'"]').forEach(function(n){n.classList.add('resident-art-loaded')})
@@ -190,7 +208,8 @@ buildDefinitions.forEach(function(item){
  fallback.setAttribute('class','atlas-building-fallback');
  fallback.textContent=item.emoji;
  group.appendChild(fallback);
- root.appendChild(group);
+ // Keep every purchased decoration inside the same levitating SVG body as its island.
+ (root.querySelector('.atlas-float-body')||root).appendChild(group);
  var probe=new Image();
  probe.onload=function(){group.classList.add('building-image-ready')};
  probe.onerror=function(){
