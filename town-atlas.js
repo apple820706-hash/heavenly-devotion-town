@@ -344,23 +344,64 @@ function atlasLabel(n){
 }
 svg.insertAdjacentHTML('beforeend','<g id="atlasLabels">'+nodes.map(atlasLabel).join('')+'</g>');
 
-var moved=false,down=null;
-svg.style.transform='none';
+// Full-map fit is the default on desktop and mobile. Users can zoom, drag, or pinch.
+var zoom=1,panX=0,panY=0,down=null,moved=false;
+var pointers=new Map(),pinchDistance=0,pinchZoom=1,pinchX=0,pinchY=0;
 svg.setAttribute('preserveAspectRatio','xMidYMid meet');
-['atlasZoomIn','atlasZoomOut','atlasZoomReset'].forEach(function(id){
+function applyViewport(){
+ svg.style.setProperty('transform','translate('+panX+'px,'+panY+'px) scale('+zoom+')','important');
+ svg.style.transformOrigin='50% 50%';
+}
+function setZoom(value){
+ var next=Math.max(1,Math.min(3.5,value));
+ zoom=next;
+ if(next===1){panX=0;panY=0}
+ applyViewport();
+}
+function zoomControl(id,callback){
  var b=document.getElementById(id);
- if(b){b.hidden=true;b.disabled=true;b.setAttribute('aria-hidden','true')}
-});
+ if(!b)return;
+ b.hidden=false;b.disabled=false;b.removeAttribute('aria-hidden');b.onclick=callback;
+}
+zoomControl('atlasZoomIn',function(){setZoom(zoom+.3)});
+zoomControl('atlasZoomOut',function(){setZoom(zoom-.3)});
+zoomControl('atlasZoomReset',function(){setZoom(1)});
+stage.addEventListener('wheel',function(ev){
+ if(mode!=='2d')return;
+ if(ev.ctrlKey||ev.metaKey){ev.preventDefault();setZoom(zoom+(ev.deltaY<0?.15:-.15))}
+},{passive:false});
 stage.addEventListener('pointerdown',function(ev){
- down={x:ev.clientX,y:ev.clientY};
- moved=false;
+ if(mode!=='2d')return;
+ pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+ if(pointers.size===1)down={x:ev.clientX,y:ev.clientY,panX:panX,panY:panY};
+ if(pointers.size===2){
+  var p=[...pointers.values()];pinchDistance=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)||1;
+  pinchZoom=zoom;pinchX=panX;pinchY=panY;down=null;moved=true;
+ }
+ stage.setPointerCapture?.(ev.pointerId);
 });
 stage.addEventListener('pointermove',function(ev){
+ if(!pointers.has(ev.pointerId))return;
+ pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+ if(pointers.size>=2){
+  var p=[...pointers.values()];
+  setZoom(pinchZoom*Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)/pinchDistance);
+  moved=true;return;
+ }
  if(!down)return;
- if(Math.abs(ev.clientX-down.x)+Math.abs(ev.clientY-down.y)>12)moved=true;
+ var dx=ev.clientX-down.x,dy=ev.clientY-down.y;
+ if(Math.abs(dx)+Math.abs(dy)>7)moved=true;
+ if(moved&&zoom>1){panX=down.panX+dx;panY=down.panY+dy;applyViewport()}
 });
-window.addEventListener('pointerup',function(){down=null;if(moved)setTimeout(function(){moved=false},130)});
-stage.addEventListener('pointercancel',function(){down=null;moved=false});
+function endPointer(ev){
+ pointers.delete(ev.pointerId);
+ if(!pointers.size){down=null;if(moved)setTimeout(function(){moved=false},250)}
+ else down=null;
+}
+stage.addEventListener('pointerup',endPointer);
+stage.addEventListener('pointercancel',endPointer);
+window.addEventListener('blur',function(){pointers.clear();down=null});
+applyViewport();
 function visitIsland(i){if(mode!=='2d')return;var id=Number(i);if(!Number.isInteger(id)||id<0||id>5)return;var api=window.DevotionIsland;if(api&&typeof api.navigateIsland==='function')api.navigateIsland(id);}
 svg.addEventListener('click',function(ev){
  if(mode!=='2d'||moved)return;
