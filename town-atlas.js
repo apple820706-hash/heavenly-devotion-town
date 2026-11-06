@@ -270,27 +270,27 @@ svg.querySelectorAll('.atlas-art').forEach(function(img){
  };
  probe.src=url;
 });
-// V2 CLEAN-BASE PILOT — six-island safe preview, never on by default.
-// Preview ?v2pilot=scripture|forest|chapel|garden|valley|journey|all
-// Requires individual *real* 850x850 clean-base WebP. Missing/invalid images
-// leave the original untouched. This switch NEVER modifies user saved data.
+// V2 default artwork: the six uploaded clean islands. Existing original artwork
+// remains untouched and can be viewed at ?art=classic (or ?v2pilot=classic).
+// Optional ?v2pilot=scripture|forest|chapel|garden|valley|journey previews one
+// V2 island while keeping the remaining islands classic.
 (function(){
- var sourceNames=['scripture','forest','chapel','garden','valley','journey'];
- var requested=new URLSearchParams(window.location.search).get('v2pilot');
- var enabled=requested==='all'?sourceNames.slice():sourceNames.filter(function(x){return x===requested});
- if(!enabled.length)return;
- var diagnostics={requested:requested,ready:[],missing:[]};
+ var names=['scripture','forest','chapel','garden','valley','journey'];
+ var params=new URLSearchParams(window.location.search);
+ var request=params.get('v2pilot');
+ var classic=params.get('art')==='classic'||request==='classic';
+ var selected=classic?[]:(request&&request!=='all'?names.filter(function(x){return x===request}):names.slice());
+ var diagnostics={mode:classic?'classic':request||'v2',ready:[],missing:[]};
  window.DevotionV2Pilot=diagnostics;
- function previewIsland(i){
-  var name=sourceNames[i],island=svg.querySelector('[data-map-island="'+i+'"]');
+ function useCleanIsland(i){
+  var name=names[i],island=svg.querySelector('[data-map-island="'+i+'"]');
   var art=island&&island.querySelector('.atlas-art');
   if(!art)return;
   var original=art.getAttribute('href'),candidate='./'+name+'-base.webp';
   var probe=new Image();
   probe.onload=function(){
-   // A smaller preview or a text/html 404 response must never replace the artwork.
    if(probe.naturalWidth!==850||probe.naturalHeight!==850){
-    diagnostics.missing.push(name+' (invalid dimensions)');return;
+    diagnostics.missing.push(name+' (unexpected dimensions)');return;
    }
    art.setAttribute('href',candidate);
    art.setAttribute('data-original-art',original);
@@ -306,7 +306,7 @@ svg.querySelectorAll('.atlas-art').forEach(function(img){
   probe.onerror=function(){diagnostics.missing.push(name+' (file missing)')};
   probe.src=candidate;
  }
- enabled.forEach(function(name){previewIsland(sourceNames.indexOf(name))});
+ selected.forEach(function(name){useCleanIsland(names.indexOf(name))});
 })();
 // The entire sky, bridges, islands and residents are one responsive SVG scene.
 // Keep the atlas fixed; only island hotspots and resident sprites are interactive.
