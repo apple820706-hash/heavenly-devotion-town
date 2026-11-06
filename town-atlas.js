@@ -58,10 +58,9 @@ function brightCloud(x,y,scale,opacity){return '<g opacity="'+opacity+'" transfo
 ellipse(0,0,115,31,'url(#cloudShine)')+ellipse(-69,-11,53,35,'url(#cloudShine)')+ellipse(-17,-32,62,47,'url(#cloudShine)')+ellipse(51,-25,66,43,'url(#cloudShine)')+ellipse(103,-7,44,29,'url(#cloudShine)')+'</g>'}
 function twinkle(x,y,sz){return '<g class="atlas-twinkle" transform="translate('+x+' '+y+') scale('+sz+')">'+path('M 0 -13 Q 3 -3 13 0 Q 3 3 0 13 Q -3 3 -13 0 Q -3 -3 0 -13 Z','#fffdf1',{stroke:'#ffc957','stroke-width':1.5})+'</g>'}
 // The outside world is drawn by the page-level sky background.
+// The stationary sunshine now belongs to the full-size map background layer.
+// Do not draw a finite SVG sun/ray rectangle, which clips at viewport edges.
 var base=''+
-circle(790,68,170,'url(#atlasSun)')+
-'<g opacity=".29" stroke="#fffbe1" stroke-width="16">'+
-path('M 808 0 L 690 275 M 860 0 L 900 280 M 730 0 L 512 200','none')+'</g>'+
 '<g class="atlas-parallax">'+brightCloud(85,128,.76,.82)+brightCloud(922,120,.83,.8)+brightCloud(600,72,.43,.48)+brightCloud(78,422,.7,.65)+brightCloud(950,413,.85,.64)+
 brightCloud(70,655,.66,.44)+brightCloud(440,687,.57,.37)+brightCloud(915,658,.68,.44)+'</g>'+
 '<g opacity=".83">'+twinkle(54,285,.78)+twinkle(916,315,.65)+twinkle(589,271,.58)+twinkle(670,598,.74)+twinkle(355,80,.52)+twinkle(947,520,.6)+twinkle(90,540,.47)+'</g>'+
