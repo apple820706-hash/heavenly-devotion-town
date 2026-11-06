@@ -503,6 +503,38 @@ svg.addEventListener('pointerout',function(ev){
  if(item&&!item.contains(ev.relatedTarget))highlightIsland(-1);
 });
 window.addEventListener('atlas-open-drawer',function(){highlightIsland(-1)});
+// Animate the entire SVG island body with ONE shared transform, rather than
+// animating the artwork alone. Each floating body owns its image, every shop
+// decoration, and residents; purchased/hidden placements need no extra logic.
+// Applying an SVG transform attribute also avoids CSS animation inconsistencies
+// with nested SVG images in mobile Safari / Chromium.
+var floatStart=new WeakMap(),floatingBodies=Array.from(svg.querySelectorAll('.town-island'));
+function synchronizeIslandFloat(now){
+ var allowMotion=!document.hidden&&!reducedMotion;
+ floatingBodies.forEach(function(island){
+  var body=island.querySelector('.atlas-float-body');
+  if(!body)return;
+  // Safety: future construction additions that are direct children of an island
+  // are moved under the animated body, while preserving their local coordinates.
+  Array.from(island.children).forEach(function(child){
+   if(child!==body&&child.classList&&child.classList.contains('atlas-building-overlay'))body.appendChild(child);
+  });
+  var active=allowMotion&&(island.classList.contains('is-previewed')||
+      island.matches(':hover')||island.matches(':focus-visible'));
+  if(!active){
+   if(floatStart.has(island))floatStart.delete(island);
+   if(body.hasAttribute('transform'))body.removeAttribute('transform');
+   return;
+  }
+  if(!floatStart.has(island))floatStart.set(island,now);
+  var phase=(now-floatStart.get(island))%2700/2700;
+  var y=4.5*(Math.cos(phase*2*Math.PI)-1);
+  body.setAttribute('transform','translate(0 '+y.toFixed(2)+')');
+ });
+ requestAnimationFrame(synchronizeIslandFloat);
+}
+requestAnimationFrame(synchronizeIslandFloat);
+
 function updateState(d){
  if(!d)return;
  var route=[0,1,3,4,5,2],status={};
