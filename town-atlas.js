@@ -383,15 +383,21 @@ stage.addEventListener('wheel',function(ev){
  if(mode!=='2d')return;
  if(ev.ctrlKey||ev.metaKey){ev.preventDefault();setZoom(zoom+(ev.deltaY<0?.15:-.15))}
 },{passive:false});
+// Tap islands normally. Drag only after zooming in; two-finger pinch works at any zoom.
 stage.addEventListener('pointerdown',function(ev){
  if(mode!=='2d')return;
+ // At natural scale, do not capture one-finger swipes or mouse drags.
+ if(zoom<=1&&ev.pointerType!=='touch')return;
  pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
- if(pointers.size===1)down={x:ev.clientX,y:ev.clientY,panX:panX,panY:panY};
- if(pointers.size===2){
-  var p=[...pointers.values()];pinchDistance=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)||1;
-  pinchZoom=zoom;pinchX=panX;pinchY=panY;down=null;moved=true;
+ if(pointers.size===1&&zoom>1){
+  down={x:ev.clientX,y:ev.clientY,panX:panX,panY:panY};
+  moved=false;
  }
- // Preserve normal tap/click targeting on island SVG elements.
+ if(pointers.size===2){
+  var p=[...pointers.values()];
+  pinchDistance=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)||1;
+  pinchZoom=zoom;down=null;moved=true;
+ }
 });
 stage.addEventListener('pointermove',function(ev){
  if(!pointers.has(ev.pointerId))return;
@@ -401,15 +407,19 @@ stage.addEventListener('pointermove',function(ev){
   setZoom(pinchZoom*Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)/pinchDistance);
   moved=true;return;
  }
- if(!down)return;
+ if(!down||zoom<=1)return;
  var dx=ev.clientX-down.x,dy=ev.clientY-down.y;
  if(Math.abs(dx)+Math.abs(dy)>7)moved=true;
- if(moved&&zoom>1){panX=down.panX+dx;panY=down.panY+dy;applyViewport()}
+ if(moved){
+  panX=down.panX+dx;panY=down.panY+dy;applyViewport();
+ }
 });
 function endPointer(ev){
  pointers.delete(ev.pointerId);
- if(!pointers.size){down=null;if(moved)setTimeout(function(){moved=false},250)}
- else down=null;
+ if(!pointers.size){
+  down=null;
+  if(moved)setTimeout(function(){moved=false},220);
+ }else down=null;
 }
 stage.addEventListener('pointerup',endPointer);
 stage.addEventListener('pointercancel',endPointer);
