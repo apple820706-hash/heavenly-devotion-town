@@ -128,32 +128,28 @@ svg.insertAdjacentHTML('beforeend','<g id="atlasResidents" aria-hidden="true" po
 // Rainbow Flowerbeds are a TOWN-WIDE decoration collection. A single purchase
 // owns every flowerbed below, across all six islands. Keep the original island
 // artwork unchanged: these are removable additions above the illustration.
+// V2 artwork: 13 independent flowerbed pictures, one permanent purchase.
 var rainbowFlowerbeds=[
- // Truth island — near the open-book garden, away from the stairs.
- {island:0,x:-103,y:7,w:37,h:37},
- {island:0,x:59,y:-18,w:33,h:33},
- // Meditation forest — small clusters on different edges of the green.
- {island:1,x:-96,y:-2,w:37,h:37},
- {island:1,x:61,y:-15,w:32,h:32},
- // Prayer chapel — flowers near side gardens, not over the doorway.
- {island:2,x:-109,y:15,w:36,h:36},
- {island:2,x:76,y:8,w:35,h:35},
- // Life garden — three beds give this island the fullest garden treatment.
- {island:3,x:-97,y:8,w:43,h:43},
- {island:3,x:53,y:-10,w:40,h:40},
- {island:3,x:-24,y:45,w:32,h:32},
- // Grace valley — waterfall rim and the meadow.
- {island:4,x:-102,y:10,w:39,h:39},
- {island:4,x:62,y:10,w:35,h:35},
- // Journey island — trail-side flower borders.
- {island:5,x:-100,y:15,w:38,h:38},
- {island:5,x:63,y:-14,w:35,h:35}
+ {island:0,x:-103,y:7,w:37,h:37,file:'flowerbed-01-truth-left.webp'},
+ {island:0,x:59,y:-18,w:33,h:33,file:'flowerbed-02-truth-right.webp'},
+ {island:1,x:-96,y:-2,w:37,h:37,file:'flowerbed-03-forest-left.webp'},
+ {island:1,x:61,y:-15,w:32,h:32,file:'flowerbed-04-forest-right.webp'},
+ {island:2,x:-109,y:15,w:36,h:36,file:'flowerbed-05-chapel-left.webp'},
+ {island:2,x:76,y:8,w:35,h:35,file:'flowerbed-06-chapel-right.webp'},
+ {island:3,x:-97,y:8,w:43,h:43,file:'flowerbed-07-garden-left.webp'},
+ {island:3,x:53,y:-10,w:40,h:40,file:'flowerbed-08-garden-right.webp'},
+ {island:3,x:-24,y:45,w:32,h:32,file:'flowerbed-09-garden-front.webp'},
+ {island:4,x:-102,y:10,w:39,h:39,file:'flowerbed-10-valley-left.webp'},
+ {island:4,x:62,y:10,w:35,h:35,file:'flowerbed-11-valley-right.webp'},
+ {island:5,x:-100,y:15,w:38,h:38,file:'flowerbed-12-journey-left.webp'},
+ {island:5,x:63,y:-14,w:35,h:35,file:'flowerbed-13-journey-right.webp'}
 ];
 var buildDefinitions=[
  // All placement instances of a flowerbed share the same legacy 'flowers' key.
  // Existing purchases, prices, and Firebase records remain compatible.
-].concat(rainbowFlowerbeds.map(function(b){
- return {id:'flowers',island:b.island,file:'build-flowers.webp',
+].concat(rainbowFlowerbeds.map(function(b,i){
+ return {id:'flowers',instance:'flowerbed-'+String(i+1).padStart(2,'0'),
+ island:b.island,file:b.file,fallbackFile:'build-flowers.webp',
  x:b.x,y:b.y,w:b.w,h:b.h,emoji:'🌷'};
 }),[
  {id:'bench',island:1,file:'build-bench.webp',x:38,y:12,w:57,h:57,emoji:'🪑'},
@@ -170,6 +166,7 @@ buildDefinitions.forEach(function(item){
  group.setAttribute('class','atlas-building-overlay');
  group.setAttribute('data-building',item.id);
  group.setAttribute('data-building-island',String(item.island));
+ group.setAttribute('data-building-instance',item.instance||item.id);
  group.setAttribute('pointer-events','none');
  group.style.display='none';
  // Canvas-relative coordinates, not viewport pixels.  Even in iPhone Safari the
@@ -193,7 +190,17 @@ buildDefinitions.forEach(function(item){
  root.appendChild(group);
  var probe=new Image();
  probe.onload=function(){group.classList.add('building-image-ready')};
- probe.onerror=function(){group.classList.add('building-image-missing')};
+ probe.onerror=function(){
+  // During staged rollout, a missing V2 flowerbed must not become a broken image.
+  // The existing shared flowerbed remains available and keeps purchase data intact.
+  if(item.fallbackFile){
+   imageEl.setAttribute('href','./'+item.fallbackFile);
+   var fallbackProbe=new Image();
+   fallbackProbe.onload=function(){group.classList.add('building-image-ready')};
+   fallbackProbe.onerror=function(){group.classList.add('building-image-missing')};
+   fallbackProbe.src='./'+item.fallbackFile;
+  }else group.classList.add('building-image-missing');
+ };
  probe.src='./'+item.file;
 });
 function updateTownBuildings(detail){
@@ -201,7 +208,7 @@ function updateTownBuildings(detail){
  var placements=(detail&&detail.placements)||{};
  buildDefinitions.forEach(function(item){
   // All flowerbed instances share one purchase and one visibility switch.
-  var layers=svg.querySelectorAll('[data-building="'+item.id+'"][data-building-island="'+item.island+'"]');
+  var layers=svg.querySelectorAll('[data-building-instance="'+(item.instance||item.id)+'"]');
   var built=!!purchased[item.id];
   var visible=built&&placements[item.id]!==false;
   layers.forEach(function(layer){
