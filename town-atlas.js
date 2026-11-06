@@ -358,6 +358,8 @@ Array.from(svg.children).forEach(function(child){
 svg.appendChild(zoomWorld);
 var zoom=1,panX=0,panY=0,down=null,moved=false;
 var pointers=new Map(),pinchDistance=0,pinchZoom=1,pinchX=0,pinchY=0;
+// Reserve the lower sky *inside the same SVG scene* for the six HTML mission cards.
+svg.setAttribute('viewBox','0 0 1000 880');
 svg.setAttribute('preserveAspectRatio','xMidYMid meet');
 function applyViewport(){
  // SVG world-only transform; the blue sky, clouds and the task cards remain still.
