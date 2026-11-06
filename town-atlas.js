@@ -449,8 +449,9 @@ applyViewport();
 // Mobile uses deliberate two-tap navigation: first select/glow, second enter.
 // Desktop previews on hover; clicking remains one-step navigation.
 var previewIsland=-1;
-function highlightIsland(id){
- previewIsland=id;
+function highlightIsland(id,armTap){
+ // Visual defaults should not consume the first tap in mobile two-tap navigation.
+ previewIsland=armTap===false?-1:id;
  svg.querySelectorAll('.town-island').forEach(function(node){
   var selected=Number(node.dataset.mapIsland)===id;
   node.classList.toggle('is-previewed',selected);
@@ -500,9 +501,12 @@ svg.addEventListener('pointerover',function(ev){
 svg.addEventListener('pointerout',function(ev){
  if(ev.pointerType==='touch'||isTouchNavigation(ev))return;
  var item=ev.target.closest('[data-map-island]');
- if(item&&!item.contains(ev.relatedTarget))highlightIsland(-1);
+ if(item&&!item.contains(ev.relatedTarget))highlightIsland(2,false);
 });
-window.addEventListener('atlas-open-drawer',function(){highlightIsland(-1)});
+// Chapel (island 2) quietly glows and floats on every map open, inviting prayer.
+// Mobile users still select on first tap and enter on the second tap.
+highlightIsland(2,false);
+window.addEventListener('atlas-open-drawer',function(){highlightIsland(2,false)});
 // Animate the entire SVG island body with ONE shared transform, rather than
 // animating the artwork alone. Each floating body owns its image, every shop
 // decoration, and residents; purchased/hidden placements need no extra logic.
