@@ -500,12 +500,34 @@ svg.addEventListener('pointerover',function(ev){
 svg.addEventListener('pointerout',function(ev){
  if(ev.pointerType==='touch'||isTouchNavigation(ev))return;
  var item=ev.target.closest('[data-map-island]');
- if(item&&!item.contains(ev.relatedTarget))highlightIsland(2,false);
+ if(item&&!item.contains(ev.relatedTarget))highlightIsland(-1,false);
 });
-// Chapel (island 2) quietly glows and floats on every map open, inviting prayer.
-// Mobile users still select on first tap and enter on the second tap.
+// Show the chapel only as the initial visual hint. Once the visitor explores
+// another area, the default hint turns off and must not auto-reappear.
+var chapelInitialHint=true;
 highlightIsland(2,false);
-window.addEventListener('atlas-open-drawer',function(){highlightIsland(2,false)});
+svg.addEventListener('pointermove',function(ev){
+ if(!chapelInitialHint||ev.pointerType==='touch')return;
+ if(!ev.target.closest('[data-map-island="2"]')){
+  chapelInitialHint=false;
+  if(previewIsland===-1)highlightIsland(-1,false);
+ }
+});
+svg.addEventListener('pointerdown',function(ev){
+ if(!chapelInitialHint)return;
+ if(!ev.target.closest('[data-map-island="2"]')&&!ev.target.closest('[data-light-island="2"]')){
+  chapelInitialHint=false;
+  if(previewIsland===-1)highlightIsland(-1,false);
+ }
+});
+svg.addEventListener('pointerover',function(ev){
+ if(chapelInitialHint&&(ev.target.closest('[data-map-island]:not([data-map-island="2"])')||
+  ev.target.closest('[data-light-island]:not([data-light-island="2"])')))chapelInitialHint=false;
+});
+window.addEventListener('atlas-open-drawer',function(){
+ chapelInitialHint=false;
+ highlightIsland(-1,false);
+});
 // Animate the entire SVG island body with ONE shared transform, rather than
 // animating the artwork alone. Each floating body owns its image, every shop
 // decoration, and residents; purchased/hidden placements need no extra logic.
